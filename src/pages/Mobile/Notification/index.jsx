@@ -71,14 +71,12 @@ const Notifications = () => (
           <ArrowLeft className="w-6 h-6 text-gray-500" />
         </div>
       </button>
-      <h2 className="text-xl font-semibold">Notifications</h2>
+      <h2 className="text-xl">Notifications</h2>
     </div>
     <div className="pb-30">
       {notifications.map((section, idx) => (
         <div key={section.date}>
-          <div className="px-6 py-1 text-gray-500 text-sm">
-            {section.date}
-          </div>
+          <div className="px-6 py-1 text-gray-500 text-sm">{section.date}</div>
           {section.items.map((item, i) => (
             <div key={i} className="flex items-center px-6 py-2">
               <div className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 bg-white mr-4">
@@ -86,9 +84,7 @@ const Notifications = () => (
               </div>
               <div className="flex-1">
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold text-base text-gray-900">
-                    {item.title}
-                  </span>
+                  <span className="text-base text-gray-900">{item.title}</span>
                   <span className="text-xs text-gray-400 ml-2">
                     {item.time}
                   </span>
