@@ -64,7 +64,7 @@ const notifications = [
 ];
 
 const Notifications = () => (
-  <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+  <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden">
     <div className="flex items-center px-4 py-4 border-b mb-4">
       <button className="mr-4">
         <div className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 bg-white mr-4">
