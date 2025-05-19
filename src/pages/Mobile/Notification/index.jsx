@@ -65,7 +65,7 @@ const notifications = [
 
 const Notifications = () => (
   <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-    <div className="flex items-center px-4 py-4 border-b">
+    <div className="flex items-center px-4 py-4 border-b mb-4">
       <button className="mr-4">
         <div className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 bg-white mr-4">
           <ArrowLeft className="w-6 h-6 text-gray-500" />
@@ -76,11 +76,11 @@ const Notifications = () => (
     <div className="pb-30">
       {notifications.map((section, idx) => (
         <div key={section.date}>
-          <div className="px-6 py-2 text-gray-500 text-sm font-medium">
+          <div className="px-6 py-1 text-gray-500 text-sm">
             {section.date}
           </div>
           {section.items.map((item, i) => (
-            <div key={i} className="flex items-center px-6 py-4">
+            <div key={i} className="flex items-center px-6 py-2">
               <div className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 bg-white mr-4">
                 {item.icon}
               </div>
