@@ -1,9 +1,10 @@
 import React from 'react'
+import Notifications from './pages/Mobile/Notification'
 
 function AppMobile() {
   return (
-    <div className='flex items-center justify-center h-screen'>
-      AppMobile
+    <div>
+      <Notifications/>
       {/* Define the route for AppMobile */}
     </div>
   )
