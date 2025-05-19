@@ -1,4 +1,4 @@
-
+import { Button } from "@/components/ui/button";
 import {
   Search,
   Heart,
@@ -62,9 +62,7 @@ const Header = () => {
               <button className="hidden sm:block p-2 text-gray-600 border border-[#D5D5D5] hover:bg-gray-100 rounded-full">
                 <UserRound size={20} />
               </button>
-              <button className=" hidden sm:block bg-[#0D2C8D] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#0D2C8D] transition-colors">
-                Login/Register
-              </button>
+              <Button>Login/Register</Button>
 
               <button className="sm:hidden p-2 text-gray-600 border border-[#D5D5D5] hover:bg-gray-100 rounded-full">
                 <Bell size={20} />
