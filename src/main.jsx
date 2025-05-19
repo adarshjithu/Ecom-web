@@ -4,11 +4,13 @@ import "./index.css";
 import Header from "./layout/Header";
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/Mobile/LoginPage";
+import SignUpPage from "./pages/Mobile/SignUpPage";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* <Header /> */}
     {/* <HomePage /> */}
    <LoginPage/>
+   <SignUpPage/>
   </StrictMode>
 );
