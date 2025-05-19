@@ -1,12 +1,10 @@
-import { Button } from "./components/ui/button"
-
+import React from "react";
+import { useIsMobile } from "./hooks/useIsMobile.jsx";
+const AppMobile = React.lazy(() => import("./AppMobile.jsx"));
+const AppDesktop = React.lazy(() => import("./AppDesktop.jsx"));
 function App() {
-
-  return (
-    <>
-   
-    </>
-  )
+  const isMobile = useIsMobile();
+  return isMobile ? <AppMobile /> : <AppDesktop />;
 }
 
-export default App
+export default App;
