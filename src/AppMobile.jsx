@@ -1,15 +1,19 @@
-import React from 'react'
-import Notifications from './pages/Mobile/Notification'
-import AddressScreen from './pages/Mobile/Address'
+import React from "react";
+import Notifications from "./pages/Mobile/Notification";
+import AddressScreen from "./pages/Mobile/Address";
+import LoginPage from "./pages/Mobile/Login";
+import Payment from "./pages/Mobile/Payment";
 
 function AppMobile() {
   return (
     <div>
-      {/* <Notifications/> */}
+      <LoginPage />
+      
+      <Notifications />
       <AddressScreen />
-      {/* Define the route for AppMobile */}
+      <Payment />
     </div>
-  )
+  );
 }
 
-export default AppMobile
+export default AppMobile;
