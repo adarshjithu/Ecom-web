@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Phone, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-const SignUpPage = () => {
+const LoginPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [loginStep, setLoginStep] = useState("main");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -254,4 +254,4 @@ const SignUpPage = () => {
   return renderLoginScreen();
 };
 
-export default SignUpPage;
+export default LoginPage;

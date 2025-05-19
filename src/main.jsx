@@ -1,16 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import Header from "./layout/Header";
-import HomePage from "./pages/home/HomePage";
-import LoginPage from "./pages/Mobile/LoginPage";
-import SignUpPage from "./pages/Mobile/SignUpPage";
+import LoginPage from "./pages/Mobile/Login";
+import Payment from "./pages/Mobile/Payment";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* <Header /> */}
     {/* <HomePage /> */}
-   <LoginPage/>
-   <SignUpPage/>
+    <LoginPage />
+    <div className="p-2"></div>
+    <Payment />
   </StrictMode>
 );
