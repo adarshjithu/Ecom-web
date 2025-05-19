@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Phone, Mail } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const SignUpPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [loginStep, setLoginStep] = useState("main"); // 'main', 'phone', 'otp'
+  const [loginStep, setLoginStep] = useState("main");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
 
@@ -53,9 +54,7 @@ const SignUpPage = () => {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
-
-      // Auto-focus next input
-      if (value && index < 5) {
+      if (value && index < 4) {
         const nextInput = document.getElementById(`otp-${index + 1}`);
         if (nextInput) nextInput.focus();
       }
@@ -75,32 +74,26 @@ const SignUpPage = () => {
         <>
           <div className="min-h-screen flex items-start justify-start">
             <div className="max-w-sm w-full p-8 ">
-              <h1 className="text-2xl font-bold text-blue-900 tracking-wider mb-8 text-center">
+              <h1 className="text-2xl font-bold text-[#0D2C8D] tracking-wider mb-8 text-center">
                 M E D C O
               </h1>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+              <h2 className="text-xl font-semibold mb-2 text-center">
                 Verify Your Number
               </h2>
 
-              <p className="text-sm text-gray-600 mb-8 text-center">
+              <p className="text-sm text-[#8B8B8B] mb-8 text-center">
                 Enter your mobile number to receive a one-time verification
                 code.
               </p>
 
               <div className="mb-8">
                 <span className="font-medium "> Mobile Number</span>
-                <div className="flex items-center border border-[#E4E4E7] rounded-lg p-3 mt-3">
-                  <span className="text-gray-600 mr-3">+91</span>
-                  <input
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="Enter phone number"
-                    className="flex-1 outline-none text-gray-800"
-                    maxLength="10"
-                  />
-                </div>
+                <Input
+                  type={"tel"}
+                  placeholder="Enter phone number"
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
               </div>
 
               <Button onClick={handleSendOTP} className={"w-full mb-8"}>
@@ -119,49 +112,39 @@ const SignUpPage = () => {
       return (
         <div className="min-h-screen flex items-start justify-center">
           <div className="max-w-sm w-full p-8 ">
-        
-
-            <h1 className="text-2xl font-bold text-blue-900 tracking-wider mb-8 text-center">
+            <h1 className="text-2xl font-bold text-[#0D2C8D] tracking-wider mb-8 text-center">
               M E D C O
             </h1>
 
-            <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
-             Enter OTP Code
+            <h2 className="text-xl font-semibold mb-2 text-center">
+              Enter OTP Code
             </h2>
 
-            <p className="text-sm text-gray-600 mb-13 text-center">
-           Enter your mobile number to receive a one-time verification code.
+            <p className="text-sm text-[#8B8B8B] mb-13 text-center">
+              Enter your mobile number to receive a one-time verification code.
             </p>
-
 
             <div className="flex justify-center space-x-3 mb-6">
               {otp.map((digit, index) => (
-                <input
+                <Input
                   key={index}
                   id={`otp-${index}`}
                   type="text"
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                  className="w-12 h-12 text-center text-lg font-semibold border border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
-                  maxLength="1"
                 />
               ))}
             </div>
 
-            <Button
-              className="w-full bg-blue-900 hover:bg-blue-800 text-white mb-4"
-              disabled={otp.some((digit) => !digit)}
-            >
-              Verify OTP
-            </Button>
+            <Button className="w-full  mb-4">Verify OTP</Button>
 
             <div className="text-center">
               <span className="text-sm text-gray-600">
                 Didn't receive code?{" "}
               </span>
-              <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
-                Resend
+              <button className="text-sm text-[#0D2C8D] font-medium">
+                Resend{" "}
               </button>
             </div>
           </div>
@@ -169,7 +152,6 @@ const SignUpPage = () => {
       );
     }
 
-    // Main login screen
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="max-w-sm w-full p-8 text-center">
@@ -211,7 +193,7 @@ const SignUpPage = () => {
             <span className="text-sm text-gray-600">
               Don't have an account?{" "}
             </span>
-            <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+            <button className="text-sm text-[#0D2C8D] font-medium">
               REGISTER
             </button>
           </div>
@@ -220,12 +202,11 @@ const SignUpPage = () => {
     );
   };
 
-  // Onboarding screens (steps 0-2)
   if (currentStep < 3) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="max-w-sm w-full p-8 text-center">
-          <h1 className="text-2xl font-bold text-blue-900 tracking-wider mb-8">
+          <h1 className="text-2xl font-bold text-[#0D2C8D] tracking-wider mb-8">
             M E D C O
           </h1>
           <div className="mb-8">
@@ -236,11 +217,11 @@ const SignUpPage = () => {
             />
           </div>
 
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">
+          <h2 className="text-xl font-semibold  mb-3">
             {onboardingData[currentStep].title}
           </h2>
 
-          <p className="text-sm text-gray-600 mb-8 leading-relaxed">
+          <p className="text-sm text-[#8B8B8B] mb-8 leading-relaxed">
             {onboardingData[currentStep].description}
           </p>
 
@@ -251,26 +232,17 @@ const SignUpPage = () => {
                 className={`w-6 h-1 rounded-full transition-all duration-300 ${
                   index <= currentStep
                     ? index === currentStep
-                      ? "bg-gradient-to-r from-blue-900 to-blue-600"
-                      : "bg-blue-900"
-                    : "bg-gray-300"
+                      ? "bg-gradient-to-r from-[#0D2C8D] to-[#0D2C8D] "
+                      : "bg-[#0D2C8D]"
+                    : "bg-[#8B8B8B]"
                 }`}
               ></div>
             ))}
           </div>
 
           <div className="flex flex-col space-y-4 px-4">
-            <Button
-              onClick={handleNext}
-              className="bg-blue-900 hover:bg-blue-800 text-white"
-            >
-              Next
-            </Button>
-            <Button
-              variant="outline"
-              onClick={handleSkip}
-              className="border-gray-300 text-gray-600 hover:bg-gray-50"
-            >
+            <Button onClick={handleNext}>Next</Button>
+            <Button variant="outline" onClick={handleSkip}>
               Skip
             </Button>
           </div>
@@ -279,7 +251,6 @@ const SignUpPage = () => {
     );
   }
 
-  // Login screen (step 3)
   return renderLoginScreen();
 };
 
