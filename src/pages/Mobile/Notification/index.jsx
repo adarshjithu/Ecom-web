@@ -64,21 +64,22 @@ const notifications = [
 ];
 
 const Notifications = () => (
-  <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden">
-    <div className="flex items-center px-4 py-4 border-b mb-4">
-      <button className="mr-4">
-        <div className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 bg-white mr-4">
-          <ArrowLeft className="w-6 h-6 text-gray-500" />
-        </div>
-      </button>
-      <h2 className="text-xl">Notifications</h2>
+  <div className="max-w-md mx-auto bg-white rounded-lg min-h-screen">
+    <div className="bg-white border-b border-gray-200 p-4 mb">
+      <div className="flex items-center space-x-4 max-w-md mx-auto">
+        <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50">
+          <ArrowLeft size={20} className="text-[#71717A]" />
+        </button>
+        <h1 className="text-lg font-semibold text-[#09090B]">Notifications</h1>
+      </div>
     </div>
+
     <div className="pb-30">
       {notifications.map((section, idx) => (
         <div key={section.date}>
-          <div className="px-6 py-1 text-gray-500 text-sm">{section.date}</div>
+          <div className="px-4 py-2 text-gray-500 text-sm">{section.date}</div>
           {section.items.map((item, i) => (
-            <div key={i} className="flex items-center px-6 py-2">
+            <div key={i} className="flex items-center px-4 py-2">
               <div className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 bg-white mr-4">
                 {item.icon}
               </div>

@@ -50,7 +50,7 @@ const Payment = () => {
           <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50">
             <ArrowLeft size={20} className="text-[#71717A]" />
           </button>
-          <h1 className="text-lg font-semibold text-[#71717A]">Payment</h1>
+          <h1 className="text-lg font-semibold text-[#09090B]">Payment</h1>
         </div>
       </div>
 
