@@ -226,11 +226,11 @@ const Payment = () => {
                         shippingMethod === "prepaid" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="prepaid" className="font-medium">
+                    <Label htmlFor="prepaid" className="font-normal">
                       Prepaid - Net banking, UPI, Debit/Credit Card
                     </Label>
                   </div>
-                  <span className="text-sm font-medium">FREE</span>
+                  <span className="text-sm font-normal">FREE</span>
                 </div>
                 <div
                   className={`flex items-center justify-between px-4 py-3 ${
@@ -245,9 +245,9 @@ const Payment = () => {
                         shippingMethod === "cod" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="cod">Cash on Delivery</Label>
+                    <Label htmlFor="cod " className="font-normal">Cash on Delivery</Label>
                   </div>
-                  <span className="text-sm font-medium">₹ 40</span>
+                  <span className="text-sm font-normal">₹ 40</span>
                 </div>
               </RadioGroup>
             </div>
@@ -280,11 +280,11 @@ const Payment = () => {
                         paymentMethod === "razorpay" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="razorpay" className="font-medium">
+                    <Label htmlFor="razorpay" className="font-normal">
                       Razorpay Secure(UPI, Cards, Wallets, NetBanking)
                     </Label>
                   </div>
-                  <span className="text-xs font-medium text-gray-500">
+                  <span className="text-xs font-normal text-gray-500">
                     ICONS OF CARDS
                   </span>
                 </div>
@@ -303,9 +303,9 @@ const Payment = () => {
                         paymentMethod === "other" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="other">Cards, UPI, NB, Wallets, BNPL</Label>
+                    <Label htmlFor="other" className="font-normal">Cards, UPI, NB, Wallets, BNPL</Label>
                   </div>
-                  <span className="text-xs font-medium text-gray-500">
+                  <span className="text-xs font-normal text-gray-500">
                     ICONS OF CARDS
                   </span>
                 </div>
@@ -336,7 +336,7 @@ const Payment = () => {
                         billingAddressOption === "same" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="same" className="font-medium">
+                    <Label htmlFor="same" className="font-normal">
                       Same as shipping address
                     </Label>
                   </div>
@@ -358,7 +358,7 @@ const Payment = () => {
                           : ""
                       }
                     />
-                    <Label htmlFor="different">
+                    <Label htmlFor="different" className="font-normal">
                       Use a different billing address
                     </Label>
                   </div>
