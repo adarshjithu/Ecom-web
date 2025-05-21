@@ -88,7 +88,7 @@ const LoginPage = () => {
               </p>
 
               <div className="mb-8">
-                <span className="font-medium "> Mobile Number</span>
+                <span className="font-medium pb-3 block"> Mobile Number</span>
                 <Input
                   type={"tel"}
                   placeholder="Enter phone number"
