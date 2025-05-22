@@ -6,6 +6,8 @@ import Payment from "./pages/Mobile/Payment";
 import Footer from "./layout/Footer";
 import Profile from "./pages/Mobile/Profile";
 import Home from "./pages/Mobile/Home";
+import Category from "./pages/Mobile/Category";
+import Product from "./pages/Mobile/Product";
 
 function AppMobile() {
   return (
@@ -16,6 +18,8 @@ function AppMobile() {
       <AddressScreen />
       <Payment />
       <Profile/>
+      <Category/>
+      <Product/>
       <Footer/>
     </div>
   );

@@ -74,18 +74,18 @@ const LoginPage = () => {
         <>
           <div className="min-h-screen flex items-start justify-start">
             <div className="max-w-sm w-full p-8 ">
-              <h1 className="text-2xl font-bold text-[#0D2C8D] tracking-wider mb-8 text-center">
+              <h1 className="text-2xl font-bold text-[var(--tertiary)] tracking-wider mb-8 text-center">
                 M E D C O
               </h1>
 
-              <h2 className="text-xl font-semibold mb-2 text-center">
+              <h2 className="text-xl font-semibold mb-2 text-[var(--primary)] text-center">
                 Verify Your Number
               </h2>
 
-              <p className="text-sm text-[#8B8B8B] mb-8 text-center">
+              <h1 className="text-sm text-[var(--secondary)] mb-8 text-center">
                 Enter your mobile number to receive a one-time verification
                 code.
-              </p>
+              </h1>
 
               <div className="mb-8">
                 <span className="font-medium pb-3 block"> Mobile Number</span>
@@ -99,7 +99,7 @@ const LoginPage = () => {
               <Button onClick={handleSendOTP} className={"w-full mb-8"}>
                 Send OTP
               </Button>
-              <span className="italic text-[#838383]">
+              <span className="italic text-[var(--secondary)]">
                 You’ll receive a 4-digit code on your registered phone number.
               </span>
             </div>
@@ -155,15 +155,15 @@ const LoginPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="max-w-sm w-full p-8 text-center">
-          <h1 className="text-2xl font-bold text-blue-900 tracking-wider mb-8 text-center">
+          <h1 className="text-2xl font-bold text-[var(--tertiary)] tracking-wider mb-8 text-center">
             M E D C O
           </h1>
 
-          <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+          <h2 className="text-xl font-semibold text-[var(--primary)] mb-2 text-center">
             Welcome Back!
           </h2>
 
-          <p className="text-sm text-gray-600 mb-8 text-center">
+          <p className="text-sm text-[var(--secondary)] mb-8 text-center">
             Log in to access your account
           </p>
 
@@ -190,10 +190,10 @@ const LoginPage = () => {
           </div>
 
           <div className="mt-6 text-center">
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-[var(--secondary)]">
               Don't have an account?{" "}
             </span>
-            <button className="text-sm text-[#0D2C8D] font-medium">
+            <button className="text-sm text-[var(--primary)] font-medium">
               REGISTER
             </button>
           </div>
@@ -217,11 +217,11 @@ const LoginPage = () => {
             />
           </div>
 
-          <h2 className="text-xl font-semibold  mb-3">
+          <h2 className="text-xl font-semibold  mb-3 text-[var(--primary)]">
             {onboardingData[currentStep].title}
           </h2>
 
-          <p className="text-sm text-[#8B8B8B] mb-8 leading-relaxed">
+          <p className="text-sm text-[var(--secondary)] mb-8 leading-relaxed">
             {onboardingData[currentStep].description}
           </p>
 

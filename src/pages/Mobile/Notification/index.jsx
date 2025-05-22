@@ -65,32 +65,32 @@ const notifications = [
 
 const Notifications = () => (
   <div className="max-w-md mx-auto bg-white rounded-lg min-h-screen">
-    <div className="bg-white border-b border-gray-200 p-4 mb">
+    <div className="bg-white border-b border-[var(--border)] p-4 mb">
       <div className="flex items-center space-x-4 max-w-md mx-auto">
-        <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50">
-          <ArrowLeft size={20} className="text-[#71717A]" />
+        <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+          <ArrowLeft size={20} className="text-[var(--icon)]" />
         </button>
-        <h1 className="text-lg font-semibold text-[#09090B]">Notifications</h1>
+        <h1 className="text-lg font-semibold text-[var(--primary)]">Notifications</h1>
       </div>
     </div>
 
     <div className="pb-30">
       {notifications.map((section, idx) => (
         <div key={section.date}>
-          <div className="px-4 py-2 text-gray-500 text-sm">{section.date}</div>
+          <div className="px-4 py-2 text-[var(--secondary)] text-sm">{section.date}</div>
           {section.items.map((item, i) => (
             <div key={i} className="flex items-center px-4 py-2">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 bg-white mr-4">
-                {item.icon}
+              <div className="flex items-center justify-center w-12 h-12 rounded-full border border-[var(--border] bg-white mr-4">
+          {React.cloneElement(item.icon, { className: "text-[var(--icon)] w-6 h-6" })}
               </div>
               <div className="flex-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-base text-gray-900">{item.title}</span>
-                  <span className="text-xs text-gray-400 ml-2">
+                  <span className="text-base font-medium text-[var(--primary)]">{item.title}</span>
+                  <span className="text-xs font-normal text-[var(--secondary)] ml-2">
                     {item.time}
                   </span>
                 </div>
-                <div className="text-sm text-gray-500">{item.subtitle}</div>
+                <div className="text-sm font-normal text-[var(--secondary)]">{item.subtitle}</div>
               </div>
             </div>
           ))}

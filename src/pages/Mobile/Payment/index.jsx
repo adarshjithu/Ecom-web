@@ -48,28 +48,28 @@ const Payment = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200 p-4">
+      <div className="bg-white border-b border-[var(--border)] p-4">
         <div className="flex items-center space-x-4 max-w-md mx-auto">
-          <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50">
-            <ArrowLeft size={20} className="text-[#71717A]" />
+          <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+            <ArrowLeft size={20} className="text-[var(--icon)]" />
           </button>
-          <h1 className="text-lg font-semibold text-[#09090B]">Payment</h1>
+          <h1 className="text-lg font-semibold text-[var(--primary)]">Payment</h1>
         </div>
       </div>
 
       <div className="max-w-md mx-auto bg-white">
-        <div className="border-b border-gray-200 bg-[#F6F8FF]">
+        <div className="border-b border-[var(--border)] bg-[#F6F8FF]">
           <button
             onClick={() => setIsOrderSummaryExpanded(!isOrderSummaryExpanded)}
             className="w-full p-4 flex items-center justify-between text-left"
           >
-            <span className="text-base font-medium text-[#71717A]">
+            <span className="text-base font-normal text-[var(--primary)]">
               Order summary
             </span>
             {isOrderSummaryExpanded ? (
-              <ChevronUp size={20} className="text-[#71717A]" />
+              <ChevronUp size={20} className="text-[var(--icon)]" />
             ) : (
-              <ChevronDown size={20} className="text-[#71717A]" />
+              <ChevronDown size={20} className="text-[var(--icon)]" />
             )}
           </button>
 
@@ -91,16 +91,16 @@ const Payment = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-medium text-[#71717A] line-clamp-2">
+                    <h3 className="text-sm font-normal text-[#4E4E4E] line-clamp-2">
                       {item.name}
                     </h3>
-                    <p className="text-sm text-[#71717A] mt-1">{item.volume}</p>
-                    <button className="text-sm text-[#71717A] underline mt-1">
+                    <p className="text-sm text-[var(--secondary)] mt-1">{item.volume}</p>
+                    <button className="text-sm text-[#353535] underline mt-1">
                       Edit
                     </button>
                   </div>
                   <div className="text-right">
-                    <span className="text-base font-medium text-[#71717A]">
+                    <span className="text-sm font-normal text-[var(--primary)]">
                       ₹{item.price.toFixed(2)}
                     </span>
                   </div>
@@ -128,7 +128,7 @@ const Payment = () => {
           </div>
         </div>
 
-        <div className="p-4 border-b border-gray-200 space-y-3 bg-[#F6F8FF]">
+        <div className="p-4 border-b border-[var(--border)] space-y-3 bg-[#F6F8FF]">
           <div className="flex justify-between text-sm">
             <span className="text-[#71717A]">
               Subtotal- {orderItems.length} items
@@ -151,7 +151,7 @@ const Payment = () => {
 
         <div className="p-4 border-b border-gray-200">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-base font-semibold ">Contact</h2>
+            <h2 className="text-base font-medium text-[var(--primary)] ">Contact</h2>
             <button className="text-[#0D2C8D] text-sm font-medium">
               Log in
             </button>
@@ -204,12 +204,12 @@ const Payment = () => {
           </div>
 
           <div className="mt-6">
-            <h2 className="text-base font-semibold mb-4">Shipping method</h2>
+            <h2 className="text-base font-medium mb-4">Shipping method</h2>
             <div className="rounded-lg border border-gray-200 overflow-hidden">
               <RadioGroup
                 value={shippingMethod}
                 onValueChange={setShippingMethod}
-                className="divide-y divide-gray-200"
+                className="divide-y divide-[var(--border)]"
               >
                 <div
                   className={`flex items-center justify-between px-4 py-3 ${
@@ -226,7 +226,7 @@ const Payment = () => {
                         shippingMethod === "prepaid" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="prepaid" className="font-normal">
+                    <Label htmlFor="prepaid" className={shippingMethod === "prepaid" ? "text-[var(--primary)] font-normal" : "text-[var(--secondary)] font-normal"}>
                       Prepaid - Net banking, UPI, Debit/Credit Card
                     </Label>
                   </div>
@@ -245,7 +245,7 @@ const Payment = () => {
                         shippingMethod === "cod" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="cod " className="font-normal">Cash on Delivery</Label>
+                    <Label htmlFor="cod " className={shippingMethod === "cod" ? "text-[var(--primary)] font-normal" : "text-[var(--secondary)] font-normal"}>Cash on Delivery</Label>
                   </div>
                   <span className="text-sm font-normal">₹ 40</span>
                 </div>
@@ -254,7 +254,7 @@ const Payment = () => {
           </div>
 
           <div className="mt-6">
-            <h2 className="text-base font-semibold mb-2">Payment</h2>
+            <h2 className="text-base font-medium mb-1">Payment</h2>
             <p className="text-sm text-gray-500 mb-4">
               All transactions are secure and encrypted
             </p>
@@ -280,7 +280,7 @@ const Payment = () => {
                         paymentMethod === "razorpay" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="razorpay" className="font-normal">
+                    <Label htmlFor="razorpay" className={paymentMethod === "razorpay" ? "text-[var(--primary)] font-normal" : "text-[var(--secondary)] font-normal"}>
                       Razorpay Secure(UPI, Cards, Wallets, NetBanking)
                     </Label>
                   </div>
@@ -303,7 +303,7 @@ const Payment = () => {
                         paymentMethod === "other" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="other" className="font-normal">Cards, UPI, NB, Wallets, BNPL</Label>
+                    <Label htmlFor="other" className={paymentMethod === "other" ? "text-[var(--primary)] font-normal" : "text-[var(--secondary)] font-normal"}>Cards, UPI, NB, Wallets, BNPL</Label>
                   </div>
                   <span className="text-xs font-normal text-gray-500">
                     ICONS OF CARDS
@@ -314,7 +314,7 @@ const Payment = () => {
           </div>
 
           <div className="mt-6">
-            <h2 className="text-base font-semibold mb-4">Billing address</h2>
+            <h2 className="text-base font-medium mb-4">Billing address</h2>
             <div className="rounded-lg border border-gray-200 overflow-hidden">
               <RadioGroup
                 value={billingAddressOption}
@@ -336,7 +336,7 @@ const Payment = () => {
                         billingAddressOption === "same" ? "text-blue-600" : ""
                       }
                     />
-                    <Label htmlFor="same" className="font-normal">
+                    <Label htmlFor="same" className={billingAddressOption === "same" ? "text-[var(--primary)] font-normal" : "text-[var(--secondary)] font-normal"}>
                       Same as shipping address
                     </Label>
                   </div>
@@ -358,7 +358,7 @@ const Payment = () => {
                           : ""
                       }
                     />
-                    <Label htmlFor="different" className="font-normal">
+                    <Label htmlFor="different" className={billingAddressOption === "different" ? "text-[var(--primary)] font-normal" : "text-[var(--secondary)] font-normal"}>
                       Use a different billing address
                     </Label>
                   </div>

@@ -68,29 +68,31 @@ const Home = () => {
     },
     {
       name: "Minimalist",
-      image: "https://framerusercontent.com/images/KjN9UNg1xNRfiTFwWnXwdbDYaQU.webp",
+      image:
+        "https://framerusercontent.com/images/KjN9UNg1xNRfiTFwWnXwdbDYaQU.webp",
     },
     {
       name: "Pampers",
-      image: "https://marthastable.org/wp-content/uploads/2024/03/nathan-dumlao-KeiQeZJLmus-unsplash-1000x1500.jpg",
+      image:
+        "https://marthastable.org/wp-content/uploads/2024/03/nathan-dumlao-KeiQeZJLmus-unsplash-1000x1500.jpg",
     },
   ];
   const goToSlide = (idx) => setCurrent(idx);
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="flex justify-between items-center p-4 border-b">
+      <div className="flex justify-between items-center p-4 border-b border-[var(--border]">
         <div className="flex items-center gap-2">
-          <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50">
-            <MapPinHouse size={20} className="text-[#71717A]" />
+          <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+            <MapPinHouse size={20} className="text-[var(--icon)]" />
           </button>
           <div>
-            <p className="text-[#9C9C9C] text-xs">Location</p>
+            <p className="text-[var(--secondary)] text-xs">Location</p>
             <p className="font-medium tex-xs">Kochi, Kerala, India</p>
           </div>
         </div>
-        <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50">
-          <Bell size={20} className="text-[#71717A]" />
+        <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+          <Bell size={20} className="text-[var(--icon)]" />
         </button>
       </div>
       <div className="px-4 py-3 flex gap-2">
@@ -111,7 +113,9 @@ const Home = () => {
               <span
                 key={idx}
                 className={`w-2 h-2 rounded-full cursor-pointer transition-colors duration-200 ${
-                  idx === current ? "bg-blue-800" : "bg-gray-300"
+                  idx === current
+                    ? "bg-[var(--tertiary)]"
+                    : "bg-[var(--secondary)]"
                 }`}
                 onClick={() => goToSlide(idx)}
               ></span>
@@ -129,12 +133,16 @@ const Home = () => {
                 className="w-full h-full  object-cover"
               />
             </div>
-            <p className="text-xs text-center">{category.name}</p>
+            <p className="text-xs text-center text-[var(--primary)]">
+              {category.name}
+            </p>
           </div>
         ))}
       </div>
       <div className="px-4 pb-6">
-        <h2 className="text-lg font-semibold mb-4">Shop By Brands</h2>
+        <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
+          Shop By Brands
+        </h2>
         <div className="grid grid-cols-3 gap-3">
           {brands.map((brand, idx) => (
             <div
@@ -146,7 +154,6 @@ const Home = () => {
                 alt={brand.name}
                 className="w-full h-full object-cover"
               />
-              
             </div>
           ))}
         </div>
@@ -154,7 +161,9 @@ const Home = () => {
       <div className="p-4">
         <div className="rounded-2xl overflow-hidden h-45 mb-1">
           <img
-            src={"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQYGltCe3o4akX7mjAizsL_OCXY31UylXEMToTLCg5lmlHd1gF4"}
+            src={
+              "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQYGltCe3o4akX7mjAizsL_OCXY31UylXEMToTLCg5lmlHd1gF4"
+            }
             alt={`Banner ${current + 1}`}
             className="w-full h-full object-cover transition-all duration-300"
           />
@@ -165,7 +174,9 @@ const Home = () => {
               <span
                 key={idx}
                 className={`w-2 h-2 rounded-full cursor-pointer transition-colors duration-200 ${
-                  idx === current ? "bg-blue-800" : "bg-gray-300"
+                  idx === current
+                    ? "bg-[var(--tertiary)]"
+                    : "bg-[var(--secondary)]"
                 }`}
                 onClick={() => goToSlide(idx)}
               ></span>
@@ -173,10 +184,12 @@ const Home = () => {
           </div>
         </div>
       </div>
-        <div className="p-4">
+      <div className="p-4">
         <div className="rounded-2xl overflow-hidden h-45 mb-1">
           <img
-            src={"https://assets.timelinedaily.com/2024/07/whatsapp-image-2024-07-11-at-5-07-17-pm-1200x900.jpeg"}
+            src={
+              "https://assets.timelinedaily.com/2024/07/whatsapp-image-2024-07-11-at-5-07-17-pm-1200x900.jpeg"
+            }
             alt={`Banner ${current + 1}`}
             className="w-full h-full object-cover transition-all duration-300"
           />
@@ -187,7 +200,9 @@ const Home = () => {
               <span
                 key={idx}
                 className={`w-2 h-2 rounded-full cursor-pointer transition-colors duration-200 ${
-                  idx === current ? "bg-blue-800" : "bg-gray-300"
+                  idx === current
+                    ? "bg-[var(--tertiary)]"
+                    : "bg-[var(--secondary)]"
                 }`}
                 onClick={() => goToSlide(idx)}
               ></span>
@@ -195,7 +210,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-    
     </div>
   );
 };

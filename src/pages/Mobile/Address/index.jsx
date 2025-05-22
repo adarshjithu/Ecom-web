@@ -31,19 +31,19 @@ const addresses = [
 
 const AddressScreen = () => (
   <div className="max-w-md mx-auto bg-white min-h-screen">
-    <div className="bg-white border-b border-gray-200 p-4">
+    <div className="bg-white border-b border-[var(--border)] p-4">
       <div className="flex items-center space-x-4 max-w-md mx-auto">
-        <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50">
-          <ArrowLeft size={20} className="text-[#71717A]" />
+        <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+          <ArrowLeft size={20} className="text-[var(--icon)]" />
         </button>
-        <h1 className="text-lg font-semibold text-[#09090B]">
+        <h1 className="text-lg font-semibold text-[var(--primary)]">
           Enter Your Appartment Name
         </h1>
       </div>
     </div>
 
     <div className="px-4 py-4">
-      <div className="flex items-center w-full rounded-lg border border-gray-300 px-3 py-4">
+      <div className="flex items-center w-full rounded-lg border border-[var(--border] px-3 py-4">
         <span className="text-gray-400 mr-2">
           <Search className="w-6 h-6 text-gray-800" />
         </span>
@@ -56,15 +56,15 @@ const AddressScreen = () => (
     </div>
 
     <div className="space-y-2">
-      <div className="border-b px-4 py-2  ">
-        <button className="flex items-center w-full text-[#0D2C8D] py-1 text-base font-medium">
-          <Navigation className="w-5 h-5 mr-2 fill-[#0D2C8D]" />
+      <div className="border-b px-4 py-2 border-b-[var(--border)]  ">
+        <button className="flex items-center w-full text-[var(--tertiary)] py-1 text-base font-medium">
+          <Navigation className="w-5 h-5 mr-2 fill-[var(--tertiary)]" />
           Use my current location
-          <ChevronRight className="w-5 h-5 ml-auto text-gray-400" />
+          <ChevronRight className="w-5 h-5 ml-auto text-[var(--icon)]" />
         </button>
       </div>
-      <div className="border-b px-4 py-2">
-        <button className="flex items-center w-full text-[#0D2C8D] py-1 text-base font-medium">
+      <div className="border-b px-4 py-2 border-b-[var(--border)]">
+        <button className="flex items-center w-full text-[var(--tertiary)] py-1 text-base font-medium">
           <HousePlus className="w-5 h-5 mr-2" />
           Add new address
         </button>
@@ -72,18 +72,18 @@ const AddressScreen = () => (
     </div>
 
     <div className="px-4 py-4">
-      <div className="text-sm text-gray-500 mb-2">SAVED ADDRESSES</div>
+      <div className="text-sm text-[var(--secondary)] mb-2">SAVED ADDRESSES</div>
       {addresses.map((addr, idx) => (
         <div key={idx} className="mb-4">
           <div className="flex items-center">
-            <span className="text-base mr-2 font-semibold">{addr.label}</span>
+            <span className="text-base mr-2 font-bold text-[var(--primary)]">{addr.label}</span>
             {addr.selected && (
               <span className="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded ml-1">
                 Currently Selected
               </span>
             )}
           </div>
-          <div className="text-sm text-[#29324E] mt-1">{addr.address}</div>
+          <div className="text-sm text-[var(--primary)] mt-1">{addr.address}</div>
         </div>
       ))}
     </div>
