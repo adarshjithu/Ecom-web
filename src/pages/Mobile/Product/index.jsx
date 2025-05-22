@@ -43,7 +43,7 @@ const Product = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+    
       <div className="bg-white border-b border-gray-200 p-4">
         <div className="flex items-center space-x-4 max-w-md mx-auto">
           <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors">
@@ -54,9 +54,9 @@ const Product = () => {
       </div>
 
       <div className="max-w-md mx-auto bg-white">
-        {/* Image Carousel */}
+  
         <div className="relative bg-gray-100">
-          {/* Heart Icon */}
+       
           <button
             onClick={() => setIsLiked(!isLiked)}
             className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white  hover:shadow-lg transition-shadow"
@@ -69,7 +69,6 @@ const Product = () => {
             />
           </button>
 
-          {/* Navigation Arrows */}
           <button
             onClick={prevImage}
             className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full bg-white  hover:shadow-lg transition-shadow"
@@ -84,7 +83,6 @@ const Product = () => {
             <ChevronRight size={20} className="text-gray-600" />
           </button>
 
-          {/* Main Product Image */}
           <div className="aspect-square flex items-center justify-center p-8">
             <img
               src={productImages[currentImageIndex]}
@@ -93,7 +91,6 @@ const Product = () => {
             />
           </div>
 
-          {/* Image Indicators */}
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
             {productImages.map((_, index) => (
               <span
@@ -109,21 +106,17 @@ const Product = () => {
           </div>
         </div>
 
-        {/* Product Info */}
         <div className="p-4 space-y-4">
-          {/* Top Seller Badge */}
           <div className="flex items-center space-x-2 bg-[#F3F6FF] rounded-full px-2 py-1 w-fit">
             <Flame size={20} className="text-[var(--tertiary)]" />
             <span className="text-[var(--tertiary)]  text-sm">Top Seller!</span>
           </div>
 
-          {/* Product Title */}
           <h2 className="text-base text-[var(--primary)] leading-tight">
             Matrix Opti.Care Professional Shampoo for Frizzy Hair with Shea
             Butter, Upto 4 Days Frizz Control
           </h2>
 
-          {/* Rating */}
 
           <div
             className="rounded-full p-0.5 w-fit"
@@ -143,13 +136,11 @@ const Product = () => {
             </div>
           </div>
 
-          {/* Delivery Info */}
           <div className="text-sm text-[var(--secondary)]">
             1 bottle of 200ml / Get by{" "}
             <span className=" text-[var(--primary)]">tomorrow</span>
           </div>
 
-          {/* Price */}
           <div className="flex items-baseline space-x-2">
             <span className="text-xl font-medium text-[var(--primary)]">
               ₹1200
@@ -161,8 +152,7 @@ const Product = () => {
               20% Off
             </span>
           </div>
-
-          {/* Size Options */}
+\
           <div className="space-y-3">
             <div className="grid grid-cols-3 gap-2">
               <button
