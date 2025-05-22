@@ -152,7 +152,7 @@ const Product = () => {
               20% Off
             </span>
           </div>
-\
+
           <div className="space-y-3">
             <div className="grid grid-cols-3 gap-2">
               <button
