@@ -8,6 +8,7 @@ import Profile from "./pages/Mobile/Profile";
 import Home from "./pages/Mobile/Home";
 import Category from "./pages/Mobile/Category";
 import Product from "./pages/Mobile/Product";
+import Cart from "./pages/Mobile/cart";
 
 function AppMobile() {
   return (
@@ -20,6 +21,7 @@ function AppMobile() {
       <Profile/>
       <Category/>
       <Product/>
+      <Cart/>
       <Footer/>
     </div>
   );
