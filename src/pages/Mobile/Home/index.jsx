@@ -255,7 +255,7 @@ const Home = () => {
         <div className="rounded-2xl overflow-hidden h-45 mb-1">
           <img
             src={
-              "https://assets.timelinedaily.com/2024/07/whatsapp-image-2024-07-11-at-5-07-17-pm-1200x900.jpeg"
+              "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRIrvobG6MLvDjakDk9tz9RiNaq1DYXWCKJN_hXZcOZ7W5sR5mO"
             }
             alt={`Banner ${current + 1}`}
             className="w-full h-full object-cover transition-all duration-300"
