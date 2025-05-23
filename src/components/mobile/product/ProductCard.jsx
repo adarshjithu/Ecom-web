@@ -60,7 +60,7 @@ const ProductCard = () => {
         </div>
 
         <div className="p-[1px] rounded-[12px] bg-[linear-gradient(90deg,#E4E4E4_0%,#EAEFFF_77.43%)]">
-          <div className="flex items-center justify-between bg-[linear-gradient(90deg,#FFFFFF,#E8EDFF)] rounded-[11px] px-1 py-1">
+          <div className="flex items-center justify-between bg-[linear-gradient(90deg,#FFFFFF_59.29%,#E8EDFF_100%)] rounded-[11px] px-1 py-1">
             <div className="flex items-center space-x-1">
               <span className="text-sm text-[var(--primary)]">₹1200</span>
               <span className="text-gray-400">|</span>
