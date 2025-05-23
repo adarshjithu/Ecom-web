@@ -80,7 +80,7 @@ const Notifications = () => (
           <div className="px-4 py-2 text-[var(--secondary)] text-sm">{section.date}</div>
           {section.items.map((item, i) => (
             <div key={i} className="flex items-center px-4 py-2">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full border border-[var(--border] bg-white mr-4">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--border] bg-white mr-4">
           {React.cloneElement(item.icon, { className: "text-[var(--icon)] w-6 h-6" })}
               </div>
               <div className="flex-1">

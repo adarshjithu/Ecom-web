@@ -53,67 +53,67 @@ const Profile = () => {
         </button>
       </div>
 
-      <div className="bg-white px-4 py-3 ">
+      <div className="bg-white px-4 py-2 ">
         <h3 className="text-sm font-medium text-[#71717A] mb-1">
           MEDCO SERVICES
         </h3>
 
         <div>
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <MessageCirclePlus size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <MessageCirclePlus className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]">Medi Advisor</span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
 
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <ScanBarcode size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <ScanBarcode className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]">Quick Scan</span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
 
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <MapPinPlus size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <MapPinPlus className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]">Locate Meds</span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
         </div>
       </div>
 
-      <div className="bg-white px-4 py-3 ">
+      <div className="bg-white px-4 py-2 ">
         <h3 className="text-sm font-medium text-[#71717A] mb-1">
           MY PREFERENCES
         </h3>
 
         <div>
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Languages size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <Languages className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]">Language</span>
             </div>
             <div className="flex items-center">
               <span className="text-gray-500 mr-2">{user.language}</span>
-              <ChevronRight size={18} className="text-[var(--icon)]" />
+              <ChevronRight className="text-[var(--icon)] w-5 h-5" />
             </div>
           </div>
 
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Flag size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <Flag className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]">Country</span>
             </div>
@@ -126,82 +126,88 @@ const Profile = () => {
                 />
                 <span className="text-gray-500">{user.country}</span>
               </div>
-              <ChevronRight size={18} className="text-[var(--icon)]" />
+              <ChevronRight className="text-[var(--icon)] w-5 h-5" />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-white px-4 py-3">
+      <div className="bg-white px-4 py-2">
         <h3 className="text-sm font-medium text-[#71717A] mb-1">
           HELP & SUPPORT
         </h3>
 
         <div>
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Headset size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <Headset className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]">Contact us</span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
 
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <MessagesSquare size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <MessagesSquare className="text-[var(--icon)] w-6 h-6" />
               </div>
-              <span className="text-[var(--primary)]">Frequently asked questions</span>
+              <span className="text-[var(--primary)]">
+                Frequently asked questions
+              </span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
 
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Star size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <Star className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]"> Rate our app</span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <UserRoundPlus size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <UserRoundPlus className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]">Invite Friends</span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Package size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <Package className="text-[var(--icon)] w-6 h-6" />
               </div>
-              <span className="text-[var(--primary)]">Delivery Information</span>
+              <span className="text-[var(--primary)]">
+                Delivery Information
+              </span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Handshake size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <Handshake className="text-[var(--icon)] w-6 h-6" />
               </div>
               <span className="text-[var(--primary)]">Terms & Conditions</span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-[var(--border] border rounded-full flex items-center justify-center">
-                <FileText size={18} className="text-[var(--icon)]" />
+              <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
+                <FileText className="text-[var(--icon)] w-6 h-6  " />
               </div>
-              <span className="text-[var(--primary)]">Exchange & Return Policy</span>
+              <span className="text-[var(--primary)]">
+                Exchange & Return Policy
+              </span>
             </div>
-            <ChevronRight size={18} className="text-[var(--icon)]" />
+            <ChevronRight className="text-[var(--icon)] w-5 h-5" />
           </div>
         </div>
       </div>

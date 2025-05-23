@@ -58,7 +58,7 @@ const Payment = () => {
       </div>
 
       <div className="max-w-md mx-auto bg-white">
-        <div className="border-b border-[var(--border)] bg-[#F6F8FF]">
+        <div className=" bg-[#F6F8FF]">
           <button
             onClick={() => setIsOrderSummaryExpanded(!isOrderSummaryExpanded)}
             className="w-full p-4 flex items-center justify-between text-left"
@@ -109,7 +109,7 @@ const Payment = () => {
             </div>
           )}
         </div>
-        <div className="p-4 border-b border-gray-200 bg-[#F6F8FF]">
+        <div className="px-3 py-0  bg-[#F6F8FF]">
           <div className="flex items-center space-x-2">
             <Input
               type="text"
@@ -128,7 +128,7 @@ const Payment = () => {
           </div>
         </div>
 
-        <div className="p-4 border-b border-[var(--border)] space-y-3 bg-[#F6F8FF]">
+        <div className="p-4 space-y-3 bg-[#F6F8FF]">
           <div className="flex justify-between text-sm">
             <span className="text-[#71717A]">
               Subtotal- {orderItems.length} items
@@ -143,7 +143,7 @@ const Payment = () => {
             <span>Shipping</span>
             <span>{shipping === 0 ? "FREE" : `₹ ${shipping}`}</span>
           </div>
-          <div className="flex justify-between text-lg font-semibold pt-2 border-t border-gray-200">
+          <div className="flex justify-between text-lg font-semibold pt-2 ">
             <span>Total</span>
             <span>₹ {total}</span>
           </div>

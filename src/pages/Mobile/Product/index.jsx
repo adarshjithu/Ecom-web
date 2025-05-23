@@ -40,10 +40,8 @@ const Product = () => {
     setCurrentImageIndex(index);
   };
 
-
   return (
     <div className="min-h-screen bg-gray-50">
-    
       <div className="bg-white border-b border-gray-200 p-4">
         <div className="flex items-center space-x-4 max-w-md mx-auto">
           <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors">
@@ -54,35 +52,31 @@ const Product = () => {
       </div>
 
       <div className="max-w-md mx-auto bg-white">
-  
         <div className="relative bg-gray-100">
-       
           <button
             onClick={() => setIsLiked(!isLiked)}
-            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white  hover:shadow-lg transition-shadow"
+            className="absolute top-4 right-4 z-10  rounded-full   hover:shadow-lg transition-shadow"
           >
             <Heart
-              size={20}
               className={`${
-                isLiked ? "text-red-500 fill-red-500" : "text-gray-400"
-              } transition-colors`}
+                isLiked ? "text-[#C60000] fill-[#C60000]" : "text-gray-400"
+              } transition-colors w-6 h-6`}
             />
           </button>
 
           <button
             onClick={prevImage}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full bg-white  hover:shadow-lg transition-shadow"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white hover:shadow-lg transition-shadow p-0"
           >
-            <ChevronLeft size={20} className="text-gray-600" />
+            <ChevronLeft className="w-6 h-6 text-[var(--tertiary)]" />
           </button>
 
           <button
             onClick={nextImage}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white hover:shadow-lg transition-shadow p-0"
           >
-            <ChevronRight size={20} className="text-gray-600" />
+            <ChevronRight className="w-6 h-6 text-[var(--tertiary)]" />
           </button>
-
           <div className="aspect-square flex items-center justify-center p-8">
             <img
               src={productImages[currentImageIndex]}
@@ -116,7 +110,6 @@ const Product = () => {
             Matrix Opti.Care Professional Shampoo for Frizzy Hair with Shea
             Butter, Upto 4 Days Frizz Control
           </h2>
-
 
           <div
             className="rounded-full p-0.5 w-fit"
@@ -186,17 +179,17 @@ const Product = () => {
               </button>
             </div>
           </div>
-             <Tabs defaultValue="highlights" className="space-y-4">
+          <Tabs defaultValue="highlights" className="space-y-4">
             <TabsList className="grid w-full grid-cols-3 h-14 ">
               <TabsTrigger value="highlights">Highlights</TabsTrigger>
               <TabsTrigger value="packaging">Packaging</TabsTrigger>
               <TabsTrigger value="details">Product Details</TabsTrigger>
             </TabsList>
-             <TabsContent value="highlights" className="space-y-3">
-                <ProductHighlight/>
-             </TabsContent>
-             <TabsContent value="packaging" className="space-y-3"></TabsContent>
-             <TabsContent value="details" className="space-y-3"></TabsContent>
+            <TabsContent value="highlights" className="space-y-3">
+              <ProductHighlight />
+            </TabsContent>
+            <TabsContent value="packaging" className="space-y-3"></TabsContent>
+            <TabsContent value="details" className="space-y-3"></TabsContent>
           </Tabs>
           <div className=" fixed bottom-0 left-0 right-0 bg-white p-2 border-t border-[var(--border)] pt-4 flex flex-row justify-between">
             <div className="flex justify-between items-center mb-4 w-1/2">
@@ -208,7 +201,9 @@ const Product = () => {
               </div>
             </div>
 
-            <Button className={"w-1/2"}><ShoppingBag size={24} className="mr-2" /> Add to Cart</Button>
+            <Button className={"w-1/2"}>
+              <ShoppingBag size={24} className="mr-2" /> Add to Cart
+            </Button>
           </div>
         </div>
       </div>
