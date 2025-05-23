@@ -33,10 +33,11 @@ const ProductCard = () => {
           </div>
         </div>
 
-        <h3 className="w-full text-[#29324E]  text-[10px] mb-2 mt-1 leading-tight truncate overflow-hidden whitespace-nowrap">
+        <h3 className="w-full text-[#29324E] text-[10px] mb-1 mt-1 leading-tight line-clamp-2">
           Cofsils Experdine Gargle Mouth Wash for Sore throat, Flu, Cold, To...
         </h3>
-        <p className="text-[var(--primary)] text-[10px] mb-2">
+
+        <p className="text-[var(--primary)] text-[10px] mb-1">
           Get by <span className="text-[var(--tertiary)]">tomorrow</span>
         </p>
 
