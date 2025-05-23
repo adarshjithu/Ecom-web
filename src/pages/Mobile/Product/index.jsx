@@ -102,7 +102,7 @@ const Product = () => {
 
         <div className="p-4 space-y-4">
           <div className="flex items-center space-x-2 bg-[#F3F6FF] rounded-full px-2 py-1 w-fit">
-            <Flame size={20} className="text-[var(--tertiary)]" />
+            <Flame size={20} className="text-[var(--tertiary)] fill-[var(--tertiary)]" />
             <span className="text-[var(--tertiary)]  text-sm">Top Seller!</span>
           </div>
 
