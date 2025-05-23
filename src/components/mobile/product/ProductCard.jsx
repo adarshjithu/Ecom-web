@@ -41,7 +41,7 @@ const ProductCard = () => {
         </p>
 
         <div
-          className="rounded-full p-0.5 w-fit mb-2"
+          className="rounded-full p-[.5px] w-fit mb-2"
           style={{
             background: "linear-gradient(90deg, #EDE8CA 0%, #FFFFFF 100%)",
           }}
