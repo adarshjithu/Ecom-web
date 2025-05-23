@@ -112,7 +112,7 @@ const Product = () => {
           </h2>
 
           <div
-            className="rounded-full p-0.5 w-fit"
+            className="rounded-full p-[1px] w-fit"
             style={{
               background: "linear-gradient(90deg, #EDE8CA 0%, #FFFFFF 100%)",
             }}
