@@ -8,26 +8,26 @@ const ProductCard = () => {
     <div className="p-[1px] rounded-2xl bg-gradient-to-b from-[#EBEFFF] to-[#E4E4E7] max-w-xs w-full mx-auto overflow-hidden box-border">
       <div className="bg-[linear-gradient(360deg,#FFFFFF_33.97%,#EAEEFF_100%)] rounded-[calc(1rem-1px)] p-2">
         <div className="p-[1px] rounded-[8px] bg-[linear-gradient(180deg,#EBEFFF_0%,#E4E4E7_100%)]">
-          <div className="bg-white rounded-[7px]">
-            <div className="flex justify-end">
+          <div className="bg-white rounded-[7px] ">
+            <div className="flex justify-end ">
               <button
                 onClick={() => setIsWishlisted(!isWishlisted)}
-                className="p-2 hover:bg-gray-50 rounded-full transition-colors"
+                className="p-2 pb-0 hover:bg-gray-50 rounded-full transition-colors"
               >
                 <Heart
                   className={`${
                     isWishlisted
                       ? "text-[#C60000] fill-[#C60000]"
                       : "text-[var(--icon)]"
-                  } transition-colors w-6 h-6`}
+                  } transition-colors w-5 h-5`}
                 />
               </button>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-4">
               <img
                 src="https://rukminim2.flixcart.com/image/400/400/xif0q/shampoo/h/6/p/-original-imah5z3rchzaazn8.jpeg?q=90&crop=false"
                 alt="Product"
-                className="w-9.5 h-25 object-contain"
+                className="w-9 h-24  object-contain"
               />
             </div>
           </div>
