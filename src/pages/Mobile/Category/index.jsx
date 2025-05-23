@@ -1,3 +1,4 @@
+import ProductCard from "@/components/mobile/product/ProductCard";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Bell, Search } from "lucide-react";
 import { useState } from "react";
@@ -149,7 +150,28 @@ const Category = () => {
           ))}
         </div>
       </div>
-
+      <div className="px-4 pb-6 mt-4">
+        <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
+          Serum Top Deals
+        </h2>
+        <div
+          className="flex space-x-2 overflow-x-auto scrollbar-hide"
+          style={{
+            scrollbarWidth: "auto",
+            msOverflowStyle: "auto",
+          }}
+        >
+          <div className="min-w-[170px]">
+            <ProductCard />
+          </div>
+          <div className="min-w-[170px]">
+            <ProductCard />
+          </div>
+          <div className="min-w-[180px]">
+            <ProductCard />
+          </div>
+        </div>
+      </div>
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

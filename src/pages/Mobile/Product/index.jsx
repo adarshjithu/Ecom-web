@@ -59,7 +59,7 @@ const Product = () => {
           >
             <Heart
               className={`${
-                isLiked ? "text-[#C60000] fill-[#C60000]" : "text-gray-400"
+                isLiked ? "text-[#C60000] fill-[#C60000]" : "text-[var(--icon)]"
               } transition-colors w-6 h-6`}
             />
           </button>

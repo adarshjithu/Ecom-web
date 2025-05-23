@@ -1,3 +1,5 @@
+import ProductCard from "@/components/mobile/product/ProductCard";
+import ReviewCard from "@/components/mobile/ReviewCard";
 import { Input } from "@/components/ui/input";
 import { Bell, MapPinHouse } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -77,6 +79,26 @@ const Home = () => {
         "https://marthastable.org/wp-content/uploads/2024/03/nathan-dumlao-KeiQeZJLmus-unsplash-1000x1500.jpg",
     },
   ];
+  const reviews = [
+  {
+    name: "Akshay Mohan",
+    verified: true,
+    rating: 5,
+    time: "4 weeks ago",
+    title: "Good product",
+    message:
+      "I received my product so soon and packing is also good. Shampoo is so good. I really loved it.",
+  },
+   {
+    name: "Akshay Mohan",
+    verified: true,
+    rating: 5,
+    time: "4 weeks ago",
+    title: "Good product",
+    message:
+      "I received my product so soon and packing is also good. Shampoo is so good. I really loved it.",
+  },
+];
   const goToSlide = (idx) => setCurrent(idx);
 
   return (
@@ -141,6 +163,29 @@ const Home = () => {
       </div>
       <div className="px-4 pb-6">
         <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
+          Super Saving Deals
+        </h2>
+        <div
+          className="flex space-x-2 overflow-x-auto scrollbar-hide"
+          style={{
+            scrollbarWidth: "auto",
+            msOverflowStyle: "auto",
+          }}
+        >
+          <div className="min-w-[170px]">
+            <ProductCard />
+          </div>
+          <div className="min-w-[170px]">
+            <ProductCard />
+          </div>
+          <div className="min-w-[180px]">
+            <ProductCard />
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 pb-6">
+        <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
           Shop By Brands
         </h2>
         <div className="grid grid-cols-3 gap-3">
@@ -184,6 +229,28 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <div className="px-4 pb-6">
+        <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
+          Up to 70% off on Shampoos
+        </h2>
+        <div
+          className="flex space-x-2 overflow-x-auto scrollbar-hide"
+          style={{
+            scrollbarWidth: "auto",
+            msOverflowStyle: "auto",
+          }}
+        >
+          <div className="min-w-[170px]">
+            <ProductCard />
+          </div>
+          <div className="min-w-[170px]">
+            <ProductCard />
+          </div>
+          <div className="min-w-[180px]">
+            <ProductCard />
+          </div>
+        </div>
+      </div>
       <div className="p-4">
         <div className="rounded-2xl overflow-hidden h-45 mb-1">
           <img
@@ -208,6 +275,25 @@ const Home = () => {
               ></span>
             ))}
           </div>
+        </div>
+      </div>
+      <div className="px-4 pb-6">
+        <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
+          Reviews & Ratings
+        </h2>
+        <div
+          className="flex space-x-2 overflow-x-auto scrollbar-hide"
+          style={{
+            scrollbarWidth: "auto",
+            msOverflowStyle: "auto",
+          }}
+        >  {reviews.map((review, index) => (
+            <div key={index} className="min-w-[300px]">
+              <ReviewCard data={review} />
+            </div>
+          ))}
+       
+        
         </div>
       </div>
     </div>
