@@ -62,7 +62,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <MessageCirclePlus className="text-[var(--icon)] w-6 h-6" />
+                <MessageCirclePlus
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">Medi Advisor</span>
             </div>
@@ -72,7 +75,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <ScanBarcode className="text-[var(--icon)] w-6 h-6" />
+                <ScanBarcode
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">Quick Scan</span>
             </div>
@@ -82,7 +88,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <MapPinPlus className="text-[var(--icon)] w-6 h-6" />
+                <MapPinPlus
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">Locate Meds</span>
             </div>
@@ -100,7 +109,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Languages className="text-[var(--icon)] w-6 h-6" />
+                <Languages
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">Language</span>
             </div>
@@ -113,7 +125,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Flag className="text-[var(--icon)] w-6 h-6" />
+                <Flag
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">Country</span>
             </div>
@@ -141,7 +156,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Headset className="text-[var(--icon)] w-6 h-6" />
+                <Headset
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">Contact us</span>
             </div>
@@ -151,7 +169,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <MessagesSquare className="text-[var(--icon)] w-6 h-6" />
+                <MessagesSquare
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">
                 Frequently asked questions
@@ -163,7 +184,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Star className="text-[var(--icon)] w-6 h-6" />
+                <Star
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]"> Rate our app</span>
             </div>
@@ -172,7 +196,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <UserRoundPlus className="text-[var(--icon)] w-6 h-6" />
+                <UserRoundPlus
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">Invite Friends</span>
             </div>
@@ -181,7 +208,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Package className="text-[var(--icon)] w-6 h-6" />
+                <Package
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">
                 Delivery Information
@@ -192,7 +222,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <Handshake className="text-[var(--icon)] w-6 h-6" />
+                <Handshake
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">Terms & Conditions</span>
             </div>
@@ -201,7 +234,10 @@ const Profile = () => {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-[var(--border] border rounded-full flex items-center justify-center">
-                <FileText className="text-[var(--icon)] w-6 h-6  " />
+                <FileText
+                  className="text-[var(--icon)] w-6 h-6  "
+                  strokeWidth={"1.5px"}
+                />
               </div>
               <span className="text-[var(--primary)]">
                 Exchange & Return Policy
