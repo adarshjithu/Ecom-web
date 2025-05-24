@@ -70,27 +70,39 @@ const Notifications = () => (
         <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
           <ArrowLeft size={20} className="text-[var(--icon)]" />
         </button>
-        <h1 className="text-lg font-semibold text-[var(--primary)]">Notifications</h1>
+        <h1 className="text-lg font-semibold text-[var(--primary)]">
+          Notifications
+        </h1>
       </div>
     </div>
 
     <div className="pb-30">
       {notifications.map((section, idx) => (
         <div key={section.date}>
-          <div className="px-4 py-2 text-[var(--secondary)] text-sm">{section.date}</div>
+          <div className="px-4 py-2 text-[var(--secondary)] text-sm">
+            {section.date}
+          </div>
           {section.items.map((item, i) => (
             <div key={i} className="flex items-center px-4 py-2">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--border] bg-white mr-4">
-          {React.cloneElement(item.icon, { className: "text-[var(--icon)] w-6 h-6" })}
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--border)] bg-white mr-4">
+                {React.cloneElement(item.icon, {
+                  className: "text-[var(--icon)] w-6 h-6",
+                  strokeWidth: "1.5px",
+                })}
               </div>
+
               <div className="flex-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-base font-medium text-[var(--primary)]">{item.title}</span>
+                  <span className="text-base font-medium text-[var(--primary)]">
+                    {item.title}
+                  </span>
                   <span className="text-xs font-normal text-[var(--secondary)] ml-2">
                     {item.time}
                   </span>
                 </div>
-                <div className="text-sm font-normal text-[var(--secondary)]">{item.subtitle}</div>
+                <div className="text-sm font-normal text-[var(--secondary)]">
+                  {item.subtitle}
+                </div>
               </div>
             </div>
           ))}

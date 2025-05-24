@@ -33,11 +33,11 @@ const ProductCard = () => {
           </div>
         </div>
 
-        <h3 className="w-full text-[#29324E] text-[10px] mb-1 mt-1 leading-tight line-clamp-2">
+        <h3 className="w-full text-[#29324E] text-[12px] mb-1 mt-1 leading-tight line-clamp-2">
           Cofsils Experdine Gargle Mouth Wash for Sore throat, Flu, Cold, To...
         </h3>
 
-        <p className="text-[var(--primary)] text-[10px] mb-1">
+        <p className="text-[var(--primary)] text-[12px] mb-1">
           Get by <span className="text-[var(--tertiary)]">tomorrow</span>
         </p>
 
@@ -59,8 +59,8 @@ const ProductCard = () => {
           </div>
         </div>
 
-        <div className="p-[1px] rounded-[12px] bg-[linear-gradient(90deg,#E4E4E4_0%,#EAEFFF_77.43%)]">
-          <div className="flex items-center justify-between bg-[linear-gradient(90deg,#FFFFFF_59.29%,#E8EDFF_100%)] rounded-[11px] px-1 py-1">
+        <div className="p-[1px] rounded-[8px] bg-[linear-gradient(90deg,#E4E4E4_0%,#EAEFFF_77.43%)]">
+          <div className="flex items-center justify-between bg-[linear-gradient(90deg,#FFFFFF_59.29%,#E8EDFF_100%)] rounded-[8px] px-1 py-1">
             <div className="flex items-center space-x-1">
               <span className="text-sm text-[var(--primary)]">₹1200</span>
               <span className="text-gray-400">|</span>
