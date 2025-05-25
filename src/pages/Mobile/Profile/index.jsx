@@ -16,7 +16,7 @@ import {
   FileText,
 } from "lucide-react";
 
-const Profile = () => {
+const Profile = ({ desktop }) => {
   const [user, setUser] = useState({
     name: "Ronald Richards",
     email: "ronald.richards@gmail.com",
@@ -26,13 +26,17 @@ const Profile = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white p-4 flex items-center justify-between border-b border-gray-200">
-        <h1 className="text-lg font-semibold">Profile</h1>
-        <button className="p-2">
-          <Bell size={20} />
-        </button>
-      </div>
+    <div
+      className={`min-h-screen bg-white ${desktop ? "overflow-y-auto" : ""}`}
+    >
+      {!desktop && (
+        <div className="bg-white p-4 flex items-center justify-between border-b border-gray-200">
+          <h1 className="text-lg font-semibold">Profile</h1>
+          <button className="p-2">
+            <Bell size={20} />
+          </button>
+        </div>
+      )}
 
       <div className="bg-[#F6F8FF] p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -147,7 +151,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="bg-white px-4 py-2">
+      <div className={`bg-white px-4 py-2 ${desktop&& "mb-40"}`}>
         <h3 className="text-sm font-medium text-[#71717A] mb-1">
           HELP & SUPPORT
         </h3>

@@ -1,5 +1,6 @@
 import { brands, categories, reviews } from "./assets/json/Data";
 import HomeCarousal from "./components/desktop/home/HomeCarousal";
+import ProductDetail from "./components/desktop/ProductDetail";
 import ProductCard from "./components/mobile/product/ProductCard";
 import ReviewCard from "./components/mobile/ReviewCard";
 import Header from "./layout/Header";
@@ -8,7 +9,7 @@ function AppDesktop() {
   return (
     <>
       <Header />
-      <HomeCarousal/>
+      <HomeCarousal />
       <div className="px-6 pt-6">
         <div className="flex space-x-2 overflow-x-auto py-2 scrollbar-hide pb-6">
           {categories.map((category) => (
@@ -33,7 +34,7 @@ function AppDesktop() {
           <h2 className="text-2xl font-medium mb-4 text-[var(--primary)]">
             Super Saving Deals
           </h2>
-          <div className="grid grid-cols-5 gap-6  pb-6">
+          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6  pb-6">
             <ProductCard desktop />
 
             <ProductCard desktop />
@@ -74,7 +75,7 @@ function AppDesktop() {
           <h2 className="text-2xl font-medium mb-4 text-[var(--primary)]">
             Up to 70% off on Shampoos
           </h2>
-          <div className="grid grid-cols-5 gap-6  pb-6">
+          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6  pb-6">
             <ProductCard desktop />
 
             <ProductCard desktop />
@@ -96,7 +97,7 @@ function AppDesktop() {
           <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">
             Reviews & Ratings
           </h2>
-          <div className="grid grid-cols-4 gap-6  pb-">
+          <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-6  pb-">
             {" "}
             {reviews.map((review, index) => (
               <div key={index}>
@@ -105,6 +106,7 @@ function AppDesktop() {
             ))}
           </div>
         </div>
+        <ProductDetail />
       </div>
     </>
   );
