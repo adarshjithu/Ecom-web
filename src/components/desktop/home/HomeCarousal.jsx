@@ -44,13 +44,13 @@ const HomeCarousel = () => {
 
       <button
         onClick={prevSlide}
-        className="absolute left-4 bottom-4 bg-white/20 backdrop-blur-md hover:bg-white/30 rounded-full p-2 z-30 transition-all duration-200"
+        className="absolute left-4 bottom-8 bg-white/20 backdrop-blur-md hover:bg-white/30 rounded-full p-2 z-30 transition-all duration-200"
       >
         <ArrowLeft className="w-6 h-6 text-white" strokeWidth={"1.5px"} />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 bottom-4 bg-white/20 backdrop-blur-md hover:bg-white/30 rounded-full p-2 z-30 transition-all duration-200"
+        className="absolute right-4 bottom-8 bg-white/20 backdrop-blur-md hover:bg-white/30 rounded-full p-2 z-30 transition-all duration-200"
       >
         <ArrowRight className="w-6 h-6 text-white" strokeWidth={"1.5px"} />
       </button>
