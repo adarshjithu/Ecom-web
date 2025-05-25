@@ -1,7 +1,7 @@
 import { Heart, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 
-const ProductCard = () => {
+const ProductCard = ({ desktop }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   return (
@@ -19,7 +19,8 @@ const ProductCard = () => {
                     isWishlisted
                       ? "text-[#C60000] fill-[#C60000]"
                       : "text-[var(--icon)]"
-                  } transition-colors w-5 h-5`}
+                  } transition-colors ${desktop ? "w-8 h-8" : "w-5 h-5"}`}
+                  strokeWidth={"1.5px"}
                 />
               </button>
             </div>
@@ -27,17 +28,27 @@ const ProductCard = () => {
               <img
                 src="https://rukminim2.flixcart.com/image/400/400/xif0q/shampoo/h/6/p/-original-imah5z3rchzaazn8.jpeg?q=90&crop=false"
                 alt="Product"
-                className="w-9 h-24  object-contain"
+                className={`${
+                  desktop ? "w-27 h-70" : "w-9 h-24"
+                }  object-contain`}
               />
             </div>
           </div>
         </div>
 
-        <h3 className="w-full text-[#29324E] text-[12px] mb-1 mt-1 leading-tight line-clamp-2">
+        <h3
+          className={`w-full text-[#29324E] ${
+            desktop ? "text-base" : "text-xs"
+          } mb-1 mt-1 leading-tight line-clamp-2`}
+        >
           Cofsils Experdine Gargle Mouth Wash for Sore throat, Flu, Cold, To...
         </h3>
 
-        <p className="text-[var(--primary)] text-[12px] mb-1">
+        <p
+          className={`text-[var(--primary)] ${
+            desktop ? "text-base" : "text-xs"
+          } mb-1`}
+        >
           Get by <span className="text-[var(--tertiary)]">tomorrow</span>
         </p>
 
@@ -53,23 +64,55 @@ const ProductCard = () => {
               background: "linear-gradient(90deg, #FFFADD 0%, #FFFFFF 100%)",
             }}
           >
-            <Star className="text-[#E09A01] fill-[#E09A01] w-3 h-3" />
-            <span className="font-medium text-[#E09A01] text-xs">4.5</span>
-            <span className="text-[#845C04] text-xs">(12K)</span>
+            <Star
+              className={`text-[#E09A01] fill-[#E09A01] ${
+                desktop ? "w-4 h-4" : "w-3 h-3"
+              }`}
+            />
+            <span
+              className={`font-medium text-[#E09A01] ${
+                desktop ? "text-sm" : "text-xs"
+              }`}
+            >
+              4.5
+            </span>
+            <span
+              className={`text-[#845C04]  ${desktop ? "text-sm" : "text-xs"}`}
+            >
+              (12K)
+            </span>
           </div>
         </div>
 
         <div className="p-[1px] rounded-[8px] bg-[linear-gradient(90deg,#E4E4E4_0%,#EAEFFF_77.43%)]">
           <div className="flex items-center justify-between bg-[linear-gradient(90deg,#FFFFFF_59.29%,#E8EDFF_100%)] rounded-[8px] px-1 py-1">
             <div className="flex items-center space-x-1">
-              <span className="text-sm text-[var(--primary)]">₹1200</span>
+              <span
+                className={`${
+                  desktop ? "text-xl" : "text-sm"
+                } text-[var(--primary)]`}
+              >
+                ₹1200
+              </span>
               <span className="text-gray-400">|</span>
-              <span className="text-[#22784F]  bg-[#E5FFF3] rounded-full text-xs px-2 py-[2px]">
+              <span
+                className={`text-[#22784F]  bg-[#E5FFF3] rounded-full ${
+                  desktop ? "text-base" : "text-xs"
+                } px-2 py-[2px]`}
+              >
                 20% Off
               </span>
             </div>
-            <div className="flex items-center justify-center p-1 rounded-[6px] bg-[#0E1B87]">
-              <ShoppingBag className="text-white w-[18px] h-[18px]" />
+            <div
+              className={`flex items-center justify-center   bg-[#0E1B87] ${
+                desktop ? "w-13 h-13 rounded-[8px]" : "w-8 h-8 rounded-[6px]"
+              }`}
+            >
+              <ShoppingBag
+                className={`text-white ${
+                  desktop ? "w-10 h-10" : "w-[18px] h-[18px]"
+                }`}
+              />
             </div>
           </div>
         </div>

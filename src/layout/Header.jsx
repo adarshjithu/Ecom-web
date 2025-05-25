@@ -25,63 +25,68 @@ const Header = () => {
               </div>
 
               <div className="flex items-center space-x-2 text-gray-600">
-                <button className=" sm:block p-2 text-gray-600 border border-[#D5D5D5] hover:bg-gray-100 rounded-full">
-                  <MapPinHouse size={20} className="text-gray-500" />
-                </button>
-                <div className="flex flex-col">
-                  <span className="text-xs text-[#9C9C9C]">Location</span>
+                <div className=" border border-[var(--border)] hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle">
+                  <MapPinHouse
+                    className="text-[var(--icon)] w-6 h-6"
+                    strokeWidth="1.5px"
+                  />
+                </div>
 
-                  <span className="text-sm">Kochi, Kerala, India</span>
+                <div className="flex flex-col">
+                  <span className="text-xs text-[var(--secondary)]">
+                    Location
+                  </span>
+                  <span className="text-sm text-[var(--primary)]">
+                    Kochi, Kerala, India
+                  </span>
                 </div>
               </div>
             </div>
             <div className="flex-1 max-w-md mx-4 hidden md:block">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none ">
-                  <Search className="h-5 w-5 text-gray-400" />
+                  <Search
+                    className="h-4 w-4 text-[var(--icon)] "
+                    strokeWidth={"1.5px"}
+                  />
                 </div>
                 <input
                   type="text"
                   placeholder="Search medicines, cosmetics"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-[#F7F7F7] text-sm placeholder-[#898F92] focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-gray-500 focus:border-gray-500"
+                  className="block w-full pl-10 pr-3 py-2 border border-[var(--border] rounded-md leading-5 bg-[#F7F7F7] text-sm placeholder-[#898F92] focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-gray-500 focus:border-gray-500"
                 />
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
-              <button className="hidden sm:block p-2 text-gray-600 border border-[#D5D5D5] hover:bg-gray-100 rounded-full">
-                <Languages size={20} />
-              </button>
-              <button className="hidden sm:block p-2 text-gray-600 border border-[#D5D5D5] hover:bg-gray-100 rounded-full">
-                <Heart size={20} />
-              </button>
+              <div className=" border border-[var(--border)] hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle">
+                <Languages
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth="1.5px"
+                />
+              </div>
+              <div className=" border border-[var(--border)] hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle">
+                <Heart
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth="1.5px"
+                />
+              </div>
 
-              <button className="hidden sm:block p-2 text-gray-600 border border-[#D5D5D5] hover:bg-gray-100 rounded-full">
-                <ShoppingCart size={20} />
-              </button>
-              <button className="hidden sm:block p-2 text-gray-600 border border-[#D5D5D5] hover:bg-gray-100 rounded-full">
-                <UserRound size={20} />
-              </button>
+              <div className=" border border-[var(--border)] hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle">
+                <ShoppingCart
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth="1.5px"
+                />
+              </div>
+              <div className=" border border-[var(--border)] hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle">
+                <UserRound
+                  className="text-[var(--icon)] w-6 h-6"
+                  strokeWidth="1.5px"
+                />
+              </div>
               <Button>Login/Register</Button>
-
-              <button className="sm:hidden p-2 text-gray-600 border border-[#D5D5D5] hover:bg-gray-100 rounded-full">
-                <Bell size={20} />
-              </button>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="md:hidden bg-white px-4 py-3">
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Search medicines, cosmetics"
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-          />
         </div>
       </div>
 
@@ -89,7 +94,6 @@ const Header = () => {
         style={{
           background: "linear-gradient(90deg, #1ABC9C 0%, #0D8ABC 100%)",
         }}
-        className={"hidden md:block"}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex flex-col md:flex-row md:items-center md:space-x-8 py-4 md:py-0">
@@ -97,43 +101,43 @@ const Header = () => {
               href="#"
               className="flex items-center space-x-2 text-white hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
-              <Grip size={20} />
-              <span>All Categories</span>
+              <Grip className="w-5 h-5" strokeWidth={"1.5px"} />
+              <span className="text-sm font-medium">All Categories</span>
             </a>
             <a
               href="#"
               className="flex items-center space-x-2 text-white hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
-              <BriefcaseMedical size={20} />
-              <span>Consult Doctor</span>
+              <BriefcaseMedical className="w-5 h-5" strokeWidth={"1.5px"} />
+              <span className="text-sm font-medium">Consult Doctor</span>
             </a>
             <a
               href="#"
               className="flex items-center space-x-2 text-white hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
-              <Hospital size={20} />
-              <span>Health Care Center</span>
+              <Hospital className="w-5 h-5" strokeWidth={"1.5px"} />
+              <span className="text-sm font-medium">Health Care Center</span>
             </a>
             <a
               href="#"
               className="flex items-center space-x-2 text-white hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
-              <Hospital size={20} />
-              <span>Beauty Products</span>
+              <Hospital className="w-5 h-5" strokeWidth={"1.5px"} />
+              <span className="text-sm font-medium">Beauty Products</span>
             </a>
             <a
               href="#"
               className="flex items-center space-x-2 text-white hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
-              <Hospital size={20} />
-              <span>Gym Equipment's</span>
+              <Hospital className="w-5 h-5" strokeWidth={"1.5px"} />
+              <span className="text-sm font-medium">Gym Equipment's</span>
             </a>
             <a
               href="#"
               className="flex items-center space-x-2 text-white hover:bg-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
-              <BadgePercent size={20} />
-              <span>Flash sales</span>
+              <BadgePercent className="w-5 h-5" strokeWidth={"1.5px"} />
+              <span className="text-sm font-medium">Flash sales</span>
             </a>
           </nav>
         </div>
