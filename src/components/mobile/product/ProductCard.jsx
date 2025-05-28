@@ -19,7 +19,7 @@ const ProductCard = ({ desktop }) => {
                     isWishlisted
                       ? "text-[#C60000] fill-[#C60000]"
                       : "text-[var(--icon)]"
-                  } transition-colors ${desktop ? "w-8 h-8" : "w-5 h-5"}`}
+                  } transition-colors ${desktop ? "w-6 h-6" : "w-5 h-5"}`}
                   strokeWidth={"1.5px"}
                 />
               </button>
