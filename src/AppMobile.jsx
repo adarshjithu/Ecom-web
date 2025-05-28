@@ -9,6 +9,7 @@ import Home from "./pages/Mobile/Home";
 import Category from "./pages/Mobile/Category";
 import Product from "./pages/Mobile/Product";
 import Cart from "./pages/Mobile/cart";
+import EditProfile from "./components/mobile/EditProfile";
 
 function AppMobile() {
   return (
@@ -22,6 +23,7 @@ function AppMobile() {
       <Category/>
       <Product/>
       <Cart/>
+      <EditProfile/>
       <Footer/>
     </div>
   );
