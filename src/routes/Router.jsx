@@ -1,16 +1,6 @@
 import React, { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
-
-// import Notifications from "./pages/Mobile/Notification";
-// import AddressScreen from "./pages/Mobile/Address";
-// import Payment from "./pages/Mobile/Payment";
-// import Profile from "./pages/Mobile/Profile";
-// import Category from "./pages/Mobile/Category";
-// import Product from "./pages/Mobile/Product";
-// import Cart from "./pages/Mobile/cart";
-// import EditProfile from "./components/mobile/EditProfile";
-// import ProductDetail from "./components/desktop/ProductDetail";
 import { useIsMobile } from "@/hooks/useIsMobile.jsx";
 import AppMobile from "@/AppMobile.jsx";
 import LoginPage from "@/pages/Mobile/Login";
@@ -25,6 +15,9 @@ import Notifications from "@/pages/Mobile/Notification";
 import AddressScreen from "@/pages/Mobile/Address";
 import Profile from "@/pages/Mobile/Profile";
 import EditProfile from "@/components/mobile/EditProfile";
+import AppDesktop from "@/AppDesktop";
+import HomePage from "@/pages/home/HomePage";
+import ProductDetail from "@/components/desktop/ProductDetail";
 
 const mobileRouter = createBrowserRouter([
   {
@@ -57,12 +50,13 @@ const mobileRouter = createBrowserRouter([
 const desktopRouter = createBrowserRouter([
   {
     path: "/",
-    element: <h1>Desktop</h1>,
-    // children: [
-    //   { path: "/", element: <LoginPage /> },
-    //   { path: "home", element: <Home /> }, // Reuse mobile Home or create a desktop-specific Home
-    //   { path: "product-detail", element: <ProductDetail /> },
-    // ],
+    element: <AppDesktop/>,
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "/home", element: <HomePage /> },
+      { path: "product", element: <ProductDetail /> },
+
+    ],
   },
 ]);
 

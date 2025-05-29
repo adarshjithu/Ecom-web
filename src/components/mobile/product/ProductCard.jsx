@@ -6,7 +6,7 @@ const ProductCard = ({ desktop, onClick }) => {
 
   return (
     <div
-      className="p-[1px] rounded-2xl bg-gradient-to-b from-[#EBEFFF] to-[#E4E4E7] max-w-xs w-full mx-auto overflow-hidden box-border"
+      className="p-[1px] rounded-2xl bg-gradient-to-b from-[#EBEFFF] to-[#E4E4E7] max-w-xs w-full mx-auto overflow-hidden box-border cursor-pointer"
       onClick={onClick}
     >
       <div className="bg-[linear-gradient(360deg,#FFFFFF_33.97%,#EAEEFF_100%)] rounded-[calc(1rem-1px)] p-2">
