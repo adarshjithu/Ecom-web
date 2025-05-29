@@ -1,22 +1,24 @@
 import { ArrowLeft } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
-  // Example state for form fields
   const [fullName, setFullName] = useState("RONALD RICHARDS");
   const [email, setEmail] = useState("ronald.richards@gmail.com");
   const [mobile, setMobile] = useState("354123678");
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingMobile, setIsEditingMobile] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white border-b border-[var(--border)] p-4">
         <div className="flex items-center space-x-4 max-w-md mx-auto">
-          <button className="p-2 rounded-full border border-[var(--border)] hover:bg-gray-50">
+          <button
+            className="p-2 rounded-full border border-[var(--border)] hover:bg-gray-50"
+            onClick={() => navigate(-1)}
+          >
             <ArrowLeft size={20} className="text-[var(--icon)]" />
           </button>
           <h1 className="text-lg font-semibold text-[var(--primary)]">
@@ -26,7 +28,6 @@ const EditProfile = () => {
       </div>
 
       <div className="relative flex flex-col items-center pt-6 pb-2">
-        {/* Blurred background using the profile image */}
         <div
           className="absolute inset-0 w-full h-full z-0  overflow-hidden"
           style={{
@@ -37,8 +38,6 @@ const EditProfile = () => {
             filter: "blur(2px)",
           }}
         ></div>
-
-        {/* Profile content */}
         <div className="relative z-10 flex flex-col items-center">
           <div className="w-24 h-24 rounded-full   shadow-lg mb-2 overflow-hidden">
             <img
@@ -54,9 +53,7 @@ const EditProfile = () => {
         </div>
       </div>
 
-      {/* Form Section */}
       <div className="max-w-md mx-auto bg-white rounded-lg p-4 space-y-6 shadow">
-        {/* Full Name */}
         <div>
           <label className="block text-[var(--primary)] font-medium text-sm mb-1">
             Full Name
@@ -92,25 +89,28 @@ const EditProfile = () => {
           )}
         </div>
 
-        {/* Email Address */}
         <div>
           <label className="block text-gray-600 mb-1">Email Address</label>
           <div className="flex items-center space-x-2">
-            <input
-              type="email"
-              value={email}
-              disabled={!isEditingEmail}
-              onChange={(e) => setEmail(e.target.value)}
-              className={`flex-1 border rounded px-3 py-2 ${
-                isEditingEmail ? "border-blue-500" : "border-gray-200"
-              }`}
-            />
-            <button
-              className="text-blue-600 font-medium"
-              onClick={() => setIsEditingEmail(true)}
-            >
-              EDIT
-            </button>
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={email}
+                disabled={!isEditingEmail}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`
+      w-full border rounded-[8px] px-3 py-2 pr-14
+      ${isEditingEmail ? "border-[var(--tertiary)]" : "border-[var(--border)]"}
+      text-base
+    `}
+              />
+              <div
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-sm font-medium text-[var(--tertiary)]  focus:outline-none"
+                onClick={() => setIsEditingEmail(true)}
+              >
+                EDIT
+              </div>
+            </div>
           </div>
           {isEditingEmail && (
             <div className="flex space-x-2 mt-2">
@@ -130,28 +130,32 @@ const EditProfile = () => {
           )}
         </div>
 
-        {/* Mobile Number */}
         <div>
           <label className="block text-gray-600 mb-1">Mobile Number</label>
           <div className="flex items-center space-x-2">
             <span className="px-3 py-2 border border-gray-200 rounded-l bg-gray-50 text-gray-600">
               +971
             </span>
-            <input
-              type="text"
-              value={mobile}
-              disabled={!isEditingMobile}
-              onChange={(e) => setMobile(e.target.value)}
-              className={`flex-1 border rounded-r px-3 py-2 ${
-                isEditingMobile ? "border-blue-500" : "border-gray-200"
-              }`}
-            />
-            <button
-              className="text-blue-600 font-medium"
-              onClick={() => setIsEditingMobile(true)}
-            >
-              EDIT
-            </button>
+
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={mobile}
+                disabled={!isEditingMobile}
+                onChange={(e) => setMobile(e.target.value)}
+                className={`
+      w-full border rounded-[8px] px-3 py-2 pr-14
+      ${isEditingMobile ? "border-[var(--tertiary)]" : "border-[var(--border)]"}
+      text-base
+    `}
+              />
+              <div
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-sm font-medium text-[var(--tertiary)]  focus:outline-none"
+                onClick={() => setIsEditingMobile(true)}
+              >
+                EDIT
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -15,8 +15,10 @@ import {
   Handshake,
   FileText,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = ({ desktop }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "Ronald Richards",
     email: "ronald.richards@gmail.com",
@@ -33,7 +35,7 @@ const Profile = ({ desktop }) => {
         {!desktop && (
           <div className="bg-white p-4 flex items-center justify-between border-b border-gray-200">
             <h1 className="text-lg font-semibold">Profile</h1>
-            <button className="p-2">
+            <button className="p-2" onClick={() => navigate("/notifications")}>
               <Bell size={20} />
             </button>
           </div>
@@ -42,9 +44,9 @@ const Profile = ({ desktop }) => {
         <div className="bg-[#F6F8FF] p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img
-              src={user.avatar}
+              src="https://res.cloudinary.com/munkee/image/upload/v1689371378/instasize-website/learn/headshot-red-woman.webp"
               alt={user.name}
-              className="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full object-cover"
             />
             <div>
               <h2 className="font-medium text-base text-[#09090B]">
@@ -55,7 +57,7 @@ const Profile = ({ desktop }) => {
           </div>
           <button
             className="bg-blue-100 text-[#0D2C8D] px-3 py-1 rounded-md text-sm"
-            onClick={() => setIsEditModalOpen(true)}
+            onClick={() => navigate("/edit-profile")}
           >
             Edit Profile
           </button>

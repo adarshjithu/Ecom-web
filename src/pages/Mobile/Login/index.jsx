@@ -2,13 +2,14 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Phone, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [loginStep, setLoginStep] = useState("main");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
-
+  const navigate = useNavigate();
   const onboardingData = [
     {
       title: "Beauty & Wellness Delivered",
@@ -137,7 +138,14 @@ const LoginPage = () => {
               ))}
             </div>
 
-            <Button className="w-full  mb-4">Verify OTP</Button>
+            <Button
+              className="w-full  mb-4"
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              Verify OTP
+            </Button>
 
             <div className="text-center">
               <span className="text-sm text-gray-600">

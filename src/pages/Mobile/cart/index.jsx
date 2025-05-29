@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { ArrowLeft, Bell, Minus, Plus } from "lucide-react";
+import { ArrowLeft, Bell, Minus, Plus, ShoppingBag } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const initialItems = [
   {
@@ -35,6 +37,7 @@ const initialItems = [
 ];
 
 const Cart = () => {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState(initialItems);
 
   const updateQuantity = (id, delta) => {
@@ -58,12 +61,18 @@ const Cart = () => {
     <div className="max-w-md mx-auto bg-white min-h-screen">
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
         <div className="flex items-center gap-2">
-          <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+          <button
+            className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+            onClick={() => navigate(-1)}
+          >
             <ArrowLeft size={20} className="text-[var(--icon)]" />
           </button>
           <h1 className="text-lg font-semibold text-[var(--primary)]">Cart</h1>
         </div>
-        <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+        <button
+          className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+          onClick={() => navigate("/notifications")}
+        >
           <Bell size={20} className="text-[var(--icon)]" />
         </button>
       </div>
@@ -171,6 +180,25 @@ const Cart = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className=" fixed bottom-0 left-0 right-0 bg-white p-2 border-t border-[var(--border)] pt-4 flex flex-row justify-between">
+        <div className="flex justify-between items-center mb-4 w-1/2">
+          <div>
+            <div className="text-2xl font-bold text-gray-900">₹1200</div>
+            <div className="text-xs text-[var(--secondary)]">
+              Price inclusive of all taxes
+            </div>
+          </div>
+        </div>
+
+        <Button
+          className={"w-1/2"}
+          onClick={() => {
+            navigate("/checkout");
+          }}
+        >
+          Checkout
+        </Button>
       </div>
     </div>
   );

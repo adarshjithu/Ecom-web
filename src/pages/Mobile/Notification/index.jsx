@@ -8,6 +8,7 @@ import {
   WalletMinimal,
 } from "lucide-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const notifications = [
   {
@@ -62,57 +63,61 @@ const notifications = [
     ],
   },
 ];
+const Notifications = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="max-w-md mx-auto bg-white rounded-lg min-h-screen">
+      <div className="bg-white border-b border-[var(--border)] p-4 mb">
+        <div className="flex items-center space-x-4 max-w-md mx-auto">
+          <button
+            className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft size={20} className="text-[var(--icon)]" />
+          </button>
+          <h1 className="text-lg font-semibold text-[var(--primary)]">
+            Notifications
+          </h1>
+        </div>
+      </div>
 
-const Notifications = () => (
-  <div className="max-w-md mx-auto bg-white rounded-lg min-h-screen">
-    <div className="bg-white border-b border-[var(--border)] p-4 mb">
-      <div className="flex items-center space-x-4 max-w-md mx-auto">
-        <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
-          <ArrowLeft size={20} className="text-[var(--icon)]" />
-        </button>
-        <h1 className="text-lg font-semibold text-[var(--primary)]">
-          Notifications
-        </h1>
+      <div className="pb-30">
+        {notifications.map((section, idx) => (
+          <div key={section.date}>
+            <div className="px-4 py-2 text-[var(--secondary)] text-sm">
+              {section.date}
+            </div>
+            {section.items.map((item, i) => (
+              <div key={i} className="flex items-center px-4 py-2">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--border)] bg-white mr-4">
+                  {React.cloneElement(item.icon, {
+                    className: "text-[var(--icon)] w-6 h-6",
+                    strokeWidth: "1.5px",
+                  })}
+                </div>
+
+                <div className="flex-1">
+                  <div className="flex justify-between items-center">
+                    <span className="text-base font-medium text-[var(--primary)]">
+                      {item.title}
+                    </span>
+                    <span className="text-xs font-normal text-[var(--secondary)] ml-2">
+                      {item.time}
+                    </span>
+                  </div>
+                  <div className="text-sm font-normal text-[var(--secondary)]">
+                    {item.subtitle}
+                  </div>
+                </div>
+              </div>
+            ))}
+            {idx < notifications.length - 1 && (
+              <hr className="my-2 border-gray-200" />
+            )}
+          </div>
+        ))}
       </div>
     </div>
-
-    <div className="pb-30">
-      {notifications.map((section, idx) => (
-        <div key={section.date}>
-          <div className="px-4 py-2 text-[var(--secondary)] text-sm">
-            {section.date}
-          </div>
-          {section.items.map((item, i) => (
-            <div key={i} className="flex items-center px-4 py-2">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--border)] bg-white mr-4">
-                {React.cloneElement(item.icon, {
-                  className: "text-[var(--icon)] w-6 h-6",
-                  strokeWidth: "1.5px",
-                })}
-              </div>
-
-              <div className="flex-1">
-                <div className="flex justify-between items-center">
-                  <span className="text-base font-medium text-[var(--primary)]">
-                    {item.title}
-                  </span>
-                  <span className="text-xs font-normal text-[var(--secondary)] ml-2">
-                    {item.time}
-                  </span>
-                </div>
-                <div className="text-sm font-normal text-[var(--secondary)]">
-                  {item.subtitle}
-                </div>
-              </div>
-            </div>
-          ))}
-          {idx < notifications.length - 1 && (
-            <hr className="my-2 border-gray-200" />
-          )}
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
+  );
+};
 export default Notifications;

@@ -2,10 +2,11 @@ import ProductCard from "@/components/mobile/product/ProductCard";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Bell, Search } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Category = () => {
   const [activeCategory, setActiveCategory] = useState("Hair Care");
-
+  const navigate = useNavigate();
   const categories = [
     "All",
     "Hair Care",
@@ -77,7 +78,10 @@ const Category = () => {
     <div className="max-w-md mx-auto bg-white min-h-screen">
       <div className="flex justify-between items-center p-4 border-b border-[var(--border]">
         <div className="flex items-center gap-2">
-          <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+          <button
+            className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+            onClick={() => navigate(-1)}
+          >
             <ArrowLeft size={20} className="text-[var(--icon)]" />
           </button>
           <div>
@@ -86,7 +90,10 @@ const Category = () => {
             </h1>
           </div>
         </div>
-        <button className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50">
+        <button
+          className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+          onClick={() => navigate("/notifications")}
+        >
           <Bell size={20} className="text-[var(--icon)]" />
         </button>
       </div>
