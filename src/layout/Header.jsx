@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import AddressScreen from "@/pages/Mobile/Address";
 import Cart from "@/pages/Mobile/cart";
 import Profile from "@/pages/Mobile/Profile";
 import {
@@ -19,6 +20,10 @@ import { useState } from "react";
 const Header = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const toggleLocation = () => {
+    setIsLocationOpen(!isLocationOpen);
+  };
   const toggleProfile = () => {
     setIsProfileOpen(!isProfileOpen);
   };
@@ -38,7 +43,10 @@ const Header = () => {
                 </div>
 
                 <div className="flex items-center space-x-2 text-gray-600">
-                  <div className=" border border-[var(--border)] hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle">
+                  <div
+                    onClick={toggleLocation}
+                    className=" border border-[var(--border)] hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle"
+                  >
                     <MapPinHouse
                       className="text-[var(--icon)] w-6 h-6"
                       strokeWidth="1.5px"
@@ -203,6 +211,30 @@ const Header = () => {
             </div>{" "}
             <div className="h-full overflow-y-auto">
               <Cart desktop />
+            </div>
+          </div>
+        </>
+      )}
+      {isLocationOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-[rgba(0,0,0,0.6)] z-40 transition-opacity"
+            onClick={toggleLocation}
+          />
+          <div className="fixed top-0 left-0 w-96 max-w-full h-full bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
+              <h2 className="text-lg font-semibold text-gray-900">
+               Enter Your Appartment Name
+              </h2>
+              <button
+                onClick={toggleLocation}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+            <div className="h-full overflow-y-auto">
+              <AddressScreen desktop />
             </div>
           </div>
         </>

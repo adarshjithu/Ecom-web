@@ -128,7 +128,9 @@ const Payment = () => {
 
           <div
             className={`p-4 space-y-2 ${
-              !isDesktop ? "bg-[#F6F8FF]" : "border-t border-[var(--border)] mt-4"
+              !isDesktop
+                ? "bg-[#F6F8FF]"
+                : "border-t border-[var(--border)] mt-4"
             }`}
           >
             <div className="flex justify-between text-sm">

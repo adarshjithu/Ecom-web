@@ -30,23 +30,25 @@ const addresses = [
   },
 ];
 
-const AddressScreen = () => {
+const AddressScreen = ({ dektop }) => {
   const navigate = useNavigate();
   return (
     <div className="max-w-md mx-auto bg-white min-h-screen">
-      <div className="bg-white border-b border-[var(--border)] p-4">
-        <div className="flex items-center space-x-4 max-w-md mx-auto">
-          <button
-            className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft size={20} className="text-[var(--icon)]" />
-          </button>
-          <h1 className="text-lg font-semibold text-[var(--primary)]">
-            Enter Your Appartment Name
-          </h1>
+      {dektop && (
+        <div className="bg-white border-b border-[var(--border)] p-4">
+          <div className="flex items-center space-x-4 max-w-md mx-auto">
+            <button
+              className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft size={20} className="text-[var(--icon)]" />
+            </button>
+            <h1 className="text-lg font-semibold text-[var(--primary)]">
+              Enter Your Appartment Name
+            </h1>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="px-4 py-4">
         <div className="flex items-center w-full rounded-lg border border-[var(--border] px-3 py-4">

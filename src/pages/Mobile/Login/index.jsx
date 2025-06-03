@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Phone, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import loginImage3 from "../../../assets/images/5.jpg";
+import loginImage2 from "../../../assets/images/8.jpg";
+import loginImage1 from "../../../assets/images/2.jpg";
 
 const LoginPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -15,18 +18,18 @@ const LoginPage = () => {
       title: "Beauty & Wellness Delivered",
       description:
         "Glow up with top beauty picks. Self-care starts at your doorstep",
-      image: "/api/placeholder/200/250",
+      image: loginImage1,
     },
     {
       title: "All Health Essentials in One App",
       description:
         "Order trusted medicines anytime, anywhere. Your health, just a tap away",
-      image: "/api/placeholder/200/250",
+      image: loginImage2,
     },
     {
       title: "Stay fit from Home",
       description: "Gear up for fitness. Everything you need delivered to you",
-      image: "/api/placeholder/200/250",
+      image:loginImage3,
     },
   ];
 
@@ -134,6 +137,7 @@ const LoginPage = () => {
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                  className="w-[89px] h-[80px] text-center border border-[var(--border)] rounded-md focus:outline-none"
                 />
               ))}
             </div>
