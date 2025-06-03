@@ -108,12 +108,12 @@ const ProductCard = ({ desktop, onClick }) => {
             </div>
             <div
               className={`flex items-center justify-center   bg-[#0E1B87] ${
-                desktop ? "w-13 h-13 rounded-[8px]" : "w-8 h-8 rounded-[6px]"
+                desktop ? "w-10 h-10 rounded-[8px]" : "w-8 h-8 rounded-[6px]"
               }`}
             >
               <ShoppingBag
                 className={`text-white ${
-                  desktop ? "w-10 h-10" : "w-[18px] h-[18px]"
+                  desktop ? "w-7 h-7" : "w-[20px] h-[20px]"
                 }`}
               />
             </div>

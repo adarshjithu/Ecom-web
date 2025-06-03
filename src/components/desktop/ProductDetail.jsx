@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Star, Flame } from "lucide-react";
+import { Star, Flame, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ProductHighlight from "../mobile/product/ProductHighlight";
@@ -32,22 +32,71 @@ const ProductDetail = () => {
   const handleVariantSelect = (variant) => {
     setSelectedVariant(variant.name);
   };
-
+  const breadcrumbItems = [
+    { name: "Home", href: "/" },
+    { name: "Super Saving Deals", href: "/super-saving-deals" },
+    {
+      name: "Cofsils Experdine Gargle",
+      href: "/super-saving-deals/cofsils-experdine-gargle",
+    },
+  ];
   return (
-    <div className="px-6 pt-6">
+    <div className="px-37 pt-6">
+      {" "}
+      <nav
+        className="flex items-center space-x-2 text-sm text-gray-600 py-8"
+        aria-label="Breadcrumb"
+      >
+        {breadcrumbItems.map((item, idx) => (
+          <span key={item.name} className="flex items-center">
+            <a
+              href={item.href}
+              className={`hover:underline ${
+                idx === breadcrumbItems.length - 1
+                  ? "font-semibold text-[#845C04] bg-[#FFF9E7] px-2 py-1 rounded-[6px] text-sm"
+                  : ""
+              }`}
+            >
+              {item.name}
+            </a>
+            {idx < breadcrumbItems.length - 1 && (
+              <ChevronRight size={16} className="mx-1 text-gray-400" />
+            )}
+          </span>
+        ))}
+      </nav>
       <div className=" mx-auto bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-5 space-y-4">
             <div className="aspect-square border border-[var(--border] rounded-[16px] overflow-hidden">
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
                 className="w-full h-full object-contain p-8"
               />
+            </div>{" "}
+            <div className="flex space-x-3 pt-4">
+              {product.images.slice(0, 4).map((image, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`w-23 h-28 border border-[var(--border)] rounded-[8px] overflow-hidden transition-all duration-200 flex items-center justify-center ${
+                    selectedImage === index
+                      ? "border-[var(--tertiary)]"
+                      : "border-[var(--border)] hover:border-gray-300"
+                  }`}
+                >
+                  <img
+                    src={image}
+                    alt={`Thumbnail ${index + 1}`}
+                    className="w-6 h-17 object-contain p-1"
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="lg:col-span-7 space-y-4">
             {product.isTopSeller && (
               <div className="flex items-center space-x-2 bg-[#F3F6FF] rounded-full px-2 py-1 w-fit">
                 <Flame
@@ -124,25 +173,6 @@ const ProductDetail = () => {
                   </button>
                 ))}
               </div>
-            </div>
-            <div className="flex space-x-3 pt-4">
-              {product.images.slice(0, 4).map((image, index) => (
-                <div
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`w-23 h-28 border border-[var(--border)] rounded-[8px] overflow-hidden transition-all duration-200 flex items-center justify-center ${
-                    selectedImage === index
-                      ? "border-[var(--tertiary)]"
-                      : "border-[var(--border)] hover:border-gray-300"
-                  }`}
-                >
-                  <img
-                    src={image}
-                    alt={`Thumbnail ${index + 1}`}
-                    className="w-6 h-17 object-contain p-1"
-                  />
-                </div>
-              ))}
             </div>
           </div>
         </div>

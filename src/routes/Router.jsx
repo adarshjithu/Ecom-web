@@ -40,7 +40,7 @@ const mobileRouter = createBrowserRouter([
           { path: "notifications", element: <Notifications /> },
           { path: "location", element: <AddressScreen /> },
           { path: "profile", element: <Profile /> },
-            { path: "edit-profile", element: <EditProfile /> },
+          { path: "edit-profile", element: <EditProfile /> },
         ],
       },
     ],
@@ -50,12 +50,12 @@ const mobileRouter = createBrowserRouter([
 const desktopRouter = createBrowserRouter([
   {
     path: "/",
-    element: <AppDesktop/>,
+    element: <AppDesktop />,
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/home", element: <HomePage /> },
+      { path: "checkout", element: <Payment /> },
       { path: "product", element: <ProductDetail /> },
-
     ],
   },
 ]);

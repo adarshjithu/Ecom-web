@@ -36,7 +36,7 @@ const initialItems = [
   },
 ];
 
-const Cart = () => {
+const Cart = ({ desktop }) => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState(initialItems);
 
@@ -58,24 +58,33 @@ const Cart = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white min-h-screen">
-      <div className="flex justify-between items-center p-4 border-b border-gray-200">
-        <div className="flex items-center gap-2">
+    <div
+      className={`min-h-screen bg-white ${
+        desktop ? "overflow-y-auto mb-20" : ""
+      }`}
+    >
+      {!desktop && (
+        <div className="flex justify-between items-center p-4 border-b border-gray-200">
+          <div className="flex items-center gap-2">
+            <button
+              className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft size={20} className="text-[var(--icon)]" />
+            </button>
+            <h1 className="text-lg font-semibold text-[var(--primary)]">
+              Cart
+            </h1>
+          </div>
           <button
             className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/notifications")}
           >
-            <ArrowLeft size={20} className="text-[var(--icon)]" />
+            <Bell size={20} className="text-[var(--icon)]" />
           </button>
-          <h1 className="text-lg font-semibold text-[var(--primary)]">Cart</h1>
         </div>
-        <button
-          className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-          onClick={() => navigate("/notifications")}
-        >
-          <Bell size={20} className="text-[var(--icon)]" />
-        </button>
-      </div>
+      )}
+
       <div className="p-4">
         <h2 className="font-medium text-base mb-4 text-[var(--primary)]">
           Order Summary
@@ -181,7 +190,11 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <div className=" fixed bottom-0 left-0 right-0 bg-white p-2 border-t border-[var(--border)] pt-4 flex flex-row justify-between">
+      <div
+        className={` bg-white p-2 border-t border-[var(--border)] pt-4 flex flex-row justify-between ${
+          !desktop && "fixed bottom-0 left-0 right-0"
+        }`}
+      >
         <div className="flex justify-between items-center mb-4 w-1/2">
           <div>
             <div className="text-2xl font-bold text-gray-900">₹1200</div>

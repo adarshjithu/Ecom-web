@@ -9,7 +9,7 @@ function HomePage() {
   return (
     <>
       <HomeCarousel />
-      <div className="px-6 pt-6">
+      <div className="px-12 pt-6">
         <div className="flex space-x-2 overflow-x-auto py-2 scrollbar-hide pb-6">
           {categories.map((category) => (
             <div

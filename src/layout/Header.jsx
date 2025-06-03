@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Cart from "@/pages/Mobile/cart";
 import Profile from "@/pages/Mobile/Profile";
 import {
   Search,
@@ -17,15 +18,19 @@ import { useState } from "react";
 
 const Header = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const toggleProfile = () => {
     setIsProfileOpen(!isProfileOpen);
   };
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
   return (
     <>
       <header className="w-full bg-white ">
         <div className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto px-12">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-6">
                 <div className="flex-shrink-0 hidden md:block">
@@ -80,7 +85,10 @@ const Header = () => {
                   />
                 </div>
 
-                <div className=" border border-[var(--border)] hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle">
+                <div
+                  onClick={toggleCart}
+                  className=" border border-[var(--border)] cursor-pointer hover:bg-gray-100 rounded-full w-11 h-11 flex items-center justify-center align-middle"
+                >
                   <ShoppingCart
                     className="text-[var(--icon)] w-6 h-6"
                     strokeWidth="1.5px"
@@ -154,7 +162,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-  {isProfileOpen && (
+      {isProfileOpen && (
         <>
           <div
             className="fixed inset-0 bg-[rgba(0,0,0,0.6)] z-40 transition-opacity"
@@ -173,6 +181,28 @@ const Header = () => {
             </div>
             <div className="h-full overflow-y-auto">
               <Profile desktop />
+            </div>
+          </div>
+        </>
+      )}{" "}
+      {isCartOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-[rgba(0,0,0,0.6)]  z-40"
+            onClick={() => setIsCartOpen(false)}
+          />
+          <div className="fixed top-0 right-0 w-[400px] max-w-full h-full bg-white shadow-2xl z-50 transition-transform duration-300 ease-in-out">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
+              <h2 className="text-lg font-semibold text-gray-900">Cart</h2>
+              <button
+                onClick={toggleCart}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>{" "}
+            <div className="h-full overflow-y-auto">
+              <Cart desktop />
             </div>
           </div>
         </>
