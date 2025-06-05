@@ -50,6 +50,10 @@ const mobileRouter = createBrowserRouter([
 const desktopRouter = createBrowserRouter([
   {
     path: "/",
+    element: <LoginPage />,
+  },
+  {
+    path: "/",
     element: <AppDesktop />,
     children: [
       { path: "/", element: <HomePage /> },
