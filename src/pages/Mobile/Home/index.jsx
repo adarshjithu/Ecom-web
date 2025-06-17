@@ -1,4 +1,4 @@
-import { brands, categories, reviews } from "@/assets/json/Data";
+import { brands, reviews } from "@/assets/json/Data";
 import ProductCard from "@/components/mobile/product/ProductCard";
 import ReviewCard from "@/components/mobile/ReviewCard";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Bell, MapPinHouse, ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../Navigation";
+import { getCategories } from "@/api/categoriesApi";
 
 const Home = () => {
   const bannerImages = [
@@ -16,8 +17,11 @@ const Home = () => {
   ];
 
   const [current, setCurrent] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    fetchData();
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % bannerImages.length);
     }, 3000);
@@ -26,6 +30,13 @@ const Home = () => {
 
   const navigate = useNavigate();
   const goToSlide = (idx) => setCurrent(idx);
+
+  const fetchData = async () => {
+    setLoading(true);
+    const response = await getCategories({type:"parent"});
+    setCategories(response.data);
+    setLoading(false);
+  };
 
   return (
     <div className="max-w-md mx-auto">
@@ -79,10 +90,10 @@ const Home = () => {
       </div>
       <div className="grid grid-cols-4 gap-4 px-4 pb-6">
         {categories.map((category) => (
-          <div key={category.id} className="flex flex-col items-center">
+          <div key={category._id} className="flex flex-col items-center">
             <div className="w-16 h-16 rounded-full overflow-hidden border border-gray-200 flex items-center justify-center mb-2">
               <img
-                src={category.icon}
+                src={category.image}
                 alt={category.name}
                 className="w-full h-full  object-cover"
                 onClick={() => navigate(`/category`)}
