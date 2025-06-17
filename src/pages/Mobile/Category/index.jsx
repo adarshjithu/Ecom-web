@@ -1,21 +1,25 @@
+import { getCategories } from "@/api/categoriesApi";
 import ProductCard from "@/components/mobile/product/ProductCard";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Bell, Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Category = () => {
-  const [activeCategory, setActiveCategory] = useState("Hair Care");
+  const [activeCategory, setActiveCategory] = useState({
+    name: "All",
+    id: "All",
+  });
   const navigate = useNavigate();
-  const categories = [
-    "All",
-    "Hair Care",
-    "Skin Care",
-    "Makeup",
-    "Fragrance",
-    "Body Care",
-    "Tools",
-  ];
+  // const categories = [
+  //   "All",
+  //   "Hair Care",
+  //   "Skin Care",
+  //   "Makeup",
+  //   "Fragrance",
+  //   "Body Care",
+  //   "Tools",
+  // ];
 
   const hairCareItems = [
     {
@@ -74,6 +78,42 @@ const Category = () => {
     },
   ];
 
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [filter, setFilter] = useState({});
+
+  const fetchData = async () => {
+    setLoading(true);
+    setFilter({
+      type: "sub",
+    });
+    if (activeCategory.name !== "All") {
+      setFilter({
+        ...filter,
+        parentCategoryId: activeCategory.id,
+      });
+    }
+    const response = await getCategories(filter);
+    setSubCategories(response.data);
+    setLoading(false);
+  };
+
+  const fetchCategory = async () => {
+    setLoading(true);
+    const response = await getCategories({ type: "sub" });
+    setCategories(response.data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [activeCategory]);
+
   return (
     <div className="max-w-md mx-auto bg-white min-h-screen">
       <div className="flex justify-between items-center p-4 border-b border-[var(--border]">
@@ -119,15 +159,15 @@ const Category = () => {
         >
           {categories.map((category) => (
             <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
+              key={category._id}
+              onClick={() => setActiveCategory({ id: category.parentCategory._id, name: category.name })}
               className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all duration-200 ${
-                activeCategory === category
+                activeCategory.name === category.name
                   ? "bg-[var(--tertiary)] text-white"
                   : "border border-[var(--border] text-[var(--secondary)] hover:bg-gray-200"
               }`}
             >
-              {category}
+              {category.name}
             </button>
           ))}
         </div>
@@ -135,23 +175,23 @@ const Category = () => {
 
       <div className="px-4">
         <h2 className="text-base font-medium text-[var(--primary)] mb-4">
-          Hair Care
+          {activeCategory.name}
         </h2>
 
         <div className="grid grid-cols-3 gap-5">
-          {hairCareItems.map((item) => (
-            <div key={item.id} className="flex flex-col items-center">
+          {subCategories.map((item) => (
+            <div key={item._id} className="flex flex-col items-center">
               <div
                 className={` h-24 rounded-2xl flex items-center justify-center mb-2  hover:shadow-md transition-shadow cursor-pointer`}
               >
                 <img
                   src={item.image}
-                  alt={item.title}
+                  alt={item.name}
                   className="w-full h-full object-cover rounded-lg"
                 />
               </div>
               <span className="text-xs text-[var(--primary)] text-center font-normal leading-tight">
-                {item.title}
+                {item.name}
               </span>
             </div>
           ))}
