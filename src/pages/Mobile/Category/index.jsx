@@ -11,72 +11,6 @@ const Category = ({ desktop }) => {
     id: "All",
   });
   const navigate = useNavigate();
-  // const categories = [
-  //   "All",
-  //   "Hair Care",
-  //   "Skin Care",
-  //   "Makeup",
-  //   "Fragrance",
-  //   "Body Care",
-  //   "Tools",
-  // ];
-
-  const hairCareItems = [
-    {
-      id: 1,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-    {
-      id: 2,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-    {
-      id: 3,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-    {
-      id: 4,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-    {
-      id: 5,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-    {
-      id: 6,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-    {
-      id: 7,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-    {
-      id: 8,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-    {
-      id: 9,
-      title: "Shampoo",
-      image:
-        "https://www.greenerlyfe.com/wp-content/uploads/2023/10/shaving-soap-and-oil-1067x800.jpg",
-    },
-  ];
 
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -85,24 +19,25 @@ const Category = ({ desktop }) => {
 
   const fetchData = async () => {
     setLoading(true);
-    setFilter({
+
+    let updatedFilter = {
       type: "sub",
-    });
+    };
+
     if (activeCategory.name !== "All") {
-      setFilter({
-        ...filter,
-        parentCategoryId: activeCategory.id,
-      });
+      updatedFilter.parentCategoryId = activeCategory.id;
     }
-    const response = await getCategories(filter);
+
+    setFilter(updatedFilter);
+
+    const response = await getCategories(updatedFilter);
     setSubCategories(response.data);
     setLoading(false);
   };
-
   const fetchCategory = async () => {
     setLoading(true);
     const response = await getCategories({ type: "sub" });
-    setCategories(response.data);
+    setCategories([{ name: "All", _id: "All" }, ...response.data]);
     setLoading(false);
   };
 
@@ -168,7 +103,16 @@ const Category = ({ desktop }) => {
           {categories.map((category) => (
             <button
               key={category._id}
-              onClick={() => setActiveCategory({ id: category.parentCategory._id, name: category.name })}
+              onClick={() => {
+                if (category._id === "All") {
+                  setActiveCategory({ id: "All", name: "All" });
+                } else {
+                  setActiveCategory({
+                    id: category.parentCategory._id,
+                    name: category.name,
+                  });
+                }
+              }}
               className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all duration-200 ${
                 activeCategory.name === category.name
                   ? "bg-[var(--tertiary)] text-white"
@@ -193,7 +137,6 @@ const Category = ({ desktop }) => {
         >
           {subCategories.map((item) => (
             <div key={item._id} className="flex flex-col items-center">
-
               <div
                 className={` h-24 rounded-2xl flex items-center justify-center mb-2  hover:shadow-md transition-shadow cursor-pointer`}
               >
