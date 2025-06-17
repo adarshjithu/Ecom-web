@@ -38,7 +38,7 @@ function HomePage() {
               <ProductCard
                 key={index}
                 desktop
-                onClick={() => navigate("/product")}
+                // onClick={() => navigate("/product")}
               />
             ))}
           </div>
