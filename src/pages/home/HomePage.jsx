@@ -1,26 +1,11 @@
-import { getCategories } from "@/api/categoriesApi";
-import {brands, reviews } from "@/assets/json/Data";
+import { categories, brands, reviews } from "@/assets/json/Data";
 import HomeCarousel from "@/components/desktop/home/HomeCarousal";
 import ProductCard from "@/components/mobile/product/ProductCard";
 import ReviewCard from "@/components/mobile/ReviewCard";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-
-  const fetchData = async () => {
-    setLoading(true);
-    const response = await getCategories({ type: "parent" });
-    setCategories(response.data);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
   return (
     <>
       <HomeCarousel />
@@ -28,12 +13,12 @@ function HomePage() {
         <div className="flex space-x-2 overflow-x-auto py-2 scrollbar-hide pb-6">
           {categories.map((category) => (
             <div
-              key={category._id}
+              key={category.id}
               className="flex flex-col items-center min-w-[167px]"
             >
               <div className="w-[167px] h-25 rounded-[16px] overflow-hidden border border-gray-200 flex items-center justify-center mb-1">
                 <img
-                  src={category.image}
+                  src={category.icon}
                   alt={category.name}
                   className="w-full h-full object-cover"
                 />
@@ -53,7 +38,7 @@ function HomePage() {
               <ProductCard
                 key={index}
                 desktop
-                onClick={() => navigate("/product")}
+                // onClick={() => navigate("/product")}
               />
             ))}
           </div>

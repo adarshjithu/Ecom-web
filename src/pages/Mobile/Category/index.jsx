@@ -5,7 +5,7 @@ import { ArrowLeft, Bell, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Category = () => {
+const Category = ({ desktop }) => {
   const [activeCategory, setActiveCategory] = useState({
     name: "All",
     id: "All",
@@ -115,44 +115,52 @@ const Category = () => {
   }, [activeCategory]);
 
   return (
-    <div className="max-w-md mx-auto bg-white min-h-screen">
-      <div className="flex justify-between items-center p-4 border-b border-[var(--border]">
-        <div className="flex items-center gap-2">
-          <button
-            className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft size={20} className="text-[var(--icon)]" />
-          </button>
-          <div>
-            <h1 className="text-lg font-semibold text-[var(--primary)]">
-              All Categories
-            </h1>
+    <div
+      className={`mx-auto bg-white min-h-screen ${
+        desktop ? "px-12" : "max-w-md"
+      }`}
+    >
+      {!desktop && (
+        <>
+          <div className="flex justify-between items-center p-4 border-b border-[var(--border]">
+            <div className="flex items-center gap-2">
+              <button
+                className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+                onClick={() => navigate(-1)}
+              >
+                <ArrowLeft size={20} className="text-[var(--icon)]" />
+              </button>
+              <div>
+                <h1 className="text-lg font-semibold text-[var(--primary)]">
+                  All Categories
+                </h1>
+              </div>
+            </div>
+            <button
+              className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
+              onClick={() => navigate("/notifications")}
+            >
+              <Bell size={20} className="text-[var(--icon)]" />
+            </button>
           </div>
-        </div>
-        <button
-          className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-          onClick={() => navigate("/notifications")}
-        >
-          <Bell size={20} className="text-[var(--icon)]" />
-        </button>
-      </div>
 
-      <div className="px-4 py-3">
-        <div className="relative">
-          <Search
-            size={18}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          />
-          <Input
-            type="text"
-            placeholder="Search"
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-        </div>
-      </div>
+          <div className="px-4 py-3">
+            <div className="relative">
+              <Search
+                size={18}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              />
+              <Input
+                type="text"
+                placeholder="Search"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+        </>
+      )}
 
-      <div className="px-4 mb-6">
+      <div className={`px-4 mb-6 ${desktop ? "mt-10" : ""}`}>
         <div
           className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
@@ -178,9 +186,14 @@ const Category = () => {
           {activeCategory.name}
         </h2>
 
-        <div className="grid grid-cols-3 gap-5">
+        <div
+          className={` ${
+            desktop ? "grid grid-cols-9 gap-5" : "grid grid-cols-3 gap-5"
+          }`}
+        >
           {subCategories.map((item) => (
             <div key={item._id} className="flex flex-col items-center">
+
               <div
                 className={` h-24 rounded-2xl flex items-center justify-center mb-2  hover:shadow-md transition-shadow cursor-pointer`}
               >
@@ -197,28 +210,42 @@ const Category = () => {
           ))}
         </div>
       </div>
-      <div className="px-4 pb-6 mt-4">
-        <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
-          Serum Top Deals
-        </h2>
-        <div
-          className="flex space-x-2 overflow-x-auto scrollbar-hide"
-          style={{
-            scrollbarWidth: "auto",
-            msOverflowStyle: "auto",
-          }}
-        >
-          <div className="min-w-[170px]">
-            <ProductCard />
-          </div>
-          <div className="min-w-[170px]">
-            <ProductCard />
-          </div>
-          <div className="min-w-[180px]">
-            <ProductCard />
+      {desktop ? (
+        <div className="pt-6 pb-6 ">
+          <h2 className="text-2xl font-medium mb-4 text-[var(--primary)]">
+            Super Saving Deals
+          </h2>
+          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6 pb-6">
+            {[...Array(5)].map((_, index) => (
+              <ProductCard key={index} desktop />
+            ))}
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="px-4 pb-6 mt-4">
+          <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
+            Serum Top Deals
+          </h2>
+          <div
+            className="flex space-x-2 overflow-x-auto scrollbar-hide"
+            style={{
+              scrollbarWidth: "auto",
+              msOverflowStyle: "auto",
+            }}
+          >
+            <div className="min-w-[170px]">
+              <ProductCard />
+            </div>
+            <div className="min-w-[170px]">
+              <ProductCard />
+            </div>
+            <div className="min-w-[180px]">
+              <ProductCard />
+            </div>
+          </div>
+        </div>
+      )}
+
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

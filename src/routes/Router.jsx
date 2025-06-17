@@ -57,6 +57,7 @@ const desktopRouter = createBrowserRouter([
     element: <AppDesktop />,
     children: [
       { path: "/", element: <HomePage /> },
+      { path: "category", element: <Category desktop /> },
       { path: "/home", element: <HomePage /> },
       { path: "checkout", element: <Payment /> },
       { path: "product", element: <ProductDetail /> },
