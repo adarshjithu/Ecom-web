@@ -7,10 +7,10 @@ import ScrollToTop from "./ScrollToTop";
 function AppDesktop() {
   return (
     <>
+      <ScrollToTop />
       <Header />
-      <ScrollToTop/>
       <Outlet />
-      <Footer/>
+      <Footer />
     </>
   );
 }
