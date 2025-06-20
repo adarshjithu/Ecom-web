@@ -7,11 +7,14 @@ import loginImage3 from "../../../assets/images/5.png";
 import loginImage2 from "../../../assets/images/8.png";
 import loginImage1 from "../../../assets/images/2.png";
 import { useNavigate } from "react-router-dom";
+import { sendOTP } from "@/api/authApi";
+import toast from "react-hot-toast";
 const LoginPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [loginStep, setLoginStep] = useState("main");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
+  const [sendOtpLoading, setSendOtpLoading] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
   const onboardingData = [
@@ -64,9 +67,19 @@ const LoginPage = () => {
     setLoginStep("phone");
   };
 
-  const handleSendOTP = () => {
-    if (phoneNumber.length >= 10) {
-      setLoginStep("otp");
+  const handleSendOTP = async () => {
+
+    setSendOtpLoading(true);
+    try {
+      if (phoneNumber.length >= 10) {
+        await sendOTP({ phone: phoneNumber, purpose: "verify-phone" });
+        setLoginStep("otp");
+      }
+    } catch (e) {
+      
+      toast.error(e.message);
+    } finally {
+      setSendOtpLoading(false);
     }
   };
 
@@ -75,7 +88,7 @@ const LoginPage = () => {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
-      if (value && index < 3) {
+      if (value && index < 5) {
         const nextInput = document.getElementById(`otp-${index + 1}`);
         if (nextInput) nextInput.focus();
       }
@@ -117,7 +130,11 @@ const LoginPage = () => {
               />
             </div>
 
-            <Button onClick={handleSendOTP} className={"w-full mb-8"}>
+            <Button
+              onClick={handleSendOTP}
+              disabled={sendOtpLoading}
+              className={"w-full mb-8"}
+            >
               Send OTP
             </Button>
             <span className="italic text-[#8B8B8B]">
@@ -271,7 +288,11 @@ const LoginPage = () => {
               />
             </div>
 
-            <Button onClick={handleSendOTP} className="w-full mb-8">
+            <Button
+              onClick={handleSendOTP}
+              disabled={sendOtpLoading}
+              className="w-full mb-8"
+            >
               Send OTP
             </Button>
             <span className="italic text-[#8B8B8B] text-sm">

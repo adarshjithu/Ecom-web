@@ -18,6 +18,7 @@ import EditProfile from "@/components/mobile/EditProfile";
 import AppDesktop from "@/AppDesktop";
 import HomePage from "@/pages/home/HomePage";
 import ProductDetail from "@/components/desktop/ProductDetail";
+import { Toaster } from "react-hot-toast";
 
 const mobileRouter = createBrowserRouter([
   {
@@ -68,9 +69,21 @@ const desktopRouter = createBrowserRouter([
 function App() {
   const isMobile = useIsMobile();
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <RouterProvider router={isMobile ? mobileRouter : desktopRouter} />
-    </Suspense>
+    <>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          className: "bg-white text-gray-900 rounded shadow-lg",
+          style: {
+            border: "1px solid #e5e7eb",
+            padding: "16px",
+          },
+        }}
+      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={isMobile ? mobileRouter : desktopRouter} />
+      </Suspense>
+    </>
   );
 }
 

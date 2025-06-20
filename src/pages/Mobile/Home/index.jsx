@@ -1,13 +1,13 @@
-import { brands, reviews } from "@/assets/json/Data";
+import {  reviews } from "@/assets/json/Data";
 import ProductCard from "@/components/mobile/product/ProductCard";
 import ReviewCard from "@/components/mobile/ReviewCard";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Bell, MapPinHouse, ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../Navigation";
 import { getCategories } from "@/api/categoriesApi";
+import { getBrands } from "@/api/brandApi";
 
 const Home = () => {
   const bannerImages = [
@@ -19,7 +19,7 @@ const Home = () => {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
-
+  const [brands, setBrands] = useState([]);
   useEffect(() => {
     fetchData();
     const timer = setInterval(() => {
@@ -33,8 +33,10 @@ const Home = () => {
 
   const fetchData = async () => {
     setLoading(true);
-    const response = await getCategories({type:"parent"});
+    const response = await getCategories({ type: "parent" });
     setCategories(response.data);
+    const brandResponse = await getBrands({ limit: 3 });
+    setBrands(brandResponse.data);
     setLoading(false);
   };
 
@@ -89,18 +91,18 @@ const Home = () => {
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4 px-4 pb-6">
-        {categories.map((category) => (
-          <div key={category._id} className="flex flex-col items-center">
+        {categories?.map((category) => (
+          <div key={category?._id} className="flex flex-col items-center">
             <div className="w-16 h-16 rounded-full overflow-hidden border border-gray-200 flex items-center justify-center mb-2">
               <img
-                src={category.image}
-                alt={category.name}
+                src={category?.image}
+                alt={category?.name}
                 className="w-full h-full  object-cover"
                 onClick={() => navigate(`/category`)}
               />
             </div>
             <p className="text-xs text-center text-[var(--primary)]">
-              {category.name}
+              {category?.name}
             </p>
           </div>
         ))}
@@ -141,14 +143,14 @@ const Home = () => {
           Shop By Brands
         </h2>
         <div className="grid grid-cols-3 gap-3">
-          {brands.map((brand, idx) => (
+          {brands?.map((brand, idx) => (
             <div
               key={idx}
               className="rounded-2xl h-45 overflow-hidden shadow bg-white flex flex-col items-center"
             >
               <img
-                src={brand.image}
-                alt={brand.name}
+                src={brand?.logo}
+                alt={brand?.name}
                 className="w-full h-full object-cover"
               />
             </div>
