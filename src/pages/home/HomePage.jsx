@@ -1,30 +1,44 @@
-import { categories, brands, reviews } from "@/assets/json/Data";
+import { getBrands } from "@/api/brandApi";
+import { getCategories } from "@/api/categoriesApi";
+import { brands, reviews } from "@/assets/json/Data";
 import HomeCarousel from "@/components/desktop/home/HomeCarousal";
 import ProductCard from "@/components/mobile/product/ProductCard";
 import ReviewCard from "@/components/mobile/ReviewCard";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  const[brands, setBrands] = useState([]);
+  const fetchData = async () => {
+    const response = await getCategories({ type: "parent" });
+    setCategories(response.data);
+    const brandResponse = await getBrands({ limit: 4 });
+    setBrands(brandResponse.data);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <HomeCarousel />
       <div className="px-12 pt-6">
         <div className="flex space-x-2 overflow-x-auto py-2 scrollbar-hide pb-6">
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <div
-              key={category.id}
+              key={category?._id}
               className="flex flex-col items-center min-w-[167px]"
             >
               <div className="w-[167px] h-25 rounded-[16px] overflow-hidden border border-gray-200 flex items-center justify-center mb-1">
                 <img
-                  src={category.icon}
-                  alt={category.name}
+                  src={category?.image}
+                  alt={category?.name}
                   className="w-full h-full object-cover"
                 />
               </div>
               <p className="text-sm font-medium text-center text-[var(--primary)]">
-                {category.name}
+                {category?.name}
               </p>
             </div>
           ))}
@@ -48,14 +62,14 @@ function HomePage() {
             Shop By Brands
           </h2>
           <div className="grid grid-cols-4 gap-3">
-            {brands.map((brand, idx) => (
+            {brands?.map((brand, idx) => (
               <div
                 key={idx}
                 className="rounded-2xl  h-140 overflow-hidden shadow bg-white flex flex-col items-center"
               >
                 <img
-                  src={brand.image}
-                  alt={brand.name}
+                  src={brand?.logo}
+                  alt={brand?.name}
                   className="w-full h-full object-cover"
                 />
               </div>
