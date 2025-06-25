@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Linkedin, Mail, Smartphone } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Ecom from "../../../assets/icon/Ecom.svg";
+import Google from "../../../assets/icon/Social icon.svg";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,9 +12,12 @@ function LoginPage() {
   return (
     <div className="w-full min-h-screen">
       <div className="flex flex-col items-center py-4">
-        <h3 className="text-[#0D2C8D] font-semibold text-2xl text-center">
-          E-Com
-        </h3>
+        <div className="flex flex-row items-center gap-2">
+          <img src={Ecom} alt="Ecom" className="w-8 h-8" />
+          <span className="text-[#0D2C8D] font-bold text-3xl tracking-wide">
+            E-COM
+          </span>
+        </div>
         <div className="py-3"></div>
         <h2 className="text-2xl font-semibold text-center text-[var(--primary)] p-2">
           Welcome Back!
@@ -81,7 +86,7 @@ function LoginPage() {
         <div className="flex gap-4">
           <Button
             variant="outline"
-            className="flex items-center gap-2 px-6"
+            className="flex items-center gap-2"
             onClick={() => navigate("/verify", { state: "mobile" })}
           >
             <Smartphone
@@ -93,7 +98,7 @@ function LoginPage() {
 
           <Button
             variant="outline"
-            className="flex items-center gap-2 px-6"
+            className="flex items-center gap-2"
             onClick={() => navigate("/verify", { state: "email" })}
           >
             <Mail
@@ -105,14 +110,10 @@ function LoginPage() {
 
           <Button
             variant="outline"
-            className="flex items-center gap-2 px-6"
+            className="flex items-center gap-2"
             onClick={() => console.log("Google clicked")}
           >
-            <Linkedin
-              className="text-[var(--icon)] w-[20px] h-[20px]"
-              strokeWidth={1.25}
-            />
-            Google
+            <img src={Google} alt="google" /> Google
           </Button>
         </div>
 
