@@ -28,7 +28,7 @@ const mobileRouter = createBrowserRouter([
     path: "/",
     element: <LoginPage />,
   },
-   {
+  {
     path: "/register",
     element: <Register />,
   },
@@ -75,6 +75,10 @@ const desktopRouter = createBrowserRouter([
   {
     path: "/verify",
     element: <VerificationScreen />,
+  },
+  {
+    path: "/otp",
+    element: <OTPScreen />,
   },
   {
     path: "/",
