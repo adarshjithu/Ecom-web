@@ -48,7 +48,7 @@ const Register = () => {
 
     try {
       await register(formData);
-      navigate("/");
+      navigate("/register-successfull");
     } catch (err) {
       toast.error(err.message);
     } finally {

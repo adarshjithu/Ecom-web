@@ -20,15 +20,20 @@ import HomePage from "@/pages/home/HomePage";
 import ProductDetail from "@/components/desktop/ProductDetail";
 import { Toaster } from "react-hot-toast";
 import Register from "@/pages/Register";
+import RegisterSuccessfull from "@/pages/Register/RegisterSuccessfull";
 
 const mobileRouter = createBrowserRouter([
   {
     path: "/",
     element: <LoginPage />,
   },
-   {
+  {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/register-successfull",
+    element: <RegisterSuccessfull />,
   },
   {
     path: "/",
@@ -61,6 +66,10 @@ const desktopRouter = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/register-successfull",
+    element: <RegisterSuccessfull />,
   },
   {
     path: "/",
