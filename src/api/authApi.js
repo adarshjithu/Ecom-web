@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import axiosInstance from "./axiosintercepter";
 
 export const sendOTP = async (data) => {
@@ -78,6 +79,7 @@ export const logOut = async () => {
 export const authGoogle = async () => {
   try {
     const response = await axiosInstance.get(`/auth/google`);
+    toast.success(response.message);
     return response.data;
   } catch (error) {
     throw error.response.data;

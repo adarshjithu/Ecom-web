@@ -26,6 +26,10 @@ const mobileRouter = createBrowserRouter([
     path: "/",
     element: <LoginPage />,
   },
+   {
+    path: "/register",
+    element: <Register />,
+  },
   {
     path: "/",
     element: <AppMobile />,
