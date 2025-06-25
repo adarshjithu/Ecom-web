@@ -1,0 +1,78 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { useLocation } from "react-router-dom";
+
+function OTPScreen() {
+  const [otp, setOtp] = useState("");
+  const { state } = useLocation();
+
+  const handleChange = (value) => {
+    setOtp(value);
+    if (value.length === 6) console.log("OTP entered:", value);
+  };
+
+  const handleVerify = () => {
+    console.log("Verify OTP clicked. Current OTP:", otp);
+  };
+
+  return (
+    <div className="w-full min-h-screen flex flex-col justify-center items-center">
+      <div className="flex flex-col items-center py-10">
+        <h3 className="text-[#0D2C8D] font-semibold text-2xl text-center">
+          E-Com
+        </h3>
+
+        <h2 className="mt-3 text-2xl font-semibold text-center text-[var(--primary)]">
+          Enter OTP Code
+        </h2>
+
+        <p className="mt-2 text-sm text-[var(--secondary)] text-center max-w-xs">
+          Enter the 6-digit code sent to {state.value}
+        </p>
+      </div>
+
+      <div className="flex flex-col items-center gap-6 w-full px-6">
+        <InputOTP
+          value={otp}
+          onChange={handleChange}
+          maxLength={6}
+          className="flex items-center gap-2"
+        >
+          <InputOTPGroup>
+            {[0, 1, 2].map((i) => (
+              <InputOTPSlot key={i} index={i} />
+            ))}
+          </InputOTPGroup>
+          <span className="text-3xl leading-none mx-1 select-none">•</span>
+          <InputOTPGroup>
+            {[3, 4, 5].map((i) => (
+              <InputOTPSlot key={i} index={i} />
+            ))}
+          </InputOTPGroup>
+        </InputOTP>
+
+        <Button
+          onClick={handleVerify}
+          className="w-full"
+          disabled={otp.length !== 6}
+        >
+          Verify OTP
+        </Button>
+
+        <p className="text-sm text-muted-foreground text-center">
+          Didn’t receive the code?{" "}
+          <button className="text-[var(--tertiary)] hover:underline">
+            Resend OTP in&nbsp;30&nbsp;s
+          </button>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default OTPScreen;
