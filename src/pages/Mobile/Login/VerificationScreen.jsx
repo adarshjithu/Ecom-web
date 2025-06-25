@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CircleCheck } from "lucide-react";
-
+import Ecom from "../../../assets/icon/Ecom.svg";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
@@ -41,9 +41,12 @@ function VerificationScreen() {
   return (
     <div className="w-full min-h-screen">
       <div className="flex flex-col items-center py-10">
-        <h3 className="text-[#0D2C8D] font-semibold text-2xl text-center">
-          E-Com
-        </h3>
+        <div className="flex flex-row items-center gap-2">
+          <img src={Ecom} alt="Ecom" className="w-8 h-8" />
+          <span className="text-[#0D2C8D] font-bold text-3xl tracking-wide">
+            E-COM
+          </span>
+        </div>
         <div className="py-3" />
         <h2 className="text-2xl font-semibold text-center text-[var(--primary)] p-2">
           Verify Your Number

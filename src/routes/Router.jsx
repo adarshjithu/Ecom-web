@@ -86,6 +86,10 @@ const desktopRouter = createBrowserRouter([
     element: <VerificationScreen />,
   },
   {
+    path: "/otp",
+    element: <OTPScreen />,
+  },
+  {
     path: "/",
     element: <AppDesktop />,
     children: [
