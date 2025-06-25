@@ -20,6 +20,8 @@ import HomePage from "@/pages/home/HomePage";
 import ProductDetail from "@/components/desktop/ProductDetail";
 import { Toaster } from "react-hot-toast";
 import Register from "@/pages/Register";
+import VerificationScreen from "@/pages/Mobile/Login/VerificationScreen";
+import OTPScreen from "@/pages/Mobile/Login/OTPScreen";
 
 const mobileRouter = createBrowserRouter([
   {
@@ -29,6 +31,14 @@ const mobileRouter = createBrowserRouter([
    {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/verify",
+    element: <VerificationScreen />,
+  },
+  {
+    path: "/otp",
+    element: <OTPScreen />,
   },
   {
     path: "/",
@@ -61,6 +71,10 @@ const desktopRouter = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/verify",
+    element: <VerificationScreen />,
   },
   {
     path: "/",
