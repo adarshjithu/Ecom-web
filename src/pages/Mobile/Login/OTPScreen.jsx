@@ -6,6 +6,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useLocation } from "react-router-dom";
+import Ecom from "../../../assets/icon/Ecom.svg";
 
 function OTPScreen() {
   const [otp, setOtp] = useState("");
@@ -23,10 +24,12 @@ function OTPScreen() {
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center">
       <div className="flex flex-col items-center py-10">
-        <h3 className="text-[#0D2C8D] font-semibold text-2xl text-center">
-          E-Com
-        </h3>
-
+        <div className="flex flex-row items-center gap-2">
+          <img src={Ecom} alt="Ecom" className="w-8 h-8" />
+          <span className="text-[#0D2C8D] font-bold text-3xl tracking-wide">
+            E-COM
+          </span>
+        </div>
         <h2 className="mt-3 text-2xl font-semibold text-center text-[var(--primary)]">
           Enter OTP Code
         </h2>
@@ -58,7 +61,7 @@ function OTPScreen() {
 
         <Button
           onClick={handleVerify}
-          className="w-full"
+          className="w-full lg:w-xs"
           disabled={otp.length !== 6}
         >
           Verify OTP
