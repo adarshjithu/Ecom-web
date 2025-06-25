@@ -21,7 +21,8 @@ function LoginPage() {
           Use your username and password to access your account
         </p>
       </div>
-      <div className="flex flex-col p-4 gap-4">
+      <div className="flex flex-col  items-center w-full">
+      <div className="flex flex-col p-4 gap-4 max-w-xl  w-full">
         <div>
           <label className="block text-sm font-medium text-[var(--primary)] mb-2">
             User name
@@ -69,7 +70,7 @@ function LoginPage() {
           Sign In
         </Button>
       </div>
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 max-w-xl w-full ">
         <div className="flex items-center w-full">
           <div className="flex-grow h-px bg-[var(--border)]" />
           <span className="mx-4 text-sm text-muted-foreground">
@@ -122,7 +123,7 @@ function LoginPage() {
             Create One
           </button>
         </p>
-      </div>
+      </div></div>
     </div>
   );
 }

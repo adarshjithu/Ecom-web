@@ -53,49 +53,50 @@ function VerificationScreen() {
           receive a one-time verification code.
         </p>
       </div>
+      <div className="flex flex-col items-center justify-center  ">
+        <div className="flex flex-col p-4 py-12 gap-4 w-full max-w-xl">
+          <div>
+            <label className="block text-sm font-medium text-[var(--primary)] mb-2">
+              {state === "email" ? "Email ID" : "Mobile Number"}
+            </label>
 
-      <div className="flex flex-col p-4 py-12 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-[var(--primary)] mb-2">
-            {state === "email" ? "Email ID" : "Mobile Number"}
-          </label>
+            <div className="relative">
+              {state === "email" ? (
+                <Input
+                  type="email"
+                  placeholder="example@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pr-10"
+                />
+              ) : (
+                <PhoneInput
+                  inputComponent={TailwindPhoneInput}
+                  international
+                  defaultCountry="IN"
+                  placeholder="Used for OTP login"
+                  value={mobile}
+                  onChange={setMobile}
+                />
+              )}
 
-          <div className="relative">
-            {state === "email" ? (
-              <Input
-                type="email"
-                placeholder="example@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="pr-10"
-              />
-            ) : (
-              <PhoneInput
-                inputComponent={TailwindPhoneInput}
-                international
-                defaultCountry="IN"
-                placeholder="Used for OTP login"
-                value={mobile}
-                onChange={setMobile}
-              />
-            )}
-
-            {(isValidMobile || isValidEmail) && (
-              <CircleCheck
-                size={20}
-                className="fill-[#019939] text-white absolute right-3 top-1/2 -translate-y-1/2"
-              />
-            )}
+              {(isValidMobile || isValidEmail) && (
+                <CircleCheck
+                  size={20}
+                  className="fill-[#019939] text-white absolute right-3 top-1/2 -translate-y-1/2"
+                />
+              )}
+            </div>
           </div>
-        </div>
 
-        <Button
-          onClick={handleSendOTP}
-          className="w-full"
-          disabled={state === "email" ? !isValidEmail : !isValidMobile}
-        >
-          Send OTP
-        </Button>
+          <Button
+            onClick={handleSendOTP}
+            className="w-full"
+            disabled={state === "email" ? !isValidEmail : !isValidMobile}
+          >
+            Send OTP
+          </Button>
+        </div>
       </div>
     </div>
   );
