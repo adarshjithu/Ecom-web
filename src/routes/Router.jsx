@@ -19,6 +19,7 @@ import AppDesktop from "@/AppDesktop";
 import HomePage from "@/pages/home/HomePage";
 import ProductDetail from "@/components/desktop/ProductDetail";
 import { Toaster } from "react-hot-toast";
+import Register from "@/pages/Register";
 
 const mobileRouter = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const desktopRouter = createBrowserRouter([
   {
     path: "/",
     element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/",
