@@ -24,9 +24,9 @@ const RegisterSuccessfull = () => {
         </p>
         <Button
           className={"mt-4 w-full lg:w-md"}
-          onClick={() => navigate("/verify")}
+          onClick={() => navigate("/")}
         >
-          Go to Verify Account
+          Go to Login
         </Button>
       </div>
     </div>

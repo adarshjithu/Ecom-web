@@ -38,7 +38,14 @@ function OTPScreen() {
       }
 
       await verifyOTP(formData);
-      navigate("/home");
+      if (
+        state?.purpose === "login-email" ||
+        state?.purpose === "login-phone"
+      ) {
+        navigate("/home");
+      } else {
+        navigate("/register-successfull");
+      }
     } catch (err) {
       toast.error(err.message);
     } finally {
