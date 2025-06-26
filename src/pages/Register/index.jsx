@@ -62,7 +62,7 @@ const handleChange = (e) => {
 
     try {
       await register(formData);
-      navigate("/verify");
+      navigate("/register-successfull");
     } catch (err) {
       toast.error(err.message);
     } finally {
