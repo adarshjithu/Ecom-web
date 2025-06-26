@@ -5,11 +5,36 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Ecom from "../../../assets/icon/Ecom.svg";
 import Google from "../../../assets/icon/Social icon.svg";
+import { login } from "@/api/authApi";
+import toast from "react-hot-toast";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [form, setForm] = useState({
+    credential: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (form.password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await login(form);
+      navigate("/home");
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="w-full min-h-screen bg-white pt-2 px-4">
       <div className="flex justify-center md:justify-start md:pl-8 xs:pt-10 mb-6">
@@ -34,7 +59,13 @@ function LoginPage() {
             <label className="block text-sm font-medium text-[var(--primary)] mb-2">
               User name
             </label>
-            <Input type="text" placeholder="Enter email" />
+            <Input
+              type="text"
+              name="credential"
+              value={form.credential}
+              placeholder="Enter email or phone number"
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-[var(--primary)] mb-2">
@@ -44,6 +75,9 @@ function LoginPage() {
               <Input
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
+                onChange={handleChange}
+                name="password"
+                value={form.password}
                 className="pr-10"
               />
               <button
@@ -54,12 +88,12 @@ function LoginPage() {
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? (
-                  <EyeOff
+                  <Eye
                     className="text-[var(--icon)] w-[20px] h-[20px]"
                     strokeWidth={1.25}
                   />
                 ) : (
-                  <Eye
+                  <EyeOff
                     className="text-[var(--icon)] w-[20px] h-[20px]"
                     strokeWidth={1.25}
                   />
@@ -72,10 +106,7 @@ function LoginPage() {
               Forgot your password?
             </button>
           </div>
-          <Button
-            onClick={() => console.log("Sign in clicked")}
-            className="w-full"
-          >
+          <Button className="w-full" disabled={loading} onClick={handleSubmit}>
             Sign In
           </Button>
         </div>

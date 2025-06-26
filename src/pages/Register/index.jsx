@@ -1,12 +1,23 @@
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOff } from "lucide-react";
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import Ecom from "../../assets/icon/Ecom.svg";
 import Google from "../../assets/icon/Social icon.svg";
 import { Button } from "@/components/ui/button";
 import { register } from "@/api/authApi";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import getPhoneObject from "@/lib/phoneobject";
+const TailwindPhoneInput = forwardRef((props, ref) => (
+  <Input
+    {...props}
+    ref={ref}
+    placeholder="9876543210"
+    className={`pr-10 py-2 text-sm  ${props.className || ""}`}
+  />
+));
 const Register = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -21,9 +32,13 @@ const Register = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+const handleChange = (e) => {
+  if (typeof e === "string" || typeof e === "undefined") {
+    setForm((prev) => ({ ...prev, phone: e || "" }));
+  } else {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,14 +50,13 @@ const Register = () => {
       setLoading(false);
       return;
     }
-
+    const phoneObj = getPhoneObject(form.phone);
+    if (!phoneObj) throw new Error("Invalid phone number format");
     const formData = {
       name: form.name,
       email: form.email,
-      phone: {
-        code: "+91",
-        number: form.phone,
-      },
+
+      phone: phoneObj,
       password: form.password,
     };
 
@@ -105,14 +119,15 @@ const Register = () => {
           <label className="block text-sm font-medium mb-1 text-[var(--primary)]">
             Phone number<span className="text-[#DC2626]">*</span>
           </label>
-          <Input
-            type="text"
+
+          <PhoneInput
+            inputComponent={TailwindPhoneInput}
+            international
             name="phone"
-            className="mb-4"
+            defaultCountry="IN"
             placeholder="Used for OTP login"
             value={form.phone}
             onChange={handleChange}
-            required
           />
           <label className="block text-sm font-medium mb-1 text-[var(--primary)]">
             Password<span className="text-[#DC2626]">*</span>

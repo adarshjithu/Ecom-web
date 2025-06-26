@@ -6,6 +6,9 @@ import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useState, forwardRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { sendOTP } from "@/api/authApi";
+import getPhoneObject from "@/lib/phoneobject";
 
 const TailwindPhoneInput = forwardRef((props, ref) => (
   <Input
@@ -18,6 +21,7 @@ const TailwindPhoneInput = forwardRef((props, ref) => (
 
 function VerificationScreen() {
   const { state } = useLocation();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
@@ -25,15 +29,51 @@ function VerificationScreen() {
   const isValidMobile = mobile ? isValidPhoneNumber(mobile) : false;
   const isValidEmail = /^[\w.%+-]+@[A-Za-z\d.-]+\.[A-Za-z]{2,}$/.test(email);
 
-  const handleSendOTP = () => {
-    if (state === "email") {
-      //TODO: call email api
-    } else {
-      //TODO: call mobile api
+  const handleSendOTP = async () => {
+    setLoading(true);
+    let purposeValue = "";
+    try {
+      if (state === "email") {
+        purposeValue = "login-email";
+        try {
+          await sendOTP({ email, purpose: purposeValue });
+        } catch (err) {
+          if (err.message === "Email is not verified") {
+            toast("Email not verified. Sending verification email...");
+            purposeValue = "verify-email";
+            await sendOTP({ email, purpose: purposeValue });
+          } else {
+            throw err;
+          }
+        }
+      } else {
+        const phoneObj = getPhoneObject(mobile);
+        if (!phoneObj) throw new Error("Invalid phone number format");
+        purposeValue = "login-phone";
+        try {
+          await sendOTP({ phone: phoneObj, purpose: purposeValue });
+        } catch (err) {
+          if (err.message === "Phone is not verified") {
+            toast("Phone not verified. Sending verification SMS...");
+            purposeValue = "verify-phone";
+            await sendOTP({ phone: phoneObj, purpose: purposeValue });
+          } else {
+            throw err;
+          }
+        }
+      }
+      navigate("/otp", {
+        state: {
+          type: state,
+          value: state === "email" ? email : mobile,
+          purpose: purposeValue,
+        },
+      });
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
-    navigate("/otp", {
-      state: { type: state, value: state === "email" ? email : mobile },
-    });
   };
 
   return (
@@ -92,7 +132,9 @@ function VerificationScreen() {
             <Button
               onClick={handleSendOTP}
               className="w-full"
-              disabled={state === "email" ? !isValidEmail : !isValidMobile}
+              disabled={
+                loading || (state === "email" ? !isValidEmail : !isValidMobile)
+              }
             >
               Send OTP
             </Button>

@@ -5,20 +5,45 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Ecom from "../../../assets/icon/Ecom.svg";
+import getPhoneObject from "@/lib/phoneobject";
+import toast from "react-hot-toast";
+import { verifyOTP } from "@/api/authApi";
 
 function OTPScreen() {
+  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
   const { state } = useLocation();
+  console.log(state?.value);
 
   const handleChange = (value) => {
     setOtp(value);
     if (value.length === 6) console.log("OTP entered:", value);
   };
 
-  const handleVerify = () => {
-    console.log("Verify OTP clicked. Current OTP:", otp);
+  const handleVerify = async () => {
+    setLoading(true);
+    try {
+      let formData = {
+        otp,
+        purpose: state?.purpose,
+      };
+
+      if (state?.type === "email") {
+        formData.email = state?.value;
+      } else if (state?.type === "phone") {
+        formData.phone = getPhoneObject(state?.value);
+      }
+
+      await verifyOTP(formData);
+      navigate("/home");
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,7 +89,7 @@ function OTPScreen() {
           <Button
             onClick={handleVerify}
             className="w-full lg:w-xs"
-            disabled={otp.length !== 6}
+            disabled={otp.length !== 6 || loading}
           >
             Verify OTP
           </Button>

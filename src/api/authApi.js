@@ -43,7 +43,7 @@ export const OTPLogin = async (data) => {
 export const login = async (data) => {
   try {
     const response = await axiosInstance.post(`/auth/customer/login`, data);
-    return response.data;
+    toast.success(response.message);
   } catch (error) {
     throw error.response.data;
   }
