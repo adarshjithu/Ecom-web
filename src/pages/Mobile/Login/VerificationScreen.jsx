@@ -89,7 +89,7 @@ function VerificationScreen() {
       <div className="flex flex-col items-center justify-center min-h-[80vh] w-ful">
         <div className="flex flex-col items-center py-4 ">
           <h2 className="text-2xl font-semibold text-center text-[var(--primary)] p-2">
-            Verify Your Number
+            Verify Your {state === "email" ? "Email ID" : "Mobile Number"}
           </h2>
           <p className="text-sm font-normal text-[var(--secondary)] w-4/5 text-center">
             Enter your {state === "email" ? "email ID" : "mobile number"} to
