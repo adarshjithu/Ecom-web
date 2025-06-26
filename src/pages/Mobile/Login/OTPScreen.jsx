@@ -44,7 +44,7 @@ function OTPScreen() {
       ) {
         navigate("/home");
       } else {
-        navigate("/");
+        navigate("/register-successfull",);
       }
     } catch (err) {
       toast.error(err.message);

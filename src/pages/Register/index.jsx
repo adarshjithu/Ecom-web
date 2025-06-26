@@ -32,13 +32,13 @@ const Register = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
 
-const handleChange = (e) => {
-  if (typeof e === "string" || typeof e === "undefined") {
-    setForm((prev) => ({ ...prev, phone: e || "" }));
-  } else {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
-};
+  const handleChange = (e) => {
+    if (typeof e === "string" || typeof e === "undefined") {
+      setForm((prev) => ({ ...prev, phone: e || "" }));
+    } else {
+      setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ const handleChange = (e) => {
 
     try {
       await register(formData);
-      navigate("/register-successfull");
+      navigate("/verify", { state: "email" });
     } catch (err) {
       toast.error(err.message);
     } finally {
