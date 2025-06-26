@@ -4,7 +4,6 @@ import { CircleCheck } from "lucide-react";
 import Ecom from "../../../assets/icon/Ecom.svg";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-
 import { useState, forwardRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -32,22 +31,22 @@ function VerificationScreen() {
     } else {
       //TODO: call mobile api
     }
-
     navigate("/otp", {
       state: { type: state, value: state === "email" ? email : mobile },
     });
   };
 
   return (
-    <div className="w-full min-h-screen">
-      <div className="flex flex-col items-center py-10">
+    <div className="w-full min-h-screen bg-white pt-2 px-4">
+      <div className="flex justify-center md:justify-start md:pl-8 pt-0 mb-6">
         <div className="flex flex-row items-center gap-2">
           <img src={Ecom} alt="Ecom" className="w-8 h-8" />
           <span className="text-[#0D2C8D] font-bold text-3xl tracking-wide">
             E-COM
           </span>
         </div>
-        <div className="py-3" />
+      </div>
+      <div className="flex flex-col items-center py-4">
         <h2 className="text-2xl font-semibold text-center text-[var(--primary)] p-2">
           Verify Your Number
         </h2>
@@ -56,13 +55,12 @@ function VerificationScreen() {
           receive a one-time verification code.
         </p>
       </div>
-      <div className="flex flex-col items-center justify-center  ">
+      <div className="flex flex-col items-center justify-center">
         <div className="flex flex-col p-4 py-12 gap-4 w-full max-w-xl">
           <div>
             <label className="block text-sm font-medium text-[var(--primary)] mb-2">
               {state === "email" ? "Email ID" : "Mobile Number"}
             </label>
-
             <div className="relative">
               {state === "email" ? (
                 <Input
@@ -82,7 +80,6 @@ function VerificationScreen() {
                   onChange={setMobile}
                 />
               )}
-
               {(isValidMobile || isValidEmail) && (
                 <CircleCheck
                   size={20}
@@ -91,7 +88,6 @@ function VerificationScreen() {
               )}
             </div>
           </div>
-
           <Button
             onClick={handleSendOTP}
             className="w-full"
