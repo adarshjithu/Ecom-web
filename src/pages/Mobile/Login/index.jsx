@@ -12,7 +12,7 @@ function LoginPage() {
 
   return (
     <div className="w-full min-h-screen bg-white pt-2 px-4">
-      <div className="flex justify-center md:justify-start md:pl-8 pt-0 mb-6">
+      <div className="flex justify-center md:justify-start md:pl-8 xs:pt-10 mb-6">
         <div className="flex flex-row items-center gap-2">
           <img src={Ecom} alt="Ecom" className="w-8 h-8" />
           <span className="text-[#0D2C8D] font-bold text-3xl tracking-wide">
