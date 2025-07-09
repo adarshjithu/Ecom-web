@@ -37,7 +37,7 @@ function LoginPage() {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "https://medico.oxiumev.com/api/v1/auth/google"; 
+    window.location.href = "https://medico.oxiumev.com/api/v1/auth/google";
   };
   return (
     <div className="w-full min-h-screen bg-white pt-2 px-4">
