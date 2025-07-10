@@ -35,6 +35,10 @@ function LoginPage() {
       setLoading(false);
     }
   };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "https://medico.oxiumev.com/api/v1/auth/google";
+  };
   return (
     <div className="w-full min-h-screen bg-white pt-2 px-4">
       <div className="flex justify-center md:justify-start md:pl-8 xs:pt-10 mb-6">
@@ -144,7 +148,7 @@ function LoginPage() {
             <Button
               variant="outline"
               className="flex items-center gap-2"
-              onClick={() => console.log("Google clicked")}
+              onClick={handleGoogleLogin}
             >
               <img src={Google} alt="google" /> Google
             </Button>

@@ -2,14 +2,14 @@ import { Heart, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ desktop }) => {
+const ProductCard = ({ desktop, product }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div
       className="p-[1px] rounded-2xl bg-gradient-to-b from-[#EBEFFF] to-[#E4E4E7] max-w-xs w-full mx-auto overflow-hidden box-border cursor-pointer"
-     onClick={()=>navigate("/product")}
+      onClick={() => navigate("/product")}
     >
       <div className="bg-[linear-gradient(360deg,#FFFFFF_33.97%,#EAEEFF_100%)] rounded-[calc(1rem-1px)] p-2">
         <div className="p-[1px] rounded-[8px] bg-[linear-gradient(180deg,#EBEFFF_0%,#E4E4E7_100%)]">
@@ -31,7 +31,7 @@ const ProductCard = ({ desktop }) => {
             </div>
             <div className="flex justify-center pb-4">
               <img
-                src="https://rukminim2.flixcart.com/image/400/400/xif0q/shampoo/h/6/p/-original-imah5z3rchzaazn8.jpeg?q=90&crop=false"
+                src={product.thumbnail}
                 alt="Product"
                 className={`${
                   desktop ? "w-27 h-70" : "w-9 h-24"
@@ -46,7 +46,7 @@ const ProductCard = ({ desktop }) => {
             desktop ? "text-base" : "text-xs"
           } mb-1 mt-1 leading-tight line-clamp-2`}
         >
-          Cofsils Experdine Gargle Mouth Wash for Sore throat, Flu, Cold, To...
+          {product.name}
         </h3>
 
         <p
@@ -54,7 +54,7 @@ const ProductCard = ({ desktop }) => {
             desktop ? "text-base" : "text-xs"
           } mb-1`}
         >
-          Get by <span className="text-[var(--tertiary)]">tomorrow</span>
+          {product.shortDescription}
         </p>
 
         <div
@@ -97,7 +97,7 @@ const ProductCard = ({ desktop }) => {
                   desktop ? "text-xl" : "text-sm"
                 } text-[var(--primary)]`}
               >
-                ₹1200
+                {product.basePrice.sellingPrice}
               </span>
               <span className="text-gray-400">|</span>
               <span
