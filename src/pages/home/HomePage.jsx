@@ -1,5 +1,6 @@
 import { getBrands } from "@/api/brandApi";
 import { getCategories } from "@/api/categoriesApi";
+import { getProductsFeatured } from "@/api/productsApi";
 import { brands, reviews } from "@/assets/json/Data";
 import HomeCarousel from "@/components/desktop/home/HomeCarousal";
 import ProductCard from "@/components/mobile/product/ProductCard";
@@ -10,16 +11,26 @@ import { useNavigate } from "react-router-dom";
 function HomePage() {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
-  const[brands, setBrands] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState({
+    products: [],
+    pagination: {},
+  });
   const fetchData = async () => {
     const response = await getCategories({ type: "parent" });
     setCategories(response.data);
     const brandResponse = await getBrands({ limit: 4 });
     setBrands(brandResponse.data);
+    const productResponse = await getProductsFeatured();
+    setFeaturedProducts({
+      products: productResponse.data.products,
+      pagination: productResponse.data.pagination,
+    });
   };
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <>
       <HomeCarousel />
@@ -48,13 +59,15 @@ function HomePage() {
             Super Saving Deals
           </h2>
           <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6 pb-6">
-            {[...Array(5)].map((_, index) => (
-              <ProductCard
-                key={index}
-                desktop
-                // onClick={() => navigate("/product")}
-              />
-            ))}
+            {featuredProducts &&
+              featuredProducts.products.map((product, index) => (
+                <ProductCard
+                  key={index}
+                  desktop
+                  product={product}
+                  // onClick={() => navigate("/product")}
+                />
+              ))}
           </div>
         </div>
         <div className=" pb-6 ">
@@ -89,14 +102,14 @@ function HomePage() {
           <h2 className="text-2xl font-medium mb-4 text-[var(--primary)]">
             Up to 70% off on Shampoos
           </h2>
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6  pb-6">
+          {/* <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6  pb-6">
             <ProductCard desktop onClick={() => {}} />
 
             <ProductCard desktop />
             <ProductCard desktop />
             <ProductCard desktop />
             <ProductCard desktop />
-          </div>
+          </div> */}
         </div>
         <div className="rounded-2xl overflow-hidden h-160 pb-6">
           <img

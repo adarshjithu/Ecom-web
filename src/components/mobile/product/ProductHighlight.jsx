@@ -45,13 +45,13 @@ const ProductHighlight = ({ desktop }) => {
             <h2 className="text-2xl font-medium mb-4 text-[var(--primary)]">
               Explore Our Recommendations
             </h2>
-            <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6  pb-6">
+            {/* <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6  pb-6">
               <ProductCard desktop />
               <ProductCard desktop />
               <ProductCard desktop />
               <ProductCard desktop />
               <ProductCard desktop />
-            </div>
+            </div> */}
           </div>
         </>
       ) : (
@@ -86,7 +86,7 @@ const ProductHighlight = ({ desktop }) => {
                 msOverflowStyle: "auto",
               }}
             >
-              <div className="min-w-[170px]">
+              {/* <div className="min-w-[170px]">
                 <ProductCard />
               </div>
               <div className="min-w-[170px]">
@@ -94,7 +94,7 @@ const ProductHighlight = ({ desktop }) => {
               </div>
               <div className="min-w-[180px]">
                 <ProductCard />
-              </div>
+              </div> */}
             </div>
           </div>
         </>
