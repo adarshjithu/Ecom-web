@@ -1,214 +1,244 @@
-import { useState } from "react";
-import { ArrowLeft, Bell, Minus, Plus, ShoppingBag } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowLeft, Bell, Minus, Plus, ShoppingBag, Loader2, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
+import {
+  getCartRequest,
+  updateCartQuantityRequest,
+  removeFromCartRequest
+} from "@/store/Cart/actions";
 
-const initialItems = [
-  {
-    id: 1,
-    image: "/images/item1.png",
-    title:
-      "Pain Relief Spray for Lower Back Pain, Joint Pain, Neck Pain & Sprain",
-    size: "100 ml",
-    originalPrice: 295,
-    discountedPrice: 165,
-    quantity: 10,
-  },
-  {
-    id: 2,
-    image: "/images/item2.png",
-    title:
-      "Pain Relief Spray for Lower Back Pain, Joint Pain, Neck Pain & Sprain",
-    size: "100 ml",
-    originalPrice: 295,
-    discountedPrice: 165,
-    quantity: 1,
-  },
-  {
-    id: 3,
-    image: "/images/item3.png",
-    title:
-      "Pain Relief Spray for Lower Back Pain, Joint Pain, Neck Pain & Sprain",
-    size: "100 ml",
-    originalPrice: 295,
-    discountedPrice: 165,
-    quantity: 1,
-  },
-];
 
-const Cart = ({ desktop }) => {
+const Cart = ({ desktop, setIsCartOpen }) => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState(initialItems);
+  const dispatch = useDispatch();
 
-  const updateQuantity = (id, delta) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: Math.max(1, item.quantity + delta),
-            }
-          : item
-      )
+  // Redux selectors
+  const {
+    cart,
+    items,
+    totalMRP,
+    totalPrice,
+    savedAmount,
+    itemCount,
+    loading,
+    updatingQuantity,
+    removingFromCart
+  } = useSelector(state => state.Cart);
+
+  // Load cart on component mount
+  useEffect(() => {
+    dispatch(getCartRequest());
+  }, [dispatch]);
+
+  const updateQuantity = (productId, variantId, action) => {
+    dispatch(updateCartQuantityRequest(productId, variantId, action));
+  };
+
+  const removeItem = (productId, variantId) => {
+    dispatch(removeFromCartRequest(productId, variantId));
+  };
+
+  // Calculate totals from Redux state
+  const handlingFee = 10;
+  const totalToPay = totalPrice + handlingFee;
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="bg-white flex flex-col w-full max-w-md mx-auto relative min-h-[90vh]">
+        <div className="flex-1 flex items-center justify-center py-20">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+        </div>
+      </div>
     );
-  };
+  }
 
-  const removeItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  // Show empty cart
+  if (!items || items.length === 0) {
+    return (
+      <div className="bg-white flex flex-col w-full max-w-md mx-auto relative min-h-[90vh]">
+        <div className="flex-1 flex flex-col items-center justify-center py-20 px-4 text-center">
+          <ShoppingBag className="w-16 h-16 text-gray-400 mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Your cart is empty</h3>
+          <p className="text-gray-500 mb-6">Add some products to get started</p>
+          <Button
+            onClick={() => { navigate("/products"); setIsCartOpen(false) }}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg"
+          >
+            Start Shopping
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div
-      className={`min-h-screen bg-white ${
-        desktop ? "overflow-y-auto mb-20" : ""
-      }`}
-    >
-      {!desktop && (
-        <div className="flex justify-between items-center p-4 border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <button
-              className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-              onClick={() => navigate(-1)}
-            >
-              <ArrowLeft size={20} className="text-[var(--icon)]" />
-            </button>
-            <h1 className="text-lg font-semibold text-[var(--primary)]">
-              Cart
-            </h1>
-          </div>
-          <button
-            className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-            onClick={() => navigate("/notifications")}
-          >
-            <Bell size={20} className="text-[var(--icon)]" />
-          </button>
-        </div>
-      )}
-
-      <div className="p-4">
-        <h2 className="font-medium text-base mb-4 text-[var(--primary)]">
-          Order Summary
-        </h2>
-
-        {cartItems.map((item) => (
-          <div key={item.id} className="flex gap-4 mb-6">
-            <div className="bg-[#F5F5F5] rounded-[8px] p-2 w-[122px] h-[130px] flex items-center justify-center">
-              <img
-                src="https://rukminim2.flixcart.com/image/400/400/xif0q/shampoo/h/6/p/-original-imah5z3rchzaazn8.jpeg?q=90&crop=false"
-                alt={item.title}
-                className="max-h-full max-w-full object-contain"
-              />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm  text-[var(--primary)] leading-tight line-clamp-2">
-                {item.title}
-              </p>
-              <p className="text-xs text-[var(--secondary)] mt-1">
-                Size: {item.size}
-              </p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="line-through text-base text-[var(--secondary)]">
-                  ₹{item.originalPrice}
-                </span>
-                <span className="text-lg font-medium text-[var(--primary)]">
-                  ₹{item.discountedPrice}.00
-                </span>
+    <div className=" bg-white flex flex-col w-full max-w-md mx-auto relative min-h-[90vh]">
+      {/* Scrollable Content Area */}
+      <div className="flex-1  pb-20 ">
+        {/* Cart Items - Scrollable Section */}
+        <div className="p-4 space-y-4 overflow-y-auto max-h-[430px]">
+          {items.map((item) => (
+            <div key={`${item.productId._id}-${item.variantId}`} className="flex pb-3 border-b-1 cursor-pointer gap-4" onClick={() =>{ 
+              setIsCartOpen(false); 
+              window.location.href = `/product/${item?.productId?._id}`;
+            }}>
+              <div className="bg-gray-100 rounded-lg p-2 w-28  h-28 flex items-center justify-center flex-shrink-0">
+                <img
+                  src={item.productId.thumbnail || "/images/no-item-found-here.png"}
+                  alt={item.productId.name}
+                  className="max-h-full max-w-full object-contain"
+                  onError={(e) => {
+                    e.target.src = "/images/no-item-found-here.png";
+                  }}
+                />
               </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-[var(--primary)] leading-tight line-clamp-2 mb-1">
+                  {item.productId.name}
+                </p>
 
-              <div className="flex justify-between gap-3 mt-2">
-                <div className="flex items-center">
-                  <button
-                    onClick={() => updateQuantity(item.id, -1)}
-                    className="w-8 h-8 disabled:opacity-50 border border-[var(--border)] rounded-xs flex items-center justify-center"
-                    disabled={item.quantity <= 1}
-                  >
-                    <Minus className="w-2 h-2 text-[var(--icon)]" />
-                  </button>
+                {/* Variant info */}
+                {item.variant && item.variant.attributes && item.variant.attributes.length > 0 && (
+                  <p className="text-xs text-gray-500 mb-1">
+                    {item.variant.attributes.map(attr => attr.value).join(', ')}
+                  </p>
+                )}
 
-                  <span className="px-3 text-base">{item.quantity}</span>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="line-through text-sm text-[var(--secondary)]">
+                    ₹{item.mrp.toFixed(2)}
+                  </span>
+                  <span className="text-base font-semibold text-[var(--primary)]">
+                    ₹{item.sellingPrice.toFixed(2)}
+                  </span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center border border-gray-300 rounded">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault(); updateQuantity(item.productId._id, item.variantId, 'decrement')
+                      }}
+                      className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+                      disabled={item.quantity <= 1 || updatingQuantity}
+                    >
+
+                      <Minus className="w-3 h-3" />
+
+                    </button>
+                    <span className="px-3 text-sm font-medium">{item.quantity}</span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault(); updateQuantity(item.productId._id, item.variantId, 'increment')
+                      }}
+                      className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+                      disabled={updatingQuantity}
+                    >
+
+                      <Plus className="w-3 h-3" />
+
+                    </button>
+                  </div>
                   <button
-                    onClick={() => updateQuantity(item.id, 1)}
-                    className="w-8 h-8 disabled:opacity-50 border border-[var(--border)] rounded-xs flex items-center justify-center"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault(); removeItem(item.productId._id, item.variantId)
+                    }}
+                    className="flex items-center gap-1 text-sm text-red-600 hover:text-red-700 disabled:opacity-50"
+                    disabled={removingFromCart}
                   >
-                    <Plus className="w-2 h-2 text-[var(--icon)]" />
+                  
+                      <Trash2 className="w-3 h-3" />
+                    
+                    Remove
                   </button>
                 </div>
-                <button
-                  onClick={() => removeItem(item.id)}
-                  className="text-sm text-[var(--primary)] underline"
-                >
-                  Remove
-                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Gift Card / Coupon Section */}
+        {/* <div className="p-4 border-t border-gray-200">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Code or gift card"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            />
+            <button className="px-4 py-2 bg-gray-700 text-white rounded text-sm font-medium">
+              Apply
+            </button>
+          </div>
+        </div> */}
+
+        {/* Payment Details */}
+        <div className="p-4 border-t border-gray-200">
+          <div className="bg-white border border-gray-200 rounded-2xl p-4 space-y-3">
+            <h3 className="font-semibold text-base text-[var(--primary)]">
+              Payment details
+            </h3>
+
+            <div className="flex justify-between text-sm">
+              <span className="text-[var(--secondary)]">Subtotal</span>
+              <div>
+                <span className="line-through text-[var(--secondary)] mr-1">
+                  ₹{totalMRP?.toFixed(2)}
+                </span>
+                <span className="text-[var(--primary)] font-medium">
+                  ₹{totalPrice?.toFixed(2)}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex justify-between text-sm">
+              <span className="text-[var(--secondary)]">Discount</span>
+              <span className="text-[var(--primary)] font-medium">₹{savedAmount?.toFixed(2)}</span>
+            </div>
+
+            <div className="flex justify-between text-sm">
+              <span className="text-[var(--secondary)]">Handling Fee</span>
+              <span className="text-[var(--primary)] font-medium">₹{handlingFee}.00</span>
+            </div>
+
+            <div className="flex justify-between text-sm text-[var(--secondary)]">
+              <span>Shipping</span>
+              <span>To be calculated at checkout</span>
+            </div>
+
+            <hr className="border-dashed border-gray-200" />
+
+            <div className="flex justify-between items-center font-semibold text-[var(--primary)]">
+              <span>To Pay</span>
+              <div>
+                <span className="line-through text-[var(--secondary)] font-normal mr-1">
+                  ₹{(totalToPay + (savedAmount || 0)).toFixed(2)}
+                </span>
+                <span className="text-[var(--primary)] font-normal">₹{totalToPay?.toFixed(2)}</span>
               </div>
             </div>
           </div>
-        ))}
-      </div>
-      <div className="p-4">
-        <div className="p-4 border rounded-[16px] bg-white text-sm space-y-3">
-          <h3 className="font-medium text-base text-[var(--primary)]">
-            Payment details
-          </h3>
-
-          <div className="flex justify-between text-sm text-[var(--secondary)]">
-            <span>Subtotal</span>
-            <div>
-              <span className="line-through text-[var(--secondary)] mr-1 text-sm">
-                ₹758
-              </span>
-              <span className="text-[var(--primary)] text-sm font-medium">
-                ₹718
-              </span>
-            </div>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <span className="text-[var(--secondary)]">Discount</span>
-            <span className="text-[var(--primary)] font-medium">₹718</span>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <span className="text-[var(--secondary)]">Handing Fee</span>
-            <span className="text-[var(--primary)] font-medium">₹10.00</span>
-          </div>
-
-          <div className="flex justify-between text-sm text-[var(--secondary)]">
-            <span>Shipping</span>
-            <span>To be calculated at checkout</span>
-          </div>
-
-          <hr className="border-dashed border-t border-gray-200" />
-
-          <div className="flex justify-between items-center font-medium text-[var(--primary)] text-sm">
-            <span>To Pay</span>
-            <div>
-              <span className="line-through text-[var(--secondary)] font-normal mr-1">
-                ₹1570.56
-              </span>
-              <span className="text-[var(--primary)] font-normal">₹1438</span>
-            </div>
-          </div>
         </div>
       </div>
-      <div
-        className={` bg-white p-2 border-t border-[var(--border)] pt-4 flex flex-row justify-between ${
-          !desktop && "fixed bottom-0 left-0 right-0"
-        }`}
-      >
-        <div className="flex justify-between items-center mb-4 w-1/2">
-          <div>
-            <div className="text-2xl font-bold text-gray-900">₹1200</div>
-            <div className="text-xs text-[var(--secondary)]">
-              Price inclusive of all taxes
-            </div>
+
+      {/* Total and Checkout Button - Fixed Bottom */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex justify-between items-center">
+        <div>
+          <div className="text-xl font-bold text-[var(--primary)]">
+            ₹{totalToPay?.toFixed(2)}
+          </div>
+          <div className="text-xs text-[var(--secondary)]">
+            Price inclusive of all taxes
           </div>
         </div>
-
         <Button
-          className={"w-1/2"}
-          onClick={() => {
-            navigate("/checkout");
-          }}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium"
+          onClick={() => { navigate("/checkout"); setIsCartOpen(false) }}
         >
           Checkout
         </Button>

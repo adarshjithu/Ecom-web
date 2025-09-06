@@ -1,201 +1,317 @@
-import { getCategories } from "@/api/categoriesApi";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "@/components/mobile/product/ProductCard";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, Bell, Search } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import CategoriesSkeleton from "@/components/skeletons/CategoriesSkeleton";
+import InfiniteScrollSkeleton from "@/components/skeletons/InfiniteScrollSkeleton";
+import {
+  getCategoriesRequest,
+  getSubcategoriesRequest,
+  getProductsByCategoryRequest,
+  setSelectedCategory,
+  setSelectedSubcategory,
+  clearProducts,
+  loadMoreProductsByCategoryRequest
+} from "@/store/Category/actions";
 
-const Category = ({ desktop }) => {
-  const [activeCategory, setActiveCategory] = useState({
-    name: "All",
-    id: "All",
-  });
+const Categories = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const categoryId = searchParams.get('categoryId');
+  const dispatch = useDispatch();
+  const observerRef = useRef();
 
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
-  const [filter, setFilter] = useState({});
+  // Redux selectors
+  const {
+    parentCategories,
+    subCategories,
+    products,
+    selectedCategory,
+    selectedSubcategory,
+    loadingCategories,
+    loadingSubcategories,
+    loadingProducts,
+    categoriesError,
+    subcategoriesError,
+    productsError,
+    currentPage = 1,
+    hasMore = true,
+    loadingMore = false
+  } = useSelector((state) => state.Category);
 
-  const fetchData = async () => {
-    setLoading(true);
+  // Fetch all parent categories on component mount
+  useEffect(() => {
+    dispatch(getCategoriesRequest());
+  }, [dispatch]);
 
-    let updatedFilter = {
-      type: "sub",
-    };
-
-    if (activeCategory.name !== "All") {
-      updatedFilter.parentCategoryId = activeCategory.id;
+  useEffect(() => {
+    if (parentCategories.length > 0 && !selectedCategory) {
+      let categoryToSelect;
+      
+      if (categoryId) {
+        // Find the category by ID from URL parameter
+        categoryToSelect = parentCategories.find(cat => cat._id === categoryId);
+      }
+      
+      // If category not found in URL or no URL parameter, use first category
+      if (!categoryToSelect) {
+        categoryToSelect = parentCategories[0];
+      }
+      
+      dispatch(setSelectedCategory(categoryToSelect));
+      dispatch(getSubcategoriesRequest(categoryToSelect._id));
     }
+  }, [parentCategories, selectedCategory, dispatch, categoryId]);
 
-    setFilter(updatedFilter);
-
-    const response = await getCategories(updatedFilter);
-    setSubCategories(response.data);
-    setLoading(false);
-  };
-  const fetchCategory = async () => {
-    setLoading(true);
-    const response = await getCategories({ type: "sub" });
-    setCategories([{ name: "All", _id: "All" }, ...response.data]);
-    setLoading(false);
-  };
+  // Handle categoryId changes (when navigating from home page)
+  useEffect(() => {
+    if (parentCategories.length > 0 && categoryId && selectedCategory) {
+      const categoryToSelect = parentCategories.find(cat => cat._id == selectedCategory?._id);
+      if (categoryToSelect) {
+        dispatch(setSelectedCategory(categoryToSelect));
+        dispatch(clearProducts());
+        dispatch(getSubcategoriesRequest(categoryToSelect._id));
+      }
+    }
+  }, [categoryId, parentCategories, selectedCategory, dispatch]);
 
   useEffect(() => {
-    fetchCategory();
-  }, []);
+    if (subCategories.length > 0 && !selectedSubcategory && !loadingSubcategories) {
+      const firstSubcategory = subCategories[0];
+      dispatch(setSelectedSubcategory(firstSubcategory));
+      dispatch(getProductsByCategoryRequest(firstSubcategory._id));
+    }
+  }, [subCategories, selectedSubcategory, loadingSubcategories, dispatch]);
 
-  useEffect(() => {
-    fetchData();
-  }, [activeCategory]);
+  // Infinite scroll callback
+  const loadMore = useCallback(() => {
+    if (!loadingMore && hasMore && selectedSubcategory) {
+      dispatch(loadMoreProductsByCategoryRequest(selectedSubcategory._id, currentPage + 1));
+    }
+  }, [dispatch, loadingMore, hasMore, selectedSubcategory, currentPage]);
 
+  // Intersection Observer for infinite scroll
+  const lastProductRef = useCallback(node => {
+    if (loadingMore) return;
+    if (observerRef.current) observerRef.current.disconnect();
+    observerRef.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        loadMore();
+      }
+    });
+    if (node) observerRef.current.observe(node);
+  }, [loadingMore, hasMore, loadMore]);
+
+  // Handle parent category selection
+  const handleParentCategorySelect = (category) => {
+    dispatch(setSelectedCategory(category));
+    dispatch(clearProducts());
+    dispatch(getSubcategoriesRequest(category._id));
+  };
+
+  // Handle subcategory selection
+  const handleSubCategorySelect = (subCategory) => {
+    dispatch(setSelectedSubcategory(subCategory));
+    dispatch(clearProducts());
+    dispatch(getProductsByCategoryRequest(subCategory._id));
+  };
+
+  if (loadingCategories) {
+    return <CategoriesSkeleton />;
+  }
+  console.log(products)
   return (
-    <div
-      className={`mx-auto bg-white min-h-screen ${
-        desktop ? "px-12" : "max-w-md"
-      }`}
-    >
-      {!desktop && (
-        <>
-          <div className="flex justify-between items-center p-4 border-b border-[var(--border]">
-            <div className="flex items-center gap-2">
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto">
+        {/* Breadcrumbs */}
+        <div className="px-4 py-2 bg-gray-50">
+          <p className="text-sm text-gray-600"><span className="cursor-pointer" onClick={() => navigate("/home")}>Home</span> &gt; Categories</p>
+        </div>
+
+        {/* Error Display */}
+        {categoriesError && (
+          <div className="px-4 py-2 bg-red-50 border border-red-200">
+            <p className="text-sm text-red-600">Error loading categories: {categoriesError}</p>
+          </div>
+        )}
+
+        {/* Main Category Tabs */}
+        <div className="px-4 py-3 border-b border-gray-200">
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide">
+            {parentCategories.map((category) => (
               <button
-                className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-                onClick={() => navigate(-1)}
+                key={category._id}
+                onClick={() => handleParentCategorySelect(category)}
+                className={`whitespace-nowrap px-3 py-1 rounded-full text-sm font-medium ${
+                  selectedCategory?._id === category._id
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
               >
-                <ArrowLeft size={20} className="text-[var(--icon)]" />
+                {category.name}
               </button>
-              <div>
-                <h1 className="text-lg font-semibold text-[var(--primary)]">
-                  All Categories
-                </h1>
-              </div>
-            </div>
-            <button
-              className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-              onClick={() => navigate("/notifications")}
-            >
-              <Bell size={20} className="text-[var(--icon)]" />
-            </button>
-          </div>
-
-          <div className="px-4 py-3">
-            <div className="relative">
-              <Search
-                size={18}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-              />
-              <Input
-                type="text"
-                placeholder="Search"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-          </div>
-        </>
-      )}
-
-      <div className={`px-4 mb-6 ${desktop ? "mt-10" : ""}`}>
-        <div
-          className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {categories.map((category) => (
-            <button
-              key={category._id}
-              onClick={() => {
-                if (category._id === "All") {
-                  setActiveCategory({ id: "All", name: "All" });
-                } else {
-                  setActiveCategory({
-                    id: category.parentCategory._id,
-                    name: category.name,
-                  });
-                }
-              }}
-              className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all duration-200 ${
-                activeCategory.name === category.name
-                  ? "bg-[var(--tertiary)] text-white"
-                  : "border border-[var(--border] text-[var(--secondary)] hover:bg-gray-200"
-              }`}
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="px-4">
-        <h2 className="text-base font-medium text-[var(--primary)] mb-4">
-          {activeCategory.name}
-        </h2>
-
-        <div
-          className={` ${
-            desktop ? "grid grid-cols-9 gap-5" : "grid grid-cols-3 gap-5"
-          }`}
-        >
-          {subCategories.map((item) => (
-            <div key={item._id} className="flex flex-col items-center">
-              <div
-                className={` h-24 rounded-2xl flex items-center justify-center mb-2  hover:shadow-md transition-shadow cursor-pointer`}
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
-              <span className="text-xs text-[var(--primary)] text-center font-normal leading-tight">
-                {item.name}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-      {desktop ? (
-        <div className="pt-6 pb-6 ">
-          <h2 className="text-2xl font-medium mb-4 text-[var(--primary)]">
-            Super Saving Deals
-          </h2>
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6 pb-6">
-            {[...Array(5)].map((_, index) => (
-              <ProductCard key={index} desktop />
             ))}
           </div>
         </div>
-      ) : (
-        <div className="px-4 pb-6 mt-4">
-          <h2 className="text-lg font-semibold mb-4 text-[var(--primary)]">
-            Serum Top Deals
-          </h2>
-          <div
-            className="flex space-x-2 overflow-x-auto scrollbar-hide"
-            style={{
-              scrollbarWidth: "auto",
-              msOverflowStyle: "auto",
-            }}
-          >
-            <div className="min-w-[170px]">
-              <ProductCard />
-            </div>
-            <div className="min-w-[170px]">
-              <ProductCard />
-            </div>
-            <div className="min-w-[180px]">
-              <ProductCard />
-            </div>
+
+        {/* Category Content */}
+        {selectedCategory && (
+          <div className="px-4 py-4">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">{selectedCategory.name}</h2>
+            
+            {/* Subcategory Error Display */}
+            {subcategoriesError && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded">
+                <p className="text-sm text-red-600">Error loading subcategories: {subcategoriesError}</p>
+              </div>
+            )}
+            
+            {/* Sub-category Scroll */}
+            {subCategories.length > 0 && (
+              <div className="flex gap-4 overflow-x-auto scrollbar-hide mb-6">
+                {subCategories.map((subCategory) => (
+                  <button
+                    key={subCategory._id}
+                    onClick={() => handleSubCategorySelect(subCategory)}
+                    className={`flex flex-col items-center gap-2 min-w-[80px] ${
+                      selectedSubcategory?._id === subCategory._id ? "text-blue-600" : "text-gray-700"
+                    }`}
+                  >
+                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                      {subCategory.image ? (
+                        <img
+                          src={subCategory.image}
+                          alt={subCategory.name}
+                          className="w-12 h-12 object-cover rounded"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                      ) : null}
+                      <div className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs" style={{ display: subCategory.image ? 'none' : 'flex' }}>
+                        {subCategory.name.charAt(0)}
+                      </div>
+                    </div>
+                    <span className="text-xs text-center">{subCategory.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+             {/* No Subcategories */}
+            {subCategories.length === 0 && !loadingSubcategories && !subcategoriesError && (
+              <div className="text-center py-8">
+                <p className="text-gray-500">No subcategories found for this category.</p>
+              </div>
+            )}
+
+            {/* Loading Subcategories */}
+            {loadingSubcategories && (
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <span className="ml-2 text-gray-600">Loading subcategories...</span>
+              </div>
+            )}
+
+            {/* Products Section */}
+            {selectedSubcategory && (
+              <div>
+                {/* Promotional Heading */}
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {selectedSubcategory.name} Products
+                  </h3>
+                </div>
+
+                {/* Products Error Display */}
+                {productsError && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded">
+                    <p className="text-sm text-red-600">Error loading products: {productsError}</p>
+                  </div>
+                )}
+
+                {/* Loading Products */}
+                {loadingProducts && products.length === 0 && (
+                  <div className="flex justify-center items-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                    <span className="ml-2 text-gray-600">Loading products...</span>
+                  </div>
+                )}
+
+                {/* Product Grid */}
+                {!loadingProducts && products.length > 0 && (
+                  <>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 mb-5 pb-5">
+                    {products.map((product, index) => (
+                      <div key={product._id} ref={index === products.length - 1 ? lastProductRef : null}>
+                        <ProductCard
+                          desktop
+                          product={{
+                            _id: product._id,
+                            wishlist:product?.wishlist ? true :false,
+                            name: product.name,
+                            shortDescription: product.description,
+                            thumbnail: product.image,
+                            basePrice: {
+                              sellingPrice: `$${product.basePrice.sellingPrice}`,
+                              mrp: `$${product.basePrice.mrp}`
+                            },
+                            rating: 4.5, // Default rating since API doesn't provide it
+                            reviews: "1K", // Default reviews since API doesn't provide it
+                            offer: product.offer, // Use offer instead of discount
+                            delivery: "Get by tomorrow" // Default delivery info
+                          }}
+                          onClick={() => navigate(`/product/${product._id}`)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Loading More Skeleton */}
+                  {loadingMore && (
+                    <InfiniteScrollSkeleton />
+                  )}
+
+                  {/* No More Products Message */}
+                  {!hasMore && products.length > 0 && (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500">No more products to load</p>
+                    </div>
+                  )}
+                  </>
+                )}
+
+                {/* No Products */}
+                {!loadingProducts && products.length === 0 && !productsError && (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">No products found in this category.</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        )}
+
+        {/* No Categories */}
+        {parentCategories.length === 0 && !loadingCategories && !categoriesError && (
+          <div className="px-4 py-8 text-center">
+            <p className="text-gray-500">No categories available.</p>
+          </div>
+        )}
+      </div>
 
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </div>
   );
 };
 
-export default Category;
+export default Categories;

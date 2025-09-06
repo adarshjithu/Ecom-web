@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOff } from "lucide-react";
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import Ecom from "../../assets/icon/Ecom.svg";
@@ -10,6 +10,7 @@ import { register } from "@/api/authApi";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import getPhoneObject from "@/lib/phoneobject";
+import { useSelector } from "react-redux";
 const TailwindPhoneInput = forwardRef((props, ref) => (
   <Input
     {...props}
@@ -31,6 +32,13 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
+  const user = useSelector(state => state.Auth);
+
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      navigate('/');
+    }
+  }, [])
 
   const handleChange = (e) => {
     if (typeof e === "string" || typeof e === "undefined") {
@@ -55,7 +63,6 @@ const Register = () => {
     const formData = {
       name: form.name,
       email: form.email,
-
       phone: phoneObj,
       password: form.password,
     };
@@ -215,7 +222,7 @@ const Register = () => {
           <p className="text-center text-sm text-[var(--primary)] mt-6">
             Already have an account?{" "}
             <a
-              href="/"
+              href="/login"
               className="text-[var(--tertiary)] font-medium hover:underline"
             >
               Sign in

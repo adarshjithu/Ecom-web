@@ -1,9 +1,4 @@
-import { useState } from "react";
-import { Minus, Plus } from "lucide-react";
-
 const ProductDescription = ({ desktop }) => {
-  const [showMore, setShowMore] = useState(desktop ? true : false);
-
   const productItems = [
     {
       image:
@@ -23,7 +18,7 @@ const ProductDescription = ({ desktop }) => {
   ];
 
   return (
-    <div className="bg-white  space-y-4">
+    <div className="bg-white space-y-4 mb-3">
       {!desktop && (
         <h2 className="text-base font-semibold text-[var(--primary)]">
           Product Description
@@ -32,17 +27,15 @@ const ProductDescription = ({ desktop }) => {
 
       <div className="grid grid-cols-3 gap-3">
         {productItems.map((item, index) => (
-          <div>
-            {" "}
+          <div key={index}>
             <div
-              key={index}
               className={`rounded-2xl ${
-                desktop ? "h-210" : "h-45"
+                desktop ? "h-210" : "h-45 md:h-36"
               } overflow-hidden shadow bg-white flex flex-col items-center`}
             >
               <img
                 src={item.image}
-                alt={item.name}
+                alt={item.title}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -55,54 +48,33 @@ const ProductDescription = ({ desktop }) => {
         ))}
       </div>
 
-      {!showMore && (
-        <button
-          onClick={() => setShowMore(true)}
-          className="flex items-center text-[#FB6900] text-sm font-medium"
+      <div className={`mt-6 ${desktop ? "flex space-x-6" : "space-y-6"}`}>
+        <div
+          className={`rounded-2xl overflow-hidden ${
+            desktop ? "h-200 flex-1" : "h-120 md:h-96"
+          }`}
         >
-          <Plus size={16} className="ml-1" />
-          <span>Show more</span>
-        </button>
-      )}
+          <img
+            src="https://www.matrixprofessional.in/-/media/project/loreal/brand-sites/matrix/apac/in/product-information/product-images/haircare/category-banner/opticare-category-banner-750x750.jpg?rev=6528de2e5a1d4c2aa7fc71fbf9328bfb"
+            alt="Matrix Opti Care Shampoo"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-      {showMore && (
-        <div className={`mt-6 ${desktop ? "flex space-x-6" : "space-y-6"}`}>
+        <div className={`${desktop ? "flex-1" : "mt-6 space-y-6"}`}>
           <div
-            className={`rounded-2xl overflow-hidden ${
-              desktop ? "h-200 flex-1" : "h-120"
+            className={`bg-orange-50 rounded-2xl overflow-hidden ${
+              desktop ? "h-200" : "h-95 md:h-80"
             }`}
           >
             <img
-              src="https://www.matrixprofessional.in/-/media/project/loreal/brand-sites/matrix/apac/in/product-information/product-images/haircare/category-banner/opticare-category-banner-750x750.jpg?rev=6528de2e5a1d4c2aa7fc71fbf9328bfb"
+              src="https://m.media-amazon.com/images/I/71uvPSMe2jL._AC_UF1000,1000_QL80_.jpg"
               alt="Matrix Opti Care Shampoo"
               className="w-full h-full object-cover"
             />
           </div>
-
-          <div className={`${desktop ? "flex-1" : "mt-6 space-y-6"}`}>
-            <div
-              className={`bg-orange-50 rounded-2xl overflow-hidden ${
-                desktop ? "h-200" : "h-95"
-              }`}
-            >
-              <img
-                src="https://m.media-amazon.com/images/I/71uvPSMe2jL._AC_UF1000,1000_QL80_.jpg"
-                alt="Matrix Opti Care Shampoo"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
         </div>
-      )}
-      {showMore && !desktop && (
-        <button
-          onClick={() => setShowMore(!showMore)}
-          className="flex items-center text-[#FB6900] text-sm font-medium"
-        >
-          <Minus size={16} />
-          <span> Show less</span>
-        </button>
-      )}
+      </div>
     </div>
   );
 };

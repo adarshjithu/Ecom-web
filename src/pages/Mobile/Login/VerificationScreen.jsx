@@ -4,11 +4,13 @@ import { CircleCheck } from "lucide-react";
 import Ecom from "../../../assets/icon/Ecom.svg";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { useState, forwardRef } from "react";
+import { useState, forwardRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { sendOTP } from "@/api/authApi";
 import getPhoneObject from "@/lib/phoneobject";
+import { useSelector } from "react-redux";
+
 
 const TailwindPhoneInput = forwardRef((props, ref) => (
   <Input
@@ -29,11 +31,19 @@ function VerificationScreen() {
   const isValidMobile = mobile ? isValidPhoneNumber(mobile) : false;
   const isValidEmail = /^[\w.%+-]+@[A-Za-z\d.-]+\.[A-Za-z]{2,}$/.test(email);
 
+  const user = useSelector(state => state.Auth);
+  useEffect(() => {
+    if(!state) navigate('/404')
+    if (user.isAuthenticated) {
+      navigate('/');
+    }
+  }, [])
+  console.log(state)
   const handleSendOTP = async () => {
     setLoading(true);
     let purposeValue = "";
     try {
-      if (state === "email") {
+      if (state?.type === "email" && state?.purpose != "reset-password") {
         purposeValue = "login-email";
         try {
           await sendOTP({ email, purpose: purposeValue });
@@ -46,6 +56,8 @@ function VerificationScreen() {
             throw err;
           }
         }
+      }else if(state?.type == "email" && state?.purpose =="reset-password"){
+        await sendOTP({email, purpose: "reset-password"});
       } else {
         const phoneObj = getPhoneObject(mobile);
         if (!phoneObj) throw new Error("Invalid phone number format");
@@ -64,9 +76,9 @@ function VerificationScreen() {
       }
       navigate("/otp", {
         state: {
-          type: state,
-          value: state === "email" ? email : mobile,
-          purpose: purposeValue,
+          type: state?.type,
+          value: state?.type === "email" ? email : mobile,
+          purpose:state?.purpose ? state?.purpose : purposeValue,
         },
       });
     } catch (err) {
@@ -81,7 +93,7 @@ function VerificationScreen() {
       <div className="flex justify-center md:justify-start md:pl-8 md:pt-0 pt-10 mb-6">
         <div className="flex flex-row items-center gap-2">
           <img src={Ecom} alt="Ecom" className="w-8 h-8" />
-          <span className="text-[#0D2C8D] font-bold text-3xl tracking-wide">
+          <span className="text-[#0D2C8D] cursor-pointer font-bold text-3xl tracking-wide" onClick={()=>navigate('/')}>
             E-COM
           </span>
         </div>
@@ -89,10 +101,10 @@ function VerificationScreen() {
       <div className="flex flex-col items-center justify-center min-h-[80vh] w-ful">
         <div className="flex flex-col items-center py-4 ">
           <h2 className="text-2xl font-semibold text-center text-[var(--primary)] p-2">
-            Verify Your {state === "email" ? "Email ID" : "Mobile Number"}
+            Verify Your {state?.type === "email" ? "Email ID" : "Mobile Number"}
           </h2>
           <p className="text-sm font-normal text-[var(--secondary)] w-4/5 text-center">
-            Enter your {state === "email" ? "email ID" : "mobile number"} to
+            Enter your {state?.type === "email" ? "email ID" : "mobile number"} to
             receive a one-time verification code.
           </p>
         </div>
@@ -100,10 +112,10 @@ function VerificationScreen() {
           <div className="flex flex-col p-4 py-12 gap-4 w-full max-w-xl">
             <div>
               <label className="block text-sm font-medium text-[var(--primary)] mb-2">
-                {state === "email" ? "Email ID" : "Mobile Number"}
+                {state?.type === "email" ? "Email ID" : "Mobile Number"}
               </label>
               <div className="relative">
-                {state === "email" ? (
+                {state?.type === "email" ? (
                   <Input
                     type="email"
                     placeholder="example@gmail.com"
@@ -133,7 +145,7 @@ function VerificationScreen() {
               onClick={handleSendOTP}
               className="w-full"
               disabled={
-                loading || (state === "email" ? !isValidEmail : !isValidMobile)
+                loading || (state?.type === "email" ? !isValidEmail : !isValidMobile)
               }
             >
               Send OTP

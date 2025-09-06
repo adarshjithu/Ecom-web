@@ -16,7 +16,7 @@ const navItems = [
   },
   {
     label: "Wishlist",
-    route: "/cart",
+    route: "/wishlist",
     icon: Heart,
   },
   {

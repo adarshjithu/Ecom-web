@@ -1,71 +1,122 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const slides = [
-  {
-    image:
-      "https://www.myprotein.com/images?url=https://blogscdn.thehut.net/app/uploads/sites/478/2022/07/weekend-warriors-feature-min_1657891505.jpg&auto=avif&width=1200&fit=crop",
-    headline: "GEAR UP. GRIND HARD. GET STRONG",
-    subheading:
-      "Everything you need to conquer your workouts — all in one place.",
-    cta: "Explore Now",
-  },
-];
+// const slides = [
+//   {
+//     image:
+//       "https://www.myprotein.com/images?url=https://blogscdn.thehut.net/app/uploads/sites/478/2022/07/weekend-warriors-feature-min_1657891505.jpg&auto=avif&width=1200&fit=crop",
+//     headline: "GEAR UP. GRIND HARD. GET STRONG",
+//     subheading:
+//       "Everything you need to conquer your workouts — all in one place.",
+//     cta: "Explore Now",
+//   },
+//    {
+//     image:
+//       "https://www.myprotein.com/images?url=https://blogscdn.thehut.net/app/uploads/sites/478/2022/07/weekend-warriors-feature-min_1657891505.jpg&auto=avif&width=1200&fit=crop",
+//     headline: "GEAR UP. GRIND HARD. GET STRONG",
+//     subheading:
+//       "Everything you need to conquer your workouts — all in one place.",
+//     cta: "Explore Now",
+//   },
+// ];
 
-const HomeCarousel = () => {
+const HomeCarousel = ({ slides }) => {
   const [current, setCurrent] = useState(0);
-
-  const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
+  const navigate = useNavigate()
+  const nextSlide = () => setCurrent((prev) => (prev + 1) % slides?.length);
   const prevSlide = () =>
-    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrent((prev) => (prev - 1 + slides?.length) % slides?.length);
+
+    useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [slides?.length]);
 
   return (
-    <div className="relative w-full h-[90vh] flex items-center justify-center overflow-hidden">
-      <img
-        src={slides[current].image}
-        alt="carousel"
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10"></div>
+    <>
+      {/* Mobile/Tablet Carousel */}
+      <div className="flex lg:hidden w-full justify-center items-center py-4">
+        <div className="bg-white rounded-xl w-full mx-2 sm:mx-4 md:mx-8 flex flex-col items-center">
+          <div className="w-full aspect-[16/9] overflow-hidden rounded-xl relative">
+            <img
+              src={slides?.[current]?.image}
+              alt="carousel"
+              className="w-full h-full object-cover transition-all duration-500"
+            />
+          </div>
+          <div className="flex flex-col items-center w-full py-2">
+            {/* Pagination pill */}
+            <div className="flex items-center justify-center mb-2">
+              <span className="bg-[#1a237e] text-white text-xs font-semibold px-3 py-1 rounded-full">
+                {current + 1}/{slides?.length}
+              </span>
+            </div>
+            {/* Dots */}
+            <div className="flex items-center justify-center space-x-2">
+              {slides?.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrent(idx)}
+                  className={`w-2 h-2 rounded-full transition-all duration-200 ${idx === current ? "bg-[#1a237e]" : "bg-gray-300"
+                    }`}
+                ></button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-[40vh] backdrop-blur-sm bg-black/20 z-15"></div>
+      {/* Desktop Carousel */}
+      <div className="hidden lg:flex relative w-full h-[90vh] items-center justify-center overflow-hidden">
+        <img
+          src={slides?.[current]?.image}
+          alt="carousel"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10"></div>
 
-      <div className="absolute bottom-0 w-full flex flex-col items-center justify-center pb-16 z-20">
-        <h2 className="text-5xl md:text-4xl font-medium text-white text-center mb-4">
-          {slides[current].headline}
-        </h2>
-        <p className="text-white text-2xl font-medium text-center mb-6">
-          {slides[current].subheading}
-        </p>
-        <button className="bg-white text-lg backdrop-blur-sm text-[var(--tertiary)] font-medium px-6 py-2 rounded-[8px] shadow hover:bg-white transition-all duration-200">
-          {slides[current].cta}
+        <div className="absolute bottom-0 left-0 right-0 h-[40vh] backdrop-blur-sm bg-black/20 z-15"></div>
+
+        <div className="absolute bottom-0 w-full flex flex-col items-center justify-center pb-16 z-20">
+          <h2 className="text-5xl md:text-4xl font-medium text-white text-center mb-4">
+            {slides?.[current]?.collectionTitle}
+          </h2>
+          <p className="text-white text-2xl font-medium text-center mb-6">
+            {slides?.[current]?.subheading}
+          </p>
+          <button onClick={()=>navigate(`/collections/${slides?.[current]?.collectionHandle}`)} className="bg-white text-lg backdrop-blur-sm text-[var(--tertiary)] font-medium px-6 py-2 rounded-[8px] shadow hover:bg-white transition-all duration-200">
+             Explore More
+          </button>
+        </div>
+
+        <button
+          onClick={prevSlide}
+          className="absolute left-12 bottom-8 bg-white/20 backdrop-blur-md hover:bg-white/30 rounded-full p-2 z-30 transition-all duration-200"
+        >
+          <ArrowLeft className="w-6 h-6 text-white" strokeWidth={"1.5px"} />
         </button>
-      </div>
+        <button
+          onClick={nextSlide}
+          className="absolute right-12 bottom-8 bg-white/20 backdrop-blur-md hover:bg-white/30 rounded-full p-2 z-30 transition-all duration-200"
+        >
+          <ArrowRight className="w-6 h-6 text-white" strokeWidth={"1.5px"} />
+        </button>
 
-      <button
-        onClick={prevSlide}
-        className="absolute left-12 bottom-8 bg-white/20 backdrop-blur-md hover:bg-white/30 rounded-full p-2 z-30 transition-all duration-200"
-      >
-        <ArrowLeft className="w-6 h-6 text-white" strokeWidth={"1.5px"} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-12 bottom-8 bg-white/20 backdrop-blur-md hover:bg-white/30 rounded-full p-2 z-30 transition-all duration-200"
-      >
-        <ArrowRight className="w-6 h-6 text-white" strokeWidth={"1.5px"} />
-      </button>
-
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-30">
-        {slides.map((_, idx) => (
-          <span
-            key={idx}
-            className={`w-2 h-2 rounded-full ${
-              idx === current ? "bg-white" : "bg-[var(--tertiary)]"
-            }`}
-          ></span>
-        ))}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-30">
+          {slides?.map((_, idx) => (
+            <span
+              key={idx}
+              className={`w-2 h-2 rounded-full ${idx === current ? "bg-white" : "bg-[var(--tertiary)]"
+                }`}
+            ></span>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

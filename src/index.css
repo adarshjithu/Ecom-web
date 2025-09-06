@@ -1,6 +1,80 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Swiper Carousel Styles */
+.swiper {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+}
+
+.swiper:active {
+  cursor: grabbing;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: pan-y pinch-zoom;
+}
+
+.swiper-slide:hover {
+  transform: translateY(-2px);
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Hide scrollbar for webkit browsers */
+.swiper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.swiper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Free mode momentum styles */
+.swiper-free-mode > .swiper-wrapper {
+  transition-timing-function: ease-out;
+}
+
+/* Line clamp utilities for product cards */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -141,3 +215,18 @@
 .scrollbar-hide {
   -ms-overflow-style: none;
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.animate-shimmer {
+  animation: shimmer 1.5s linear infinite;
+  background: linear-gradient(90deg, #e5e7eb 0%, #f3f4f6 50%, #e5e7eb 100%);
+  background-size: 200% 100%;
+}
+

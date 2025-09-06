@@ -1,0 +1,30 @@
+// Cart Action Types
+
+// Add to cart
+export const ADD_TO_CART_REQUEST = 'ADD_TO_CART_REQUEST';
+export const ADD_TO_CART_SUCCESS = 'ADD_TO_CART_SUCCESS';
+export const ADD_TO_CART_FAILURE = 'ADD_TO_CART_FAILURE';
+
+// Get cart
+export const GET_CART_REQUEST = 'GET_CART_REQUEST';
+export const GET_CART_SUCCESS = 'GET_CART_SUCCESS';
+export const GET_CART_FAILURE = 'GET_CART_FAILURE';
+
+// Remove from cart
+export const REMOVE_FROM_CART_REQUEST = 'REMOVE_FROM_CART_REQUEST';
+export const REMOVE_FROM_CART_SUCCESS = 'REMOVE_FROM_CART_SUCCESS';
+export const REMOVE_FROM_CART_FAILURE = 'REMOVE_FROM_CART_FAILURE';
+
+// Update cart quantity
+export const UPDATE_CART_QUANTITY_REQUEST = 'UPDATE_CART_QUANTITY_REQUEST';
+export const UPDATE_CART_QUANTITY_SUCCESS = 'UPDATE_CART_QUANTITY_SUCCESS';
+export const UPDATE_CART_QUANTITY_FAILURE = 'UPDATE_CART_QUANTITY_FAILURE';
+
+// Clear cart
+export const CLEAR_CART = 'CLEAR_CART';
+
+// Set cart loading
+export const SET_CART_LOADING = 'SET_CART_LOADING';
+
+
+

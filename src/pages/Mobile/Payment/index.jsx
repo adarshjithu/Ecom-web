@@ -1,766 +1,322 @@
-import { useState } from "react";
-import { ArrowLeft, ChevronDown, ChevronUp } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Minus, Plus, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeFromCartRequest,
+  updateCartQuantityRequest,
+} from "@/store/Cart/actions";
+import { fetchAddressesRequest } from "@/store/actions";
+import AddressForm from "../Address/AddressForm";
+import { showError, showSuccess } from "@/helpers/notification_helper";
+import axiosInstance from "@/api/axiosintercepter";
+import { getCart } from "@/api/cartApi";
+
+// --- move this OUTSIDE the Payment component ---
+const OrderSummary = ({ items, cart, totalMRP, savedAmount, totalPrice, couponCode, setCouponCode, updateQuantity }) => (
+  <div className="bg-[#F6F8FF] rounded-lg shadow p-4 w-full">
+    {items?.map((item) => (
+      <div key={item.id} className="flex items-center justify-between py-4 border-b last:border-b-0">
+        {/* item details */}
+        <div className="flex items-center">
+          <img
+            src={item.productId?.thumbnail}
+            alt={item?.productId?.name}
+            className="w-16 h-16 rounded mr-4"
+          />
+          <div>
+            <p className="text-sm font-medium">{item.productId?.name}</p>
+            {item.variant?.attributes?.length > 0 && (
+              <p className="text-xs text-gray-500 mb-1">
+                {item.variant.attributes.map((attr) => attr.value).join(", ")}
+              </p>
+            )}
+
+            <div className="flex items-center gap-2 mb-2">
+              <span className="line-through text-sm text-[var(--secondary)]">
+                ₹{item.mrp.toFixed(2)}
+              </span>
+              <span className="text-base font-semibold text-[var(--primary)]">
+                ₹{item.sellingPrice.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="flex items-center mt-2">
+              <button
+                onClick={() => updateQuantity(item.productId._id, item.variantId, "decrement")}
+                className="border p-1 rounded"
+              >
+                <Minus size={14} />
+              </button>
+              <span className="px-3">{item.quantity}</span>
+              <button
+                onClick={() => updateQuantity(item.productId._id, item.variantId, "increment")}
+                className="border p-1 rounded"
+              >
+                <Plus size={14} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+
+    <div className="border-t mt-4 pt-4">
+      <input
+        type="text"
+        value={couponCode}
+        placeholder="Code or gift card"
+        className="w-full border bg-white rounded p-2 text-sm mb-3"
+        onChange={(e) => setCouponCode(e.target.value)}
+      />
+
+      <div className="mt-4 text-sm space-y-1">
+        <div className="flex justify-between">
+          <span>Subtotal - {items?.length} items</span>
+          <span>₹ {totalMRP?.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Discount</span>
+          <span>₹ {savedAmount?.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Shipping</span>
+          <span>{cart?.shipping ? `₹ ${cart?.shipping}` : "FREE"}</span>
+        </div>
+      </div>
+
+      <div className="flex justify-between font-semibold text-lg mt-4">
+        <span>Total</span>
+        <span>₹ {totalPrice}</span>
+      </div>
+    </div>
+  </div>
+);
+
 
 const Payment = () => {
   const navigate = useNavigate();
-  const [isOrderSummaryExpanded, setIsOrderSummaryExpanded] = useState(true);
+  const dispatch = useDispatch();
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("COD");
   const [couponCode, setCouponCode] = useState("");
-  const [shippingMethod, setShippingMethod] = useState("prepaid");
-  const [paymentMethod, setPaymentMethod] = useState("razorpay");
-  const [billingAddressOption, setBillingAddressOption] = useState("same");
-
-  const orderItems = [
-    {
-      id: 1,
-      name: "Pain Relief Spray for Lower Back Pain, Joint Pain, Neck...",
-      quantity: 2,
-      price: 165.0,
-      volume: "100 ml",
-      image:
-        "https://www.matrixprofessional.in/-/media/project/loreal/brand-sites/matrix/apac/in/product-information/product-images/haircare/opti/opti-care-shampoo/8901526401222-1.jpg?rev=681873011b0b4faf965d12b89532e64e",
-    },
-    {
-      id: 2,
-      name: "Pain Relief Spray for Lower Back Pain, Joint Pain, Neck...",
-      quantity: 2,
-      price: 165.0,
-      volume: "100 ml",
-      image:
-        "https://img.tatacliq.com/images/i22//658Wx734H/MP000000019896603_658Wx734H_202501131614001.jpeg",
-    },
-  ];
-
-  const subtotal = orderItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const {
+    cart,
+    items,
+    totalMRP,
+    totalPrice,
+    savedAmount,
+  } = useSelector((state) => state.Cart);
+  const addresses = useSelector((state) => state.Address.addresses);
+  const [selectedAddressId, setSelectedAddressId] = useState(
+    addresses[0]?._id
   );
-  const discount = 40;
-  const shipping = shippingMethod === "cod" ? 40 : 0;
-  const total = subtotal - discount + shipping;
 
-  const handleApplyCoupon = () => {
-    console.log("Applying coupon:", couponCode);
+  useEffect(() => {
+    dispatch(fetchAddressesRequest());
+  }, [dispatch]);
+
+  const updateQuantity = (productId, variantId, action) => {
+    dispatch(updateCartQuantityRequest(productId, variantId, action));
+  };
+  console.log(couponCode)
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+    setEditingAddress(null);
   };
 
-  const OrderSummary = ({ isDesktop = false }) => (
-    <div className={` ${isDesktop ? "h-fit sticky top-4" : ""}`}>
-      {!isDesktop && (
-        <div className="bg-[#F6F8FF]">
-          <button
-            onClick={() => setIsOrderSummaryExpanded(!isOrderSummaryExpanded)}
-            className="w-full p-4 flex items-center justify-between text-left"
-          >
-            <span className="text-base font-normal text-[var(--primary)]">
-              Order summary
-            </span>
-            {isOrderSummaryExpanded ? (
-              <ChevronUp size={20} className="text-[var(--icon)]" />
-            ) : (
-              <ChevronDown size={20} className="text-[var(--icon)]" />
-            )}
-          </button>
-        </div>
-      )}
+  const handleCheckout = async () => {
+    if (!name.trim()) {
+      showError("Please enter your name");
+      return;
+    }
+    if (!phone.trim()) {
+      showError("Please enter your phone number");
+      return;
+    }
 
-      {(isOrderSummaryExpanded || isDesktop) && (
-        <div
-          className={
-            isDesktop
-              ? "p-6 border border-[var(--border)] bg-[#F6F8FF] rounded-lg"
-              : "pb-4 bg-[#F6F8FF]"
-          }
-        >
-          {orderItems.map((item) => (
-            <div key={item.id} className="flex items-start space-x-3 px-4 py-3">
-              <div className="relative">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-15 h-20 object-cover rounded-lg"
-                />
-                <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {item.quantity}
-                </div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-sm font-normal text-[#4E4E4E] line-clamp-2">
-                  {item.name}
-                </h3>
-                <p className="text-sm text-[var(--secondary)] mt-1">
-                  {item.volume}
-                </p>
-                <button className="text-sm text-[#353535] underline mt-1">
-                  Edit
-                </button>
-              </div>
-              <div className="text-right">
-                <span className="text-sm font-normal text-[var(--primary)]">
-                  ₹{item.price.toFixed(2)}
-                </span>
-              </div>
-            </div>
-          ))}
+    if (!selectedAddressId) {
+      showError("Please select an address");
+      return;
+    }
 
-          <div className={`px-3 py-3 ${!isDesktop ? "bg-[#F6F8FF]" : ""}`}>
-            <div className="flex items-center space-x-2">
-              <Input
-                type="text"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                placeholder="Code or gift card"
-                className="bg-white w-full"
-              />
-              <Button
-                onClick={handleApplyCoupon}
-                variant={"secondary"}
-                className="whitespace-nowrap"
-              >
-                Apply
-              </Button>
-            </div>
-          </div>
+    try {
+      const res = await axiosInstance.post(
+        "user/cart/checkout",
+        {
+          addressId: selectedAddressId,
+          paymentMethod,
+          couponCode,
+          name,
+          phone,
+        }
+      );
 
-          <div
-            className={`p-4 space-y-2 ${
-              !isDesktop
-                ? "bg-[#F6F8FF]"
-                : "border-t border-[var(--border)] mt-4"
-            }`}
-          >
-            <div className="flex justify-between text-sm">
-              <span className="text-[#71717A]">
-                Subtotal- {orderItems.length} items
-              </span>
-              <span className="text-[#71717A]">₹ {subtotal}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-[#71717A]">Discount</span>
-              <span className="text-[#71717A]">₹ {discount}</span>
-            </div>
-            <div className="flex justify-between text-sm text-[#71717A]">
-              <span>Shipping</span>
-              <span>{shipping === 0 ? "FREE" : `₹ ${shipping}`}</span>
-            </div>
-            <div className="flex justify-between text-lg font-semibold pt-2">
-              <span>Total</span>
-              <span>₹ {total}</span>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+      showSuccess("Order placed successfully!");
+      window.location.href = '/order-success'
+    } catch (error) {
+      showError(error?.response?.data?.message || "Failed to place order");
+    }
+  };
+
+
+
+
+  if (!items || items.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white text-center">
+        <ShoppingBag className="w-26 h-26 text-gray-400 mb-4" />
+        <h2 className="text-lg font-semibold mb-2">No items in your cart</h2>
+        <p className="text-gray-500 mb-4">
+          Looks like you haven’t added anything yet.
+        </p>
+        <Button onClick={() => navigate("/products")}>Browse Products</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="lg:hidden bg-white border-b border-[var(--border)] p-4">
-        <div className="flex items-center space-x-4 max-w-md mx-auto">
-          <button
-            className="p-2 rounded-full border border-[var(--border] hover:bg-gray-50"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft size={20} className="text-[var(--icon)]" />
-          </button>
-          <h1 className="text-lg font-semibold text-[var(--primary)]">
-            Payment
-          </h1>
-        </div>
-      </div>
+      <div className="max-w-7xl mx-auto p-4 lg:p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Left Section */}
+          <div className="lg:col-span-7 space-y-8 order-2 lg:order-1">
 
-      <div className="hidden lg:block max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-7">
-            <div className="bg-white rounded-lg p-6">
-              <div className="mb-8">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-base font-medium text-[var(--primary)]">
-                    Contact
-                  </h2>
-                  <button className="text-[#0D2C8D] text-sm font-medium">
-                    Log in
-                  </button>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-[#09090B] mb-2">
-                      Email
-                    </label>
-                    <Input type="email" placeholder="Enter email" />
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="emailOffers" />
-                    <label
-                      htmlFor="emailOffers"
-                      className="text-sm text-[#09090B]"
-                    >
-                      Email me offers
-                    </label>
-                  </div>
-                </div>
+            {/* Name & Phone Inputs */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="name" className="mb-2">Name</Label>
+                <Input
+                  id="name"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
-
-              <div className="mb-8">
-                <h2 className="text-base font-semibold mb-4">Delivery</h2>
-
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-[#09090B] mb-2">
-                      First name
-                    </label>
-                    <Input type="text" placeholder="Enter" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-[#09090B] mb-2">
-                      Last name
-                    </label>
-                    <Input type="text" placeholder="Enter" />
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-[#09090B] mb-2">
-                      Address
-                    </label>
-                    <Input type="text" placeholder="Enter" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-[#09090B] mb-2">
-                      City
-                    </label>
-                    <Input type="text" placeholder="Enter" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-[#09090B] mb-2">
-                        State
-                      </label>
-                      <Input type="text" placeholder="Enter" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[#09090B] mb-2">
-                        PIN code
-                      </label>
-                      <Input type="text" placeholder="Enter" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2 mt-4">
-                  <Checkbox id="saveAddress" />
-                  <label
-                    htmlFor="saveAddress"
-                    className="text-sm text-[#09090B]"
-                  >
-                    Save this information for next time
-                  </label>
-                </div>
+              <div>
+                <Label htmlFor="phone" className="mb-2">Phone</Label>
+                <Input
+                  id="phone"
+                  placeholder="Enter phone number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
               </div>
+            </div>
 
-              <div className="mb-8">
-                <h2 className="text-base font-medium mb-4">Shipping method</h2>
-                <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-                  <RadioGroup
-                    value={shippingMethod}
-                    onValueChange={setShippingMethod}
-                    className="divide-y divide-[var(--border)]"
-                  >
-                    <div
-                      className={`flex items-center justify-between px-4 py-3 ${
-                        shippingMethod === "prepaid"
-                          ? "bg-blue-50"
-                          : "hover:bg-gray-50"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="prepaid"
-                          id="prepaid"
-                          className={
-                            shippingMethod === "prepaid" ? "text-blue-600" : ""
-                          }
-                        />
-                        <Label
-                          htmlFor="prepaid"
-                          className={
-                            shippingMethod === "prepaid"
-                              ? "text-[var(--primary)] font-normal"
-                              : "text-[var(--secondary)] font-normal"
-                          }
-                        >
-                          Prepaid - Net banking, UPI, Debit/Credit Card
-                        </Label>
-                      </div>
-                      <span className="text-sm font-normal">FREE</span>
-                    </div>
-                    <div
-                      className={`flex items-center justify-between px-4 py-3 ${
-                        shippingMethod === "cod"
-                          ? "bg-blue-50"
-                          : "hover:bg-gray-50"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="cod"
-                          id="cod"
-                          className={
-                            shippingMethod === "cod" ? "text-blue-600" : ""
-                          }
-                        />
-                        <Label
-                          htmlFor="cod"
-                          className={
-                            shippingMethod === "cod"
-                              ? "text-[var(--primary)] font-normal"
-                              : "text-[var(--secondary)] font-normal"
-                          }
-                        >
-                          Cash on Delivery
-                        </Label>
-                      </div>
-                      <span className="text-sm font-normal">₹ 40</span>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
-
-              <div className="mb-8">
-                <h2 className="text-base font-medium mb-1">Payment</h2>
-                <p className="text-sm text-gray-500 mb-4">
-                  All transactions are secure and encrypted
+            {/* Address Selection */}
+            {addresses.length === 0 ? (
+              <div className="flex flex-col items-center text-center border rounded-lg p-6">
+                <p className="text-gray-500 mb-3">
+                  No addresses found. Please add one to proceed.
                 </p>
-
-                <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-                  <RadioGroup
-                    value={paymentMethod}
-                    onValueChange={setPaymentMethod}
-                    className="divide-y divide-gray-200"
-                  >
-                    <div
-                      className={`flex items-center justify-between px-4 py-3 ${
-                        paymentMethod === "razorpay"
-                          ? "bg-blue-50"
-                          : "hover:bg-gray-50"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="razorpay"
-                          id="razorpay"
-                          className={
-                            paymentMethod === "razorpay" ? "text-blue-600" : ""
-                          }
-                        />
-                        <Label
-                          htmlFor="razorpay"
-                          className={
-                            paymentMethod === "razorpay"
-                              ? "text-[var(--primary)] font-normal"
-                              : "text-[var(--secondary)] font-normal"
-                          }
-                        >
-                          Razorpay Secure(UPI, Cards, Wallets, NetBanking)
-                        </Label>
-                      </div>
-                      <span className="text-xs font-normal text-gray-500">
-                        ICONS OF CARDS
-                      </span>
-                    </div>
-                    <div
-                      className={`flex items-center justify-between px-4 py-3 ${
-                        paymentMethod === "other"
-                          ? "bg-blue-50"
-                          : "hover:bg-gray-50"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="other"
-                          id="other"
-                          className={
-                            paymentMethod === "other" ? "text-blue-600" : ""
-                          }
-                        />
-                        <Label
-                          htmlFor="other"
-                          className={
-                            paymentMethod === "other"
-                              ? "text-[var(--primary)] font-normal"
-                              : "text-[var(--secondary)] font-normal"
-                          }
-                        >
-                          Cards, UPI, NB, Wallets, BNPL
-                        </Label>
-                      </div>
-                      <span className="text-xs font-normal text-gray-500">
-                        ICONS OF CARDS
-                      </span>
-                    </div>
-                  </RadioGroup>
-                </div>
+                <Button onClick={() => setIsFormOpen(true)}>
+                  + Add New Address
+                </Button>
               </div>
-
-              <div className="mb-8">
-                <h2 className="text-base font-medium mb-4">Billing address</h2>
-                <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-                  <RadioGroup
-                    value={billingAddressOption}
-                    onValueChange={setBillingAddressOption}
-                    className="divide-y divide-gray-200"
-                  >
+            ) : (
+              <div>
+                <h2 className="text-base font-semibold mb-4">Select Address</h2>
+                <RadioGroup value={selectedAddressId} className="grid grid-cols-2 sm:grid-cols-3">
+                  {addresses.map((addr) => (
                     <div
-                      className={`flex items-center px-4 py-3 ${
-                        billingAddressOption === "same"
-                          ? "bg-blue-50"
-                          : "hover:bg-gray-50"
-                      }`}
+                      key={addr._id}
+                      className={`p-4 border items-start rounded-lg mb-2 cursor-pointer ${selectedAddressId === addr._id
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-gray-300"
+                        }`}
+                      onClick={() => setSelectedAddressId(addr?._id)}
                     >
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-start space-x-2">
                         <RadioGroupItem
-                          value="same"
-                          id="same"
-                          className={
-                            billingAddressOption === "same"
-                              ? "text-blue-600"
-                              : ""
-                          }
+                          value={addr._id}
+                          id={`addr-${addr._id}`}
+                          className="mt-1"
                         />
                         <Label
-                          htmlFor="same"
-                          className={
-                            billingAddressOption === "same"
-                              ? "text-[var(--primary)] font-normal"
-                              : "text-[var(--secondary)] font-normal"
-                          }
+                          htmlFor={`addr-${addr._id}`}
+                          className="cursor-pointer"
                         >
-                          Same as shipping address
+                          <div className="font-medium">{addr.name}</div>
+                          <div className="text-sm text-gray-600">
+                            {addr?.apartment +
+                              ", " +
+                              addr?.building +
+                              ", " +
+                              addr?.landmark +
+                              ", " +
+                              addr?.street +
+                              ", " +
+                              addr?.city +
+                              ", " +
+                              addr?.emirate}
+                          </div>
                         </Label>
                       </div>
                     </div>
-                    <div
-                      className={`flex items-center px-4 py-3 ${
-                        billingAddressOption === "different"
-                          ? "bg-blue-50"
-                          : "hover:bg-gray-50"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="different"
-                          id="different"
-                          className={
-                            billingAddressOption === "different"
-                              ? "text-blue-600"
-                              : ""
-                          }
-                        />
-                        <Label
-                          htmlFor="different"
-                          className={
-                            billingAddressOption === "different"
-                              ? "text-[var(--primary)] font-normal"
-                              : "text-[var(--secondary)] font-normal"
-                          }
-                        >
-                          Use a different billing address
-                        </Label>
-                      </div>
-                    </div>
-                  </RadioGroup>
-                </div>
+                  ))}
+                </RadioGroup>
+                <Button
+                  variant="outline"
+                  className="mt-3"
+                  onClick={() => setIsFormOpen(true)}
+                >
+                  + Add New Address
+                </Button>
               </div>
+            )}
 
-              <Button className="w-full">Pay Now</Button>
-            </div>
-          </div>
-
-          <div className="col-span-5">
-            <OrderSummary isDesktop={true} />
-          </div>
-        </div>
-      </div>
-
-      <div className="lg:hidden max-w-md mx-auto bg-white">
-        <OrderSummary isDesktop={false} />
-
-        <div className="p-4 border-b border-[var(--border)]">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-base font-medium text-[var(--primary)]">
-              Contact
-            </h2>
-            <button className="text-[#0D2C8D] text-sm font-medium">
-              Log in
-            </button>
-          </div>
-
-          <div className="space-y-4">
-            <label className="block text-sm font-medium text-[#09090B] mb-2">
-              Email
-            </label>
-            <Input type="email" placeholder="Enter email" />
-
-            <div className="flex items-center space-x-2">
-              <Checkbox id="emailOffers" />
-              <label htmlFor="emailOffers" className="text-sm text-[#09090B]">
-                Email me offers
-              </label>
-            </div>
-            <h2 className="text-base font-semibold">Delivery address</h2>
-
-            <label className="block text-sm font-medium text-[#09090B] mb-2">
-              First name
-            </label>
-            <Input type="text" placeholder="Enter" />
-            <label className="block text-sm font-medium text-[#09090B] mb-2">
-              Last name
-            </label>
-            <Input type="text" placeholder="Enter" />
-            <label className="block text-sm font-medium text-[#09090B] mb-2">
-              Address
-            </label>
-            <Input type="text" placeholder="Enter" />
-            <label className="block text-sm font-medium text-[#09090B] mb-2">
-              City
-            </label>
-            <Input type="text" placeholder="Enter" />
-            <label className="block text-sm font-medium text-[#09090B] mb-2">
-              State
-            </label>
-            <Input type="text" placeholder="Enter" />
-            <label className="block text-sm font-medium text-[#09090B] mb-2">
-              Pincode
-            </label>
-            <Input type="text" placeholder="Enter" />
-            <div className="flex items-center space-x-2">
-              <Checkbox id="saveAddress" />
-              <label htmlFor="saveAddress" className="text-sm text-[#09090B]">
-                Save this information for next time
-              </label>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <h2 className="text-base font-medium mb-4">Shipping method</h2>
-            <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-              <RadioGroup
-                value={shippingMethod}
-                onValueChange={setShippingMethod}
-                className="divide-y divide-[var(--border)]"
-              >
-                <div
-                  className={`flex items-center justify-between px-4 py-3 ${
-                    shippingMethod === "prepaid"
-                      ? "bg-blue-50"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="prepaid"
-                      id="prepaid"
-                      className={
-                        shippingMethod === "prepaid" ? "text-blue-600" : ""
-                      }
-                    />
-                    <Label
-                      htmlFor="prepaid"
-                      className={
-                        shippingMethod === "prepaid"
-                          ? "text-[var(--primary)] font-normal"
-                          : "text-[var(--secondary)] font-normal"
-                      }
-                    >
-                      Prepaid - Net banking, UPI, Debit/Credit Card
-                    </Label>
-                  </div>
-                  <span className="text-sm font-normal">FREE</span>
-                </div>
-                <div
-                  className={`flex items-center justify-between px-4 py-3 ${
-                    shippingMethod === "cod" ? "bg-blue-50" : "hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="cod"
-                      id="cod"
-                      className={
-                        shippingMethod === "cod" ? "text-blue-600" : ""
-                      }
-                    />
-                    <Label
-                      htmlFor="cod"
-                      className={
-                        shippingMethod === "cod"
-                          ? "text-[var(--primary)] font-normal"
-                          : "text-[var(--secondary)] font-normal"
-                      }
-                    >
-                      Cash on Delivery
-                    </Label>
-                  </div>
-                  <span className="text-sm font-normal">₹ 40</span>
-                </div>
-              </RadioGroup>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <h2 className="text-base font-medium mb-1">Payment</h2>
-            <p className="text-sm text-gray-500 mb-4">
-              All transactions are secure and encrypted
-            </p>
-
-            <div className="rounded-lg border border-[var(--border)] overflow-hidden">
+            {/* Payment Method */}
+            <div>
+              <h2 className="text-base font-medium mb-4">Payment Method</h2>
               <RadioGroup
                 value={paymentMethod}
-                onValueChange={setPaymentMethod}
-                className="divide-y divide-gray-200"
+                onValueChange={(val) => setPaymentMethod(val)}
               >
-                <div
-                  className={`flex items-center justify-between px-4 py-3 ${
-                    paymentMethod === "razorpay"
-                      ? "bg-blue-50"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="razorpay"
-                      id="razorpay"
-                      className={
-                        paymentMethod === "razorpay" ? "text-blue-600" : ""
-                      }
-                    />
-                    <Label
-                      htmlFor="razorpay"
-                      className={
-                        paymentMethod === "razorpay"
-                          ? "text-[var(--primary)] font-normal"
-                          : "text-[var(--secondary)] font-normal"
-                      }
-                    >
-                      Razorpay Secure(UPI, Cards, Wallets, NetBanking)
-                    </Label>
-                  </div>
-                  <span className="text-xs font-normal text-gray-500">
-                    ICONS OF CARDS
-                  </span>
-                </div>
-                <div
-                  className={`flex items-center justify-between px-4 py-3 ${
-                    paymentMethod === "other"
-                      ? "bg-blue-50"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="other"
-                      id="other"
-                      className={
-                        paymentMethod === "other" ? "text-blue-600" : ""
-                      }
-                    />
-                    <Label
-                      htmlFor="other"
-                      className={
-                        paymentMethod === "other"
-                          ? "text-[var(--primary)] font-normal"
-                          : "text-[var(--secondary)] font-normal"
-                      }
-                    >
-                      Cards, UPI, NB, Wallets, BNPL
-                    </Label>
-                  </div>
-                  <span className="text-xs font-normal text-gray-500">
-                    ICONS OF CARDS
-                  </span>
+                <div className="p-4 border border-blue-500 bg-blue-50 rounded-lg flex items-center">
+                  <RadioGroupItem value="COD" id="cod" className="mr-2" />
+                  <Label htmlFor="cod" className="text-[var(--primary)] font-normal">
+                    Cash on Delivery (₹ 40)
+                  </Label>
                 </div>
               </RadioGroup>
             </div>
+
+            <Button className="w-full mt-4" onClick={handleCheckout}>
+              Complete Order
+            </Button>
           </div>
 
-          <div className="mt-6">
-            <h2 className="text-base font-medium mb-4">Billing address</h2>
-            <div className="rounded-lg border border-[var(--border)] overflow-hidden">
-              <RadioGroup
-                value={billingAddressOption}
-                onValueChange={setBillingAddressOption}
-                className="divide-y divide-gray-200"
-              >
-                <div
-                  className={`flex items-center px-4 py-3 ${
-                    billingAddressOption === "same"
-                      ? "bg-blue-50"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="same"
-                      id="same"
-                      className={
-                        billingAddressOption === "same" ? "text-blue-600" : ""
-                      }
-                    />
-                    <Label
-                      htmlFor="same"
-                      className={
-                        billingAddressOption === "same"
-                          ? "text-[var(--primary)] font-normal"
-                          : "text-[var(--secondary)] font-normal"
-                      }
-                    >
-                      Same as shipping address
-                    </Label>
-                  </div>
-                </div>
-                <div
-                  className={`flex items-center px-4 py-3 ${
-                    billingAddressOption === "different"
-                      ? "bg-blue-50"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="different"
-                      id="different"
-                      className={
-                        billingAddressOption === "different"
-                          ? "text-blue-600"
-                          : ""
-                      }
-                    />
-                    <Label
-                      htmlFor="different"
-                      className={
-                        billingAddressOption === "different"
-                          ? "text-[var(--primary)] font-normal"
-                          : "text-[var(--secondary)] font-normal"
-                      }
-                    >
-                      Use a different billing address
-                    </Label>
-                  </div>
-                </div>
-              </RadioGroup>
-            </div>
-          </div>
-          <div className="mt-6">
-            <Button className="w-full">Pay Now</Button>
+          {/* Right Section */}
+          <div className="lg:col-span-5 order-1 lg:order-2">
+            <OrderSummary
+              items={items}
+              cart={cart}
+              totalMRP={totalMRP}
+              savedAmount={savedAmount}
+              totalPrice={totalPrice}
+              couponCode={couponCode}
+              setCouponCode={setCouponCode}
+              updateQuantity={updateQuantity}
+              isDesktop= {true}
+            />
           </div>
         </div>
+
+        {/* Address Form Modal */}
+        <AddressForm
+          isOpen={isFormOpen}
+          onClose={handleCloseForm}
+          editData={editingAddress}
+          isEditing={!!editingAddress}
+        />
       </div>
     </div>
   );
