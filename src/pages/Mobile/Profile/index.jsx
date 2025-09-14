@@ -30,6 +30,7 @@ import { showSuccess } from "@/helpers/notification_helper";
 import Cookies from "js-cookie";
 import { setAuth } from "@/store/actions";
 import { IoIosLogOut } from "react-icons/io";
+import LogOutModal from "@/components/common/LogOutModal";
 const TailwindPhoneInput = forwardRef((props, ref) => (
   <Input
     {...props}
@@ -39,10 +40,11 @@ const TailwindPhoneInput = forwardRef((props, ref) => (
   />
 ));
 
-const Profile = ({setIsProfileOpen, desktop }) => {
+const Profile = ({ setIsProfileOpen, desktop }) => {
   const navigate = useNavigate();
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showLanguagePopup, setShowLanguagePopup] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const handleChange = (e, setFieldValue) => {
     setFieldValue('phone', e)
@@ -107,12 +109,12 @@ const Profile = ({setIsProfileOpen, desktop }) => {
     setShowEditProfile(false);
   };
 
-  const handleLogout =()=>{
-   Cookies.remove('user');
-  showSuccess("Logout Successfully!");
-  setTimeout(() => {
-    window.location.href = '/login';
-  }, 700); 
+  const handleLogout = () => {
+    Cookies.remove('user');
+    showSuccess("Logout Successfully!");
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 700);
   }
 
   return (
@@ -175,8 +177,8 @@ const Profile = ({setIsProfileOpen, desktop }) => {
                         name="name"
                         id="name"
                         className={`w-full px-3 py-2 border rounded-lg bg-white focus:outline-none transition-colors ${errors.name && touched.name
-                            ? 'border-red-500 focus:border-red-500'
-                            : 'border-gray-300 focus:border-blue-500'
+                          ? 'border-red-500 focus:border-red-500'
+                          : 'border-gray-300 focus:border-blue-500'
                           }`}
                         placeholder="Enter your full name"
                       />
@@ -197,8 +199,8 @@ const Profile = ({setIsProfileOpen, desktop }) => {
                         name="email"
                         id="email"
                         className={`w-full px-3 py-2 border rounded-lg bg-white focus:outline-none transition-colors ${errors.email && touched.email
-                            ? 'border-red-500 focus:border-red-500'
-                            : 'border-gray-300 focus:border-blue-500'
+                          ? 'border-red-500 focus:border-red-500'
+                          : 'border-gray-300 focus:border-blue-500'
                           }`}
                         placeholder="Enter your email address"
                       />
@@ -293,16 +295,7 @@ const Profile = ({setIsProfileOpen, desktop }) => {
               </h3>
 
               <div>
-                <div className="flex items-center justify-between py-2 cursor-pointer" onClick={handleLogout}>
-                  <div className="flex items-center gap-3" >
-                    <div className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center">
-                      <IoIosLogOut
-                        className="text-gray-600 w-6 h-6" strokeWidth={"1.5px"} />
-                    </div>
-                    <span className="text-[var(--primary)]">Logout</span>
-                  </div>
-                  <ChevronRight className="text-gray-400 w-5 h-5" />
-                </div>
+
                 {/* <div className="flex items-center justify-between py-2">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center">
@@ -334,17 +327,7 @@ const Profile = ({setIsProfileOpen, desktop }) => {
                 </div> */}
 
                 <div className="flex items-center justify-between py-2">
-                  <div className="flex items-center gap-3 cursor-pointer" onClick={()=>{setIsProfileOpen(false); navigate('/orders');}}>
-                    <div className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center">
-                      <ShoppingBag className="text-gray-600 w-6 h-6" strokeWidth={"1.5px"} />
-                    </div>
-                    <span className="text-[var(--primary)]">My Orders</span>
-                  </div>
-                  <ChevronRight className="text-gray-400 w-5 h-5" />
-                </div>
-
-                <div className="flex items-center justify-between py-2">
-                  <div className="flex items-center gap-3" onClick={()=>{setIsProfileOpen(false); navigate('/wishlist')}}>
+                  <div className="flex items-center gap-3" onClick={() => { setIsProfileOpen(false); navigate('/wishlist') }}>
                     <div className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center">
                       <Heart className="text-gray-600 w-6 h-6" strokeWidth={"1.5px"} />
                     </div>
@@ -352,6 +335,40 @@ const Profile = ({setIsProfileOpen, desktop }) => {
                   </div>
                   <ChevronRight className="text-gray-400 w-5 h-5" />
                 </div>
+                <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center gap-3 cursor-pointer" onClick={() => { setIsProfileOpen(false); navigate('/orders'); }}>
+                    <div className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center">
+                      <ShoppingBag className="text-gray-600 w-6 h-6" strokeWidth={"1.5px"} />
+                    </div>
+                    <span className="text-[var(--primary)]">My Orders</span>
+                  </div>
+                  <ChevronRight className="text-gray-400 w-5 h-5" />
+                </div>
+                <div>
+                  {/* Logout button */}
+                  <div
+                    className="flex items-center justify-between py-2 cursor-pointer"
+                    onClick={() => setShowModal(true)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center">
+                        <IoIosLogOut className="text-gray-600 w-6 h-6" strokeWidth={"1.5px"} />
+                      </div>
+                      <span className="text-[var(--primary)]">Logout</span>
+                    </div>
+                    <ChevronRight className="text-gray-400 w-5 h-5" />
+                  </div>
+
+                  {/* Confirmation Modal */}
+                  {showModal && (
+                    <LogOutModal
+                      handleLogout={handleLogout}
+                      showModal={showModal}
+                      setShowModal={setShowModal}
+                    />
+                  )}
+                </div>
+
               </div>
             </div>
 
@@ -496,8 +513,8 @@ const Profile = ({setIsProfileOpen, desktop }) => {
                   >
                     <span className="text-gray-900">{option.name}</span>
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${user.language === option.name
-                        ? 'border-blue-600 bg-blue-600'
-                        : 'border-gray-300'
+                      ? 'border-blue-600 bg-blue-600'
+                      : 'border-gray-300'
                       }`}>
                       {user.language === option.name && (
                         <div className="w-2 h-2 bg-white rounded-full"></div>

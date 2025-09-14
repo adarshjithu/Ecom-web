@@ -148,7 +148,7 @@ function LoginPage() {
                 <div className="text-right mb-2">
                   <button
                     type="button"
-                    className="font-medium text-xs text-[var(--tertiary)] hover:underline cursor-pointer"
+                    className="font-medium text-xs text-[#0D2C8D] hover:underline cursor-pointer"
                     onClick={() => navigate("/verify", { state:{type: "email", purpose:"reset-password"} })}
                   >
                     Forgot your password?
@@ -202,7 +202,7 @@ function LoginPage() {
           <p className="text-xs text-muted-foreground text-center">
             Don’t have an account?{" "}
             <button
-              className="text-[var(--tertiary)] hover:underline"
+              className="text-[#0D2C8D] hover:underline"
               onClick={() => navigate("/register")}
             >
               Create One
@@ -301,7 +301,7 @@ function LoginPage() {
                   <div className="text-right">
                     <button
                       type="button"
-                      className="font-medium text-sm text-[var(--tertiary)] hover:underline cursor-pointer"
+                      className="font-medium text-sm text-[#0D2C8D] hover:underline cursor-pointer"
                       onClick={() => navigate("/verify", { state: {type:"email", purpose:"reset-password"} })}
                     >
                       Forgot your password?
@@ -357,7 +357,7 @@ function LoginPage() {
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
                 <button
-                  className="text-[var(--tertiary)] hover:underline"
+                  className="text-[#0D2C8D] hover:underline"
                   onClick={() => navigate("/register")}
                 >
                   Create One

@@ -38,10 +38,10 @@ const OrderSummary = ({ items, cart, totalMRP, savedAmount, totalPrice, couponCo
 
             <div className="flex items-center gap-2 mb-2">
               <span className="line-through text-sm text-[var(--secondary)]">
-                ₹{item.mrp.toFixed(2)}
+                AED {item.mrp.toFixed(2)}
               </span>
               <span className="text-base font-semibold text-[var(--primary)]">
-                ₹{item.sellingPrice.toFixed(2)}
+                AED {item.sellingPrice.toFixed(2)}
               </span>
             </div>
 
@@ -77,21 +77,21 @@ const OrderSummary = ({ items, cart, totalMRP, savedAmount, totalPrice, couponCo
       <div className="mt-4 text-sm space-y-1">
         <div className="flex justify-between">
           <span>Subtotal - {items?.length} items</span>
-          <span>₹ {totalMRP?.toFixed(2)}</span>
+          <span>AED {totalMRP?.toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
           <span>Discount</span>
-          <span>₹ {savedAmount?.toFixed(2)}</span>
+          <span>AED {savedAmount?.toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
           <span>Shipping</span>
-          <span>{cart?.shipping ? `₹ ${cart?.shipping}` : "FREE"}</span>
+          <span>{cart?.shipping ? `AED ${cart?.shipping}` : "FREE"}</span>
         </div>
       </div>
 
       <div className="flex justify-between font-semibold text-lg mt-4">
         <span>Total</span>
-        <span>₹ {totalPrice}</span>
+        <span>AED {totalPrice}</span>
       </div>
     </div>
   </div>
@@ -283,7 +283,7 @@ const Payment = () => {
                 <div className="p-4 border border-blue-500 bg-blue-50 rounded-lg flex items-center">
                   <RadioGroupItem value="COD" id="cod" className="mr-2" />
                   <Label htmlFor="cod" className="text-[var(--primary)] font-normal">
-                    Cash on Delivery (₹ 40)
+                    Cash on Delivery (AED 40)
                   </Label>
                 </div>
               </RadioGroup>

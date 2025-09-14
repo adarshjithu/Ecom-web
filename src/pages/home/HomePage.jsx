@@ -124,7 +124,7 @@ function HomePage() {
             </h2>
             <button
               className="text-xs sm:text-sm text-[var(--primary)] font-medium hover:underline"
-              onClick={() => { /* handle view all navigation */ }}
+              onClick={() =>navigate('/brands')}
             >
               View All
             </button>

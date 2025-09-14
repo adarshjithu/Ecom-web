@@ -102,8 +102,8 @@ const ProductCard = () => {
         </div>
 
         <div className="flex items-center space-x-2 mb-4">
-          <span className="text-xl font-bold text-gray-900">₹1200</span>
-          <span className="text-sm text-gray-500 line-through">₹1500</span>
+          <span className="text-xl font-bold text-gray-900">AED 1200</span>
+          <span className="text-sm text-gray-500 line-through">AED 1500</span>
           <span className="text-sm text-green-600 font-medium p-1 rounded-lg bg-green-50">
             20% Off
           </span>

@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ProductHighlight from "../mobile/product/ProductHighlight";
 import ProductDetailSkeleton from "../skeletons/ProductDetailSkeleton";
 import { getProductById, getProductBySlug } from "../../api/productApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCartRequest } from "../../store/Cart/actions";
 import { addToWishlistRequest, removeFromWishlistRequest } from "@/store/actions";
@@ -15,7 +15,7 @@ import { showError } from "@/helpers/notification_helper";
 const ProductDetail = () => {
   const { productId, slug } = useParams();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
@@ -299,7 +299,7 @@ const ProductDetail = () => {
           />
         </div>
         {/* Wishlist Icon */}
-        <button className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-sm" onClick={handleWishlistClick}>
+        <button className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-sm cursor-pointer" onClick={handleWishlistClick}>
           <Heart
             className={`${(user.isAuthenticated && (product?.wishlist || isWishlisted || location.pathname === '/wishlist'))
               ? "text-[#C60000] fill-[#C60000]"
@@ -361,7 +361,7 @@ const ProductDetail = () => {
                 className="w-full h-full object-contain p-8"
               />
               {/* Wishlist Icon for Desktop/Tablet */}
-              <button className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-sm" onClick={handleWishlistClick}>
+              <button className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-sm cursor-pointer" onClick={handleWishlistClick}>
                 <Heart
                   className={`${(user.isAuthenticated && (isWishlisted || location.pathname === '/wishlist'))
                     ? "text-[#C60000] fill-[#C60000]"
@@ -399,8 +399,8 @@ const ProductDetail = () => {
             <div className="flex items-center space-x-2">
               {product.isFeatured && (
                 <div className="flex items-center space-x-2 bg-[#F3F6FF] rounded-full px-2 py-1 w-fit">
-                  <Flame size={16} className="text-[var(--tertiary)] fill-[var(--tertiary)]" />
-                  <span className="text-[var(--tertiary)] text-base">Featured!</span>
+                  <Flame size={16} className="text-[#0D2C8D] fill-[#0D2C8D]" />
+                  <span className="text-[#0D2C8D] text-base">Featured!</span>
                 </div>
               )}
               {selectedVariant?.inventory?.stock === 1 && (
@@ -415,9 +415,9 @@ const ProductDetail = () => {
               {product.shortDescription}
             </div>
             <div className="flex items-center space-x-2 md:space-x-3">
-              <span className="text-3xl md:text-4xl font-medium text-[var(--primary)]">₹{currentPrice?.toFixed(2)}</span>
+              <span className="text-2xl md:text-3xl font-medium text-[var(--primary)]">AED{currentPrice?.toFixed(2)}</span>
               {currentMRP && currentMRP !== currentPrice && (
-                <span className="text-base md:text-lg text-[var(--secondary)] line-through">₹{currentMRP?.toFixed(2)}</span>
+                <span className="text-base md:text-lg text-[var(--secondary)] line-through">AED{currentMRP?.toFixed(2)}</span>
               )}
               {discount > 0 && (
                 <span className="text-[#22784F] font-medium bg-[#E5FFF3] rounded-full px-2 py-1 text-sm md:text-base">
@@ -512,8 +512,8 @@ const ProductDetail = () => {
         <div className="flex items-center space-x-2">
           {product.isFeatured && (
             <div className="flex items-center space-x-2 bg-[#F3F6FF] rounded-full px-2 py-1 w-fit">
-              <Flame size={16} className="text-[var(--tertiary)] fill-[var(--tertiary)]" />
-              <span className="text-[var(--tertiary)] text-base">Featured!</span>
+              <Flame size={16} className="text-[#0D2C8D] fill-[#0D2C8D]" />
+              <span className="text-[#0D2C8D] text-base">Featured!</span>
             </div>
           )}
           {selectedVariant?.inventory?.stock === 1 && (
@@ -531,9 +531,9 @@ const ProductDetail = () => {
         </div>
         {/* Pricing */}
         <div className="flex items-center space-x-2 md:space-x-3">
-          <span className="text-xl md:text-2xl font-semibold text-gray-900">₹{currentPrice}</span>
+          <span className="text-xl md:text-2xl font-semibold text-gray-900">AED{currentPrice}</span>
           {currentMRP && currentMRP !== currentPrice && (
-            <span className="text-base md:text-lg text-gray-500 line-through">₹{currentMRP}</span>
+            <span className="text-base md:text-lg text-gray-500 line-through">AED{currentMRP}</span>
           )}
           {discount > 0 && (
             <span className="text-green-600 bg-green-100 px-2 py-1 rounded text-xs md:text-sm">

@@ -144,10 +144,10 @@ const Product = () => {
 
           <div className="flex items-baseline space-x-2">
             <span className="text-xl font-medium text-[var(--primary)]">
-              ₹1200
+              AED 1200
             </span>
             <span className="text-[var(--secondary)] line-through text-base">
-              ₹1500
+              AED 1500
             </span>
             <span className="text-[#22784F] font-medium bg-[#E5FFF3] rounded-full px-2">
               20% Off
@@ -167,7 +167,7 @@ const Product = () => {
                 <div className="text-sm text-[var(--secondary)]">
                   100ml of Spray
                 </div>
-                <div className="font-medium text-[var(--primary)]">₹599.00</div>
+                <div className="font-medium text-[var(--primary)]">AED 599.00</div>
               </button>
 
               <button
@@ -182,7 +182,7 @@ const Product = () => {
                   200ml of Spray
                 </div>
                 <div className="font-medium text-[var(--primary)]">
-                  ₹1200.00
+                  AED 1200.00
                 </div>
               </button>
             </div>
@@ -202,7 +202,7 @@ const Product = () => {
           <div className=" fixed bottom-0 left-0 right-0 bg-white p-2 border-t border-[var(--border)] pt-4 flex flex-row justify-between">
             <div className="flex justify-between items-center mb-4 w-1/2">
               <div>
-                <div className="text-2xl font-bold text-gray-900">₹1200</div>
+                <div className="text-2xl font-bold text-gray-900">AED 1200</div>
                 <div className="text-xs text-[var(--secondary)]">
                   Price inclusive of all taxes
                 </div>

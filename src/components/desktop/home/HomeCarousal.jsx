@@ -30,7 +30,7 @@ const HomeCarousel = ({ slides }) => {
 
     useEffect(() => {
     const interval = setInterval(() => {
-      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+      setCurrent((prev) => (prev === slides?.length - 1 ? 0 : prev + 1));
     }, 3000);
 
     return () => clearInterval(interval);
@@ -88,7 +88,7 @@ const HomeCarousel = ({ slides }) => {
           <p className="text-white text-2xl font-medium text-center mb-6">
             {slides?.[current]?.subheading}
           </p>
-          <button onClick={()=>navigate(`/collections/${slides?.[current]?.collectionHandle}`)} className="bg-white text-lg backdrop-blur-sm text-[var(--tertiary)] font-medium px-6 py-2 rounded-[8px] shadow hover:bg-white transition-all duration-200">
+          <button onClick={()=>navigate(`/collections/${slides?.[current]?.collectionHandle}`)} className="bg-white text-lg backdrop-blur-sm text-[#0D2C8D] font-medium px-6 py-2 rounded-[8px] shadow hover:bg-white transition-all duration-200">
              Explore More
           </button>
         </div>

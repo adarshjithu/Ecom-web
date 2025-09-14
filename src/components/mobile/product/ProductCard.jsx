@@ -119,7 +119,7 @@ const ProductCard = ({ desktop, product, onClick }) => {
                   className={`font-semibold text-[var(--primary)] ${desktop ? 'text-sm sm:text-base md:text-lg' : 'text-xs'
                     }`}
                 >
-                  {productData?.basePrice?.sellingPrice || productData?.basePrice}
+                  AED {productData?.basePrice?.sellingPrice || productData?.basePrice}
                 </span>
                 <span className="text-gray-400 text-xs mx-1">|</span>
                 {productData?.offer && (

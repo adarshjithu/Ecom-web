@@ -119,13 +119,13 @@ const Categories = () => {
   if (loadingCategories) {
     return <CategoriesSkeleton />;
   }
-  console.log(products)
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumbs */}
         <div className="px-4 py-2 bg-gray-50">
-          <p className="text-sm text-gray-600"><span className="cursor-pointer" onClick={() => navigate("/home")}>Home</span> &gt; Categories</p>
+          <p className="text-sm text-gray-600"><span className="cursor-pointer" onClick={() => navigate("/home")}>Home</span> &gt; <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">Categories</span></p>
         </div>
 
         {/* Error Display */}
@@ -142,7 +142,7 @@ const Categories = () => {
               <button
                 key={category._id}
                 onClick={() => handleParentCategorySelect(category)}
-                className={`whitespace-nowrap px-3 py-1 rounded-full text-sm font-medium ${
+                className={`whitespace-nowrap px-3 py-2 rounded-full text-sm font-medium ${
                   selectedCategory?._id === category._id
                     ? "bg-blue-600 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -173,27 +173,29 @@ const Categories = () => {
                   <button
                     key={subCategory._id}
                     onClick={() => handleSubCategorySelect(subCategory)}
-                    className={`flex flex-col items-center gap-2 min-w-[80px] ${
-                      selectedSubcategory?._id === subCategory._id ? "text-blue-600" : "text-gray-700"
+                    className={`flex flex-col items-center gap-2  min-w-[80px] ${
+                      selectedSubcategory?._id === subCategory._id ? "text-blue-600 " : "text-black"
                     }`}
                   >
-                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                    <div className={`w-32 h-20 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden ${
+                      selectedSubcategory?._id === subCategory._id ? "border border-blue-600":"border-none"
+                    }`}>
                       {subCategory.image ? (
                         <img
                           src={subCategory.image}
                           alt={subCategory.name}
-                          className="w-12 h-12 object-cover rounded"
+                          className="w-32 h-20 object-cover rounded"
                           onError={(e) => {
                             e.target.style.display = 'none';
                             e.target.nextSibling.style.display = 'flex';
                           }}
                         />
                       ) : null}
-                      <div className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs" style={{ display: subCategory.image ? 'none' : 'flex' }}>
+                      <div className="w-12 h-12 bg-gray-200 rounded  flex items-center justify-center text-gray-500 text-xs" style={{ display: subCategory.image ? 'none' : 'flex' }}>
                         {subCategory.name.charAt(0)}
                       </div>
                     </div>
-                    <span className="text-xs text-center">{subCategory.name}</span>
+                    <span className="text-md text-center fw-bold">{subCategory.name}</span>
                   </button>
                 ))}
               </div>
@@ -254,8 +256,8 @@ const Categories = () => {
                             shortDescription: product.description,
                             thumbnail: product.image,
                             basePrice: {
-                              sellingPrice: `$${product.basePrice.sellingPrice}`,
-                              mrp: `$${product.basePrice.mrp}`
+                              sellingPrice: `${product.basePrice.sellingPrice}`,
+                              mrp: `${product.basePrice.mrp}`
                             },
                             rating: 4.5, // Default rating since API doesn't provide it
                             reviews: "1K", // Default reviews since API doesn't provide it

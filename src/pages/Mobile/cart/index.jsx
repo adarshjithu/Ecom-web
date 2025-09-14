@@ -109,10 +109,10 @@ const Cart = ({ desktop, setIsCartOpen }) => {
 
                 <div className="flex items-center gap-2 mb-2">
                   <span className="line-through text-sm text-[var(--secondary)]">
-                    ₹{item.mrp.toFixed(2)}
+                    AED {item.mrp.toFixed(2)}
                   </span>
                   <span className="text-base font-semibold text-[var(--primary)]">
-                    ₹{item.sellingPrice.toFixed(2)}
+                    AED {item.sellingPrice.toFixed(2)}
                   </span>
                 </div>
 
@@ -188,22 +188,22 @@ const Cart = ({ desktop, setIsCartOpen }) => {
               <span className="text-[var(--secondary)]">Subtotal</span>
               <div>
                 <span className="line-through text-[var(--secondary)] mr-1">
-                  ₹{totalMRP?.toFixed(2)}
+                  AED {totalMRP?.toFixed(2)}
                 </span>
                 <span className="text-[var(--primary)] font-medium">
-                  ₹{totalPrice?.toFixed(2)}
+                  AED {totalPrice?.toFixed(2)}
                 </span>
               </div>
             </div>
 
             <div className="flex justify-between text-sm">
               <span className="text-[var(--secondary)]">Discount</span>
-              <span className="text-[var(--primary)] font-medium">₹{savedAmount?.toFixed(2)}</span>
+              <span className="text-[var(--primary)] font-medium">AED {savedAmount?.toFixed(2)}</span>
             </div>
 
             <div className="flex justify-between text-sm">
               <span className="text-[var(--secondary)]">Handling Fee</span>
-              <span className="text-[var(--primary)] font-medium">₹{handlingFee}.00</span>
+              <span className="text-[var(--primary)] font-medium">AED {handlingFee}.00</span>
             </div>
 
             <div className="flex justify-between text-sm text-[var(--secondary)]">
@@ -217,9 +217,9 @@ const Cart = ({ desktop, setIsCartOpen }) => {
               <span>To Pay</span>
               <div>
                 <span className="line-through text-[var(--secondary)] font-normal mr-1">
-                  ₹{(totalToPay + (savedAmount || 0)).toFixed(2)}
+                  AED {(totalToPay + (savedAmount || 0)).toFixed(2)}
                 </span>
-                <span className="text-[var(--primary)] font-normal">₹{totalToPay?.toFixed(2)}</span>
+                <span className="text-[var(--primary)] font-normal">AED {totalToPay?.toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -230,7 +230,7 @@ const Cart = ({ desktop, setIsCartOpen }) => {
       <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex justify-between items-center">
         <div>
           <div className="text-xl font-bold text-[var(--primary)]">
-            ₹{totalToPay?.toFixed(2)}
+            AED {totalToPay?.toFixed(2)}
           </div>
           <div className="text-xs text-[var(--secondary)]">
             Price inclusive of all taxes

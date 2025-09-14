@@ -15,7 +15,7 @@ const CategoriesSkeleton = () => {
             {[...Array(8)].map((_, index) => (
               <div
                 key={index}
-                className="h-8 bg-gray-200 rounded-full w-20 animate-pulse flex-shrink-0"
+                className="h-10 bg-gray-200 rounded-full w-28 animate-pulse flex-shrink-0"
               ></div>
             ))}
           </div>
@@ -28,9 +28,9 @@ const CategoriesSkeleton = () => {
           
           {/* Sub-category Scroll Skeleton */}
           <div className="flex gap-4 overflow-x-auto mb-6">
-            {[...Array(9)].map((_, index) => (
-              <div key={index} className="flex flex-col items-center gap-2 min-w-[80px]">
-                <div className="w-16 h-16 bg-gray-200 rounded-lg animate-pulse"></div>
+            {[...Array(8)].map((_, index) => (
+              <div key={index} className="flex flex-col items-center gap-2 w-34 h-24">
+                <div className="w-34 h-24 bg-gray-200 rounded-lg animate-pulse"></div>
                 <div className="h-3 bg-gray-200 rounded w-12 animate-pulse"></div>
               </div>
             ))}

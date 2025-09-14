@@ -97,7 +97,7 @@ const Wishlist = () => {
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <span>Home</span>
                 <ChevronRight className="w-4 h-4" />
-                <span>Wishlist</span>
+                <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">Wishlist</span>
               </div>
             </div>
 
@@ -177,7 +177,7 @@ const Wishlist = () => {
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <span>Home</span>
                 <ChevronRight className="w-4 h-4" />
-                <span>Wishlist</span>
+                <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">Wishlist</span>
               </div>
             </div>
 

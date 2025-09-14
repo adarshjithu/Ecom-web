@@ -58,7 +58,7 @@ const BrandsPage = () => {
   // Skeleton with shimmer effect
   const BrandSkeleton = () => (
     <div className="relative rounded-xl shadow-md overflow-hidden border bg-white ">
-      <div className="h-32 w-full bg-gray-200" />
+      <div className="h-75 w-full bg-gray-200" />
       <div className="p-4">
         <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
       </div>
@@ -70,7 +70,7 @@ const BrandsPage = () => {
 
   return (
     <div className="pb-6 container mx-auto">
-        <div className="px-3 md:px-0 py-4 pb-2">
+        <div className="px-3 md:px-2 py-4 pb-2">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -83,10 +83,10 @@ const BrandsPage = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <h1 className="text-2xl font-bold mb-6 px-3 md:px-0">All Brands</h1>
+      <h1 className="text-2xl font-bold mb-6 px-3 md:px-2">All Brands</h1>
 
       {loading ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-3 md:px-2">
           {Array.from({ length: 12 }).map((_, i) => (
             <BrandSkeleton key={i} />
           ))}
@@ -94,7 +94,7 @@ const BrandsPage = () => {
       ) : (
         <>
           {/* Brands Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-2 md:px-0">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-3 md:px-2">
             {brands.map((brand, idx) => {
               const card = (
                 <motion.div

@@ -164,8 +164,8 @@ const ProductDetailMobile = () => {
         </div>
         {/* Pricing */}
         <div className="flex items-center space-x-3">
-          <span className="text-2xl font-semibold text-gray-900">₹{product.price}</span>
-          <span className="text-lg text-gray-500 line-through">₹{product.originalPrice}</span>
+          <span className="text-2xl font-semibold text-gray-900">AED {product.price}</span>
+          <span className="text-lg text-gray-500 line-through">AED {product.originalPrice}</span>
           <span className="text-green-600 bg-green-100 px-2 py-1 rounded text-sm">
             {product.discount}% off
           </span>
